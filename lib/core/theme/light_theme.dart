@@ -1,39 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:nuntium/core/resorces/manager_colors.dart';
-import 'package:nuntium/core/resorces/manager_fonts.dart';
-import 'package:nuntium/core/resorces/manager_styles.dart';
-import 'package:nuntium/core/resorces/manager_text_theme_light.dart';
+import 'app_colors.dart';
 
-ThemeData managerLightThemeData() {
-  return ThemeData.light().copyWith(
-    useMaterial3: true,
+class AppTheme {
+  static final ThemeData lightTheme = ThemeData(
+    primaryColor: AppColors.purplePrimary,
+    scaffoldBackgroundColor: AppColors.white,
+    fontFamily: 'SF_Pro',
 
-    /// MAIN COLORS APP
-    primaryColor: ManagerColors.purplePrimary,
-    primaryColorLight: ManagerColors.purpleLight,
-
-    // this for disabled button colors
-    disabledColor: ManagerColors.greyLighter,
-    splashColor: ManagerColors.purplePrimary,
-    scaffoldBackgroundColor: ManagerColors.white,
-
-    /// APP BAR THEME
-    appBarTheme: AppBarTheme(
-      centerTitle: true,
-      color: ManagerColors.white,
-      titleTextStyle: getBoldTextStyle(
-        fontSize: ManagerFontSize.s24,
-        color: ManagerColors.blackPrimary,
+    textTheme: const TextTheme(
+      displayLarge: TextStyle(
+        color: AppColors.blackPrimary,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
+      bodyLarge: TextStyle(
+        color: AppColors.greyPrimary,
+        fontSize: 16,
       ),
     ),
 
-    /// BUTTON THEME
-    buttonTheme: const ButtonThemeData(
-      shape: RoundedRectangleBorder(),
-      disabledColor: ManagerColors.greyLighter,
-      buttonColor: ManagerColors.purplePrimary,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.white,
+      elevation: 0,
+      iconTheme: IconThemeData(color: AppColors.blackPrimary),
     ),
-
-    textTheme: ManagerTextThemeLight(),
   );
 }
