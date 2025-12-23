@@ -24,6 +24,11 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/
+    - assets/animations/
+    - assets/icons/
+    - assets/images/vectors/
+    - assets/translation/
 
   fonts:
     - family: SP_Pro
