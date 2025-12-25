@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_nuntium/routes/routes.dart';
 
 import 'core/theme/light_theme.dart';
 
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
       title: 'Nuntium',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: Scaffold(appBar: AppBar(title: Text('Nuntium'))),
+      onGenerateRoute: RouteGenerator.getRoute,
+      initialRoute: Routes.splashView,
     );
   }
 }
