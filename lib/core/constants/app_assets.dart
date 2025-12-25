@@ -6,7 +6,7 @@ const String baseAnimationPath = 'assets/animations';
 
 class ManagerAssets {
   static const String logo = '$baseVectorPath/logo.svg';
-  static const String outboarding = '$baseImagePath/outboarding.png';
+  static const String onboarding = '$baseImagePath/outboarding.png';
   static const String illustration =
       '$baseImagePath/3d-illustration.png';
   static const String facebook = '$baseImagePath/facebook-logo.png';

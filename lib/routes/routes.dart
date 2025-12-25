@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_nuntium/features/onboarding/view/onboarding_screen.dart';
 
 import '../config/dependency_injection.dart';
 import '../features/splash/view/splash_screen.dart';
@@ -15,6 +16,12 @@ class RouteGenerator {
       case Routes.splashView:
         initSplash();
         return MaterialPageRoute(builder: (_) => const SplashView());
+
+      case Routes.onBoardingView:
+        initOnboarding();
+        return MaterialPageRoute(
+          builder: (_) => const OnboardingView(),
+        );
 
       default:
         return unDefinedRoute(settings.name);
