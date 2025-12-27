@@ -14,7 +14,11 @@ class AppStrings {
   static const String onboardingSubtitle3 =
       'Get news tailored to your interests and preferences';
 
-  // Buttons
   static const String next = 'Next';
+
+  //welcome
+  static const String nuntium = 'Nuntium';
+  static const String welcomeBody =
+      'All news from all over the world in one place';
   static const String getStarted = 'Get Started';
 }

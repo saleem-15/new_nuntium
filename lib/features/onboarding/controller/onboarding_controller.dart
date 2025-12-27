@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:get/get.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
+import 'package:new_nuntium/routes/routes.dart';
 
 class OnboardingController extends GetxController {
   final CarouselSliderController carouselSliderController =
@@ -31,7 +32,7 @@ class OnboardingController extends GetxController {
     if (carouselIndex < titles.length - 1) {
       carouselSliderController.nextPage();
     } else {
-      log("Go to Welcome Screen");
+      Get.offNamed(Routes.welcomeView);
     }
   }
 }

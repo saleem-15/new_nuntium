@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:new_nuntium/features/onboarding/view/onboarding_screen.dart';
+import 'package:new_nuntium/features/onboarding/view/welcome_screen.dart';
 
 import '../config/dependency_injection.dart';
 import '../features/splash/view/splash_screen.dart';
 
 class Routes {
+  Routes._();
+
   static const String splashView = '/splash_view';
   static const String onBoardingView = '/on_boarding_view';
+  static const String welcomeView = '/welcome_view';
 }
 
 class RouteGenerator {
@@ -21,6 +25,12 @@ class RouteGenerator {
         initOnboarding();
         return MaterialPageRoute(
           builder: (_) => const OnboardingView(),
+        );
+
+      case Routes.welcomeView:
+        initWelcome();
+        return MaterialPageRoute(
+          builder: (_) => const WelcomeScreen(),
         );
 
       default:

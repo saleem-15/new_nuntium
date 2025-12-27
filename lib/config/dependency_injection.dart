@@ -1,6 +1,7 @@
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:new_nuntium/features/onboarding/controller/onboarding_controller.dart';
+import 'package:new_nuntium/features/onboarding/controller/welcome_controller.dart';
 import 'package:new_nuntium/features/splash/controller/splash_controller.dart';
 
 void initSplash() {
@@ -18,4 +19,13 @@ void initOnboarding() {
 
 void disposeOnboarding() {
   Get.delete<OnboardingController>();
+}
+
+void initWelcome() {
+  disposeOnboarding();
+  Get.put(WelcomeController());
+}
+
+void disposewelcome() {
+  Get.delete<WelcomeController>();
 }
