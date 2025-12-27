@@ -12,8 +12,8 @@ class SplashView extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
-        backgroundColor: ManagerColors.purplePrimary,
-        body: Center(child: SvgPicture.asset(ManagerAssets.logo)),
+        backgroundColor: AppColors.purplePrimary,
+        body: Center(child: SvgPicture.asset(AppAssets.logo)),
       ),
     );
   }

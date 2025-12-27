@@ -1,40 +1,44 @@
-const String baseImagePath = 'assets/images';
-const String baseVectorPath = 'assets/images/vectors';
-const String translationPath = 'assets/translation';
-const String baseIconPath = 'assets/icons';
-const String baseAnimationPath = 'assets/animations';
+const String _baseImagePath = 'assets/images';
+const String _baseVectorPath = 'assets/images/vectors';
+const String _baseAnimationPath = 'assets/animations';
+const String _baseIconPath = 'assets/icons';
 
-class ManagerAssets {
-  static const String logo = '$baseVectorPath/logo.svg';
-  static const String onboarding = '$baseImagePath/outboarding.png';
+class AppAssets {
+  AppAssets._();
+
+  // --- Images ---
+  static const String logo = '$_baseVectorPath/logo.svg';
+  static const String onboarding = '$_baseImagePath/outboarding.png';
   static const String illustration =
-      '$baseImagePath/3d-illustration.png';
-  static const String facebook = '$baseImagePath/facebook-logo.png';
-  static const String google = '$baseImagePath/google-logo.png';
-  static const String error = '$baseImagePath/error.png';
-  static const String whiteHouse = '$baseImagePath/white_house.png';
-  static const String news2 = '$baseImagePath/news2.png';
+      '$_baseImagePath/3d-illustration.png';
+  static const String facebook = '$_baseImagePath/facebook-logo.png';
+  static const String google = '$_baseImagePath/google-logo.png';
+  static const String error = '$_baseImagePath/error.png';
+  static const String whiteHouse = '$_baseImagePath/white_house.png';
+  static const String news2 = '$_baseImagePath/news2.png';
   static const String newsPlaceholder =
-      '$baseImagePath/news_placeholder.jpg';
+      '$_baseImagePath/news_placeholder.jpg';
   static const String comingSoon =
-      '$baseAnimationPath/coming-soon.json';
-}
+      '$_baseAnimationPath/coming-soon.json';
 
-class ManagerJson {
-  static const String loading = '$baseAnimationPath/loading.json';
-  static const String error_404 = '$baseAnimationPath/error_404.json';
+  // --- Lottie Animations (JSON) ---
+  static const String loading = '$_baseAnimationPath/loading.json';
+  static const String error_404 =
+      '$_baseAnimationPath/error_404.json';
   static const String errorNoInternet =
-      '$baseAnimationPath/error_no_internet.json';
+      '$_baseAnimationPath/error_no_internet.json';
 }
 
-class VectorIcons {
-  static const String book = '$baseVectorPath/book.svg';
-  static const String home = '$baseIconPath/home.svg';
-  static const String search = '$baseIconPath/search.svg';
-  static const String microphone = '$baseIconPath/microphone.svg';
-  static const String user = '$baseIconPath/user.svg';
-  static const String category = '$baseIconPath/category.svg';
-  static const String bookmark = '$baseIconPath/bookmark.svg';
+class AppIcons {
+  AppIcons._();
+
+  static const String book = '$_baseVectorPath/book.svg';
+  static const String home = '$_baseIconPath/home.svg';
+  static const String search = '$_baseIconPath/search.svg';
+  static const String microphone = '$_baseIconPath/microphone.svg';
+  static const String user = '$_baseIconPath/user.svg';
+  static const String category = '$_baseIconPath/category.svg';
+  static const String bookmark = '$_baseIconPath/bookmark.svg';
   static const String bookmarkFilled =
-      '$baseIconPath/bookmark_filled.svg';
+      '$_baseIconPath/bookmark_filled.svg';
 }
