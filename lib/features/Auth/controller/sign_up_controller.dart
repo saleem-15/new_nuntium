@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_nuntium/routes/routes.dart';
 
-class LoginController extends GetxController {
+class SignUpController extends GetxController {
+  late TextEditingController userNameController;
   late TextEditingController emailController;
   late TextEditingController passwordController;
+  late TextEditingController repeatPasswordController;
 
-  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
 
   bool isPasswordHidden = true;
   bool isPasswordEmpty = true;
@@ -14,10 +16,12 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    userNameController = TextEditingController();
     emailController = TextEditingController();
     passwordController = TextEditingController();
+    repeatPasswordController = TextEditingController();
 
-    // الاستماع للتغييرات في حقل كلمة المرور
+    // listen to the changes in the password field
     passwordController.addListener(() {
       bool isEmpty = passwordController.text.isEmpty;
       if (isPasswordEmpty != isEmpty) {
@@ -29,8 +33,11 @@ class LoginController extends GetxController {
 
   @override
   void onClose() {
+    userNameController.dispose();
     emailController.dispose();
     passwordController.dispose();
+    repeatPasswordController.dispose();
+
     super.onClose();
   }
 
@@ -41,7 +48,7 @@ class LoginController extends GetxController {
 
   void login() {
     // if the data is correct
-    if (loginFormKey.currentState!.validate()) {
+    if (signUpFormKey.currentState!.validate()) {
       // Get.offAllNamed(Routes.HOME);
     }
   }
@@ -67,17 +74,9 @@ class LoginController extends GetxController {
     return null;
   }
 
-  void onForgetPasswordPressed() {
-    Get.toNamed(Routes.forgetPasswordView);
+  void onSignUpPressed() {}
+
+  void onSignInPressed() {
+    Get.offNamed(Routes.loginView);
   }
-
-  void onSignInPressed() {}
-
-  void onSignInWithGooglePressed() {}
-
-  void onSignUpPressed() {
-    Get.offNamed(Routes.signUpView);
-  }
-
-  void onSignInWithFacebookPressed() {}
 }
