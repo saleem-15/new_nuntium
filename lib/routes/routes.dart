@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:new_nuntium/features/Auth/view/create_new_password_view.dart';
 import 'package:new_nuntium/features/Auth/view/forget_password_view.dart';
 import 'package:new_nuntium/features/Auth/view/login_view.dart';
+import 'package:new_nuntium/features/Auth/view/sign_up_view.dart';
+import 'package:new_nuntium/features/Auth/view/verification_code_view.dart';
 import 'package:new_nuntium/features/onboarding/view/onboarding_screen.dart';
 import 'package:new_nuntium/features/onboarding/view/welcome_screen.dart';
 
@@ -14,7 +17,12 @@ class Routes {
   static const String onBoardingView = '/on_boarding_view';
   static const String welcomeView = '/welcome_view';
   static const String loginView = '/login_view';
+  static const String signUpView = '/sign_up_view';
   static const String forgetPasswordView = '/forget_password_view';
+  static const String createNewPasswordView =
+      '/create_new_password_view';
+  static const String verificationCodeView =
+      '/verification_code_view';
 }
 
 class RouteGenerator {
@@ -44,6 +52,21 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => const ForgetPasswordView(),
         );
+
+      case Routes.verificationCodeView:
+        initVerificationCode();
+        return MaterialPageRoute(
+          builder: (_) => const VerificationCodeView(),
+        );
+
+      case Routes.createNewPasswordView:
+        initCreateNewPassword();
+        return MaterialPageRoute(
+          builder: (_) => const CreateNewPasswordView(),
+        );
+      case Routes.signUpView:
+        initSignUp();
+        return MaterialPageRoute(builder: (_) => const SignUpView());
 
       default:
         return unDefinedRoute(settings.name);

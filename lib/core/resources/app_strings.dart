@@ -36,10 +36,34 @@ class AppStrings {
   static const String dontHaveAccount = "Don't have an account?";
   static const String signUp = 'Sign Up';
 
+  //SignUp
+  static const String signUpTitle = 'Welcome to Nuntium 👋';
+  static const String signUpSubTitle =
+      'Hello, I guess you are new around here. You can start using the application after sign up.';
+  static const String userName = 'Username';
+  static const String repeatPassword = 'Repeat Password';
+  static const String haveAnAccount = 'Already have an account?';
+
   //Forget Password
   static const String forgetPasswordTitle = 'Forgot Password 🤔';
   static const String forgetPasswordSubTitle =
       'We need your email adress so we can send you the password reset code.';
   static const String remmeberPassword = 'Remember the password?';
   static const String tryAgain = 'Try again';
+
+  //Create New Password
+  static const String createNewPasswordTitle =
+      'Create New Password 🔒';
+  static const String createNewPasswordSubTitle =
+      'You can create a new password, please dont forget it too.';
+  static const String newPassword = 'New Password';
+  static const String repeateNewPassword = 'Repeat New Password';
+
+  //Verification Code
+  static const String verificatonCodeTitle = 'Verification Code ✅';
+  static const String verificatonCodeSubTitle =
+      'You need to enter 4-digit code we send to your email adress.';
+  static const String confirm = 'Confirm';
+  static const String didntReciveEmail = 'Didn’t receive an email?';
+  static const String sendAgain = 'Send again';
 }
