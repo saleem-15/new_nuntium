@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ManagerFontFamily {
-  static const String fontFamily = "SP_Pro";
-}
+class AppFonts {
+  AppFonts._();
 
-class ManagerFontWeight {
+  static const String fontFamily = "SP_Pro";
+
   static const FontWeight regular = FontWeight.w400;
   static const FontWeight medium = FontWeight.w500;
   static const FontWeight semiBold = FontWeight.w600;

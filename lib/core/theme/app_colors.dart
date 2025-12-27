@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ManagerColors {
+class AppColors {
+  AppColors._();
   // اللون البنفسجي الأساسي (Brand Color)
   static const Color purplePrimary = Color(0xFF475AD7);
   static const Color purpleDarker = Color(0xFF2536A7);
