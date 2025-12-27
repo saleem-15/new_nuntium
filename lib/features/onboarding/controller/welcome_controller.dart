@@ -1,5 +1,9 @@
+import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
+import 'package:new_nuntium/routes/routes.dart';
 
 class WelcomeController extends GetxController {
-  void onButtonPressed() {}
+  void onButtonPressed() {
+    Get.offNamed(Routes.loginView);
+  }
 }

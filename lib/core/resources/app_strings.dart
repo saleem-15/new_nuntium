@@ -16,9 +16,23 @@ class AppStrings {
 
   static const String next = 'Next';
 
-  //welcome
+  //Welcome
   static const String nuntium = 'Nuntium';
   static const String welcomeBody =
       'All news from all over the world in one place';
   static const String getStarted = 'Get Started';
+
+  //Login
+  static const String loginTitle = 'Welcome Back 👋';
+  static const String loginSubTitle =
+      'I am happy to see you again. You can continue where you left off by logging in';
+  static const String emailAdress = 'Email Adress';
+  static const String password = 'Password';
+  static const String forgotPassword = 'Forgot Password?';
+  static const String signIn = 'Sign In';
+  static const String or = 'or';
+  static const String signInwithGoogle = 'Sign In with Google';
+  static const String signInwithFacebook = 'Sign In with Facebook';
+  static const String dontHaveAccount = "Don't have an account?";
+  static const String signUp = 'Sign Up';
 }

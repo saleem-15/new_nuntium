@@ -9,7 +9,8 @@ class AppColors {
 
   // ألوان النصوص والخلفيات (Greyscale)
   static const Color blackPrimary = Color(0xFF333647);
-  static const Color blackLighter = Color(0xFF666C8E);
+  static const Color blackLighter = Color(0xFF555A77);
+  static const Color greyDarker = Color(0xFF666C8E);
   static const Color greyPrimary = Color(0xFF7C82A1);
   static const Color greyLight = Color(0xFFACAFC3);
   static const Color greyLighter = Color(0xFFF3F4F6);
