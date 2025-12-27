@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:new_nuntium/routes/routes.dart';
 
-import 'core/theme/light_theme.dart';
+import 'core/theme/app_theme.dart';
 
-void main() {
+Future<void> main() async {
+  await ScreenUtil.ensureScreenSize();
+
   runApp(const MyApp());
 }
 
@@ -14,9 +16,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
+
     return ScreenUtilInit(
       designSize: const Size(375, 812),
-
       child: GetMaterialApp(
         title: 'Nuntium',
         debugShowCheckedModeBanner: false,
