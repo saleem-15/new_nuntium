@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_nuntium/features/Auth/view/forget_password_view.dart';
 import 'package:new_nuntium/features/Auth/view/login_view.dart';
 import 'package:new_nuntium/features/onboarding/view/onboarding_screen.dart';
 import 'package:new_nuntium/features/onboarding/view/welcome_screen.dart';
@@ -13,6 +14,7 @@ class Routes {
   static const String onBoardingView = '/on_boarding_view';
   static const String welcomeView = '/welcome_view';
   static const String loginView = '/login_view';
+  static const String forgetPasswordView = '/forget_password_view';
 }
 
 class RouteGenerator {
@@ -36,6 +38,12 @@ class RouteGenerator {
       case Routes.loginView:
         initLogin();
         return MaterialPageRoute(builder: (_) => const LoginView());
+
+      case Routes.forgetPasswordView:
+        initForgetPassword();
+        return MaterialPageRoute(
+          builder: (_) => const ForgetPasswordView(),
+        );
 
       default:
         return unDefinedRoute(settings.name);

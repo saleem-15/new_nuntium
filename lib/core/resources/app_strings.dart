@@ -35,4 +35,11 @@ class AppStrings {
   static const String signInwithFacebook = 'Sign In with Facebook';
   static const String dontHaveAccount = "Don't have an account?";
   static const String signUp = 'Sign Up';
+
+  //Forget Password
+  static const String forgetPasswordTitle = 'Forgot Password 🤔';
+  static const String forgetPasswordSubTitle =
+      'We need your email adress so we can send you the password reset code.';
+  static const String remmeberPassword = 'Remember the password?';
+  static const String tryAgain = 'Try again';
 }

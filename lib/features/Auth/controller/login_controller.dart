@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_nuntium/routes/routes.dart';
 
 class LoginController extends GetxController {
   late TextEditingController emailController;
@@ -67,7 +68,9 @@ class LoginController extends GetxController {
     return null;
   }
 
-  void onForgetPasswordPressed() {}
+  void onForgetPasswordPressed() {
+    Get.toNamed(Routes.forgetPasswordView);
+  }
 
   void onSignInPressed() {}
 
