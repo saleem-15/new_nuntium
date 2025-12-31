@@ -4,7 +4,8 @@ import 'package:new_nuntium/features/Auth/view/forget_password_view.dart';
 import 'package:new_nuntium/features/Auth/view/login_view.dart';
 import 'package:new_nuntium/features/Auth/view/sign_up_view.dart';
 import 'package:new_nuntium/features/Auth/view/verification_code_view.dart';
-import 'package:new_nuntium/features/home_page/view/home_page.dart';
+import 'package:new_nuntium/features/home/view/home_page.dart';
+import 'package:new_nuntium/features/main/main_view.dart';
 import 'package:new_nuntium/features/onboarding/view/onboarding_screen.dart';
 import 'package:new_nuntium/features/onboarding/view/welcome_screen.dart';
 import 'package:new_nuntium/features/select_favorite_topics/view/select_favorite_topics_view.dart';
@@ -28,6 +29,7 @@ class Routes {
   static const String selectFavoriteTopicsView =
       '/select_favorite_topics_view';
 
+  static const String mainView = '/main_view';
   static const String homeView = '/home_page_view';
 }
 
@@ -79,6 +81,10 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => const SelectFavoriteTopics(),
         );
+
+      case Routes.mainView:
+        initMain();
+        return MaterialPageRoute(builder: (_) => const MainView());
 
       case Routes.homeView:
         initHome();

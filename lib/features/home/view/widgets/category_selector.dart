@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/core/theme/app_fonts.dart';
-import 'package:new_nuntium/features/home_page/controller/home_page._controller.dart';
+import 'package:new_nuntium/features/home/controller/home_page._controller.dart';
 
 class CategorySelector extends StatelessWidget {
   const CategorySelector({super.key});

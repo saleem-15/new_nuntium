@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_nuntium/core/extensions/theme_extension.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/core/theme/app_fonts.dart';
-import 'package:new_nuntium/features/home_page/data/news_model.dart';
+import 'package:new_nuntium/features/home/data/news_model.dart';
 
 class RecommendedNewsCard extends StatelessWidget {
   const RecommendedNewsCard({

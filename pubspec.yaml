@@ -19,6 +19,7 @@ dependencies:
   smooth_page_indicator: ^2.0.1
   pinput: ^6.0.1
   cached_network_image: ^3.4.1
+  persistent_bottom_nav_bar_v2: ^6.2.0
 
 dev_dependencies:
   flutter_test:

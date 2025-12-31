@@ -5,7 +5,9 @@ import 'package:new_nuntium/features/Auth/controller/forget_password_controller.
 import 'package:new_nuntium/features/Auth/controller/login_controller.dart';
 import 'package:new_nuntium/features/Auth/controller/sign_up_controller.dart';
 import 'package:new_nuntium/features/Auth/controller/verification_code_controller.dart';
-import 'package:new_nuntium/features/home_page/controller/home_page._controller.dart';
+import 'package:new_nuntium/features/categories/controller/categories_controller.dart';
+import 'package:new_nuntium/features/home/controller/home_page._controller.dart';
+import 'package:new_nuntium/features/main/controller/main_controller.dart';
 import 'package:new_nuntium/features/onboarding/controller/onboarding_controller.dart';
 import 'package:new_nuntium/features/onboarding/controller/welcome_controller.dart';
 import 'package:new_nuntium/features/select_favorite_topics/controller/select_favorite_topics_controller.dart';
@@ -92,12 +94,32 @@ void disposeForgetPassword() {
   Get.delete<ForgetPasswordController>();
 }
 
+void initMain() {
+  disposeSelectFavoriteTopics();
+  initHome();
+  initCategories();
+  Get.put(MainController());
+}
+
+void disposeMainPage() {
+  disposeHomePage();
+  disposeCategoriesPage();
+
+  Get.delete<MainController>();
+}
+
 void initHome() {
   Get.put(HomeController());
 }
 
 void disposeHomePage() {
-  disposeSelectFavoriteTopics();
-
   Get.delete<HomeController>();
+}
+
+void initCategories() {
+  Get.put(CategoriesController());
+}
+
+void disposeCategoriesPage() {
+  Get.delete<CategoriesController>();
 }

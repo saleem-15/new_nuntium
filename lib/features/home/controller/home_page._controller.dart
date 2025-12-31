@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_nuntium/features/home_page/data/news_model.dart';
+import 'package:new_nuntium/features/home/data/news_model.dart';
 
 class HomeController extends GetxController {
   late FocusNode searchFocusNode;
@@ -82,4 +82,6 @@ class HomeController extends GetxController {
 
     update([pressedNews.id]);
   }
+
+  void fetchData() {}
 }

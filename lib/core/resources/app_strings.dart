@@ -90,4 +90,9 @@ class AppStrings {
   static const String search = 'Search';
   static const String recommendedForYou = 'Recommended for you';
   static const String seeAll = 'See All';
+
+  //Categories Page
+  static const String categoriesPageTitle = 'Categories';
+  static const String categoriesPageSubTitle =
+      'Thousands of articles in each category';
 }

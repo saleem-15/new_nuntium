@@ -6,11 +6,11 @@ import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/core/theme/app_fonts.dart';
 import 'package:new_nuntium/core/widgets/header.dart';
-import 'package:new_nuntium/features/home_page/controller/home_page._controller.dart';
-import 'package:new_nuntium/features/home_page/view/widgets/category_selector.dart';
-import 'package:new_nuntium/features/home_page/view/widgets/home_search_bar.dart';
-import 'package:new_nuntium/features/home_page/view/widgets/recent_news_card.dart';
-import 'package:new_nuntium/features/home_page/view/widgets/recommended_news_card.dart';
+import 'package:new_nuntium/features/home/controller/home_page._controller.dart';
+import 'package:new_nuntium/features/home/view/widgets/category_selector.dart';
+import 'package:new_nuntium/features/home/view/widgets/home_search_bar.dart';
+import 'package:new_nuntium/features/home/view/widgets/recent_news_card.dart';
+import 'package:new_nuntium/features/home/view/widgets/recommended_news_card.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
