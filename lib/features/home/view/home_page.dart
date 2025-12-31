@@ -72,7 +72,12 @@ class HomeView extends GetView<HomeController> {
               final news = controller.recommendedNews[index];
               return RecommendedNewsCard(
                 news: news,
-                onTap: () => controller.onNewsCardPressed(news),
+                margin: EdgeInsets.only(
+                  right: 20.w,
+                  left: 20.w,
+                  bottom: 16.h,
+                ),
+                onTap: controller.onNewsCardPressed,
               );
             }, childCount: controller.recommendedNews.length),
           ),

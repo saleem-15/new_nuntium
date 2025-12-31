@@ -7,26 +7,25 @@ import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/core/theme/app_fonts.dart';
 import 'package:new_nuntium/features/home/data/news_model.dart';
 
+///Has
 class RecommendedNewsCard extends StatelessWidget {
   const RecommendedNewsCard({
     super.key,
     required this.news,
     required this.onTap,
+    this.margin,
   });
 
   final News news;
-  final VoidCallback onTap;
+  final void Function(News) onTap;
+  final EdgeInsetsGeometry? margin;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => onTap,
       child: Container(
-        margin: EdgeInsets.only(
-          right: 20.w,
-          left: 20.w,
-          bottom: 16.h,
-        ),
+        margin: margin,
         height: 96.h,
         child: SizedBox(
           width: ScreenUtil.defaultSize.width,

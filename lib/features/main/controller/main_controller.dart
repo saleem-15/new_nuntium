@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_nuntium/features/bookmarks/bookmarks_controller.dart';
+import 'package:new_nuntium/features/bookmarks/bookmarks_view.dart';
 import 'package:new_nuntium/features/categories/controller/categories_controller.dart';
 import 'package:new_nuntium/features/categories/views/categories_view.dart';
 import 'package:new_nuntium/features/home/controller/home_page._controller.dart';
@@ -13,7 +15,7 @@ class MainController extends GetxController {
   final List<Widget> pages = [
     const HomeView(),
     const CategoriesView(),
-    // const BookmarksView(),
+    const BookmarksView(),
     // const ProfileView(),
   ];
 
@@ -32,6 +34,11 @@ class MainController extends GetxController {
       case 1: // Categories
         // نستخدم find لجلب الكنترولر، ثم نأمره بالجلب إذا لزم الأمر
         Get.find<CategoriesController>().fetchCategoriesIfNeeded();
+        break;
+
+      case 2: // Bookmarks
+        // نستخدم find لجلب الكنترولر، ثم نأمره بالجلب إذا لزم الأمر
+        Get.find<BookmarksController>().fetchBookmarksIfNeeded();
         break;
     }
   }

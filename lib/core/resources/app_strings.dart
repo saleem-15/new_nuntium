@@ -95,4 +95,11 @@ class AppStrings {
   static const String categoriesPageTitle = 'Categories';
   static const String categoriesPageSubTitle =
       'Thousands of articles in each category';
+
+  //Bookmarks Page
+  static const String bookmarksPageTitle = 'Bookmarks';
+  static const String bookmarksPageSubTitle =
+      'Saved articles to the library';
+  static const String noSavedArticles =
+      "You haven't saved any articles yet !";
 }

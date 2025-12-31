@@ -4,6 +4,7 @@ import 'package:new_nuntium/features/Auth/view/forget_password_view.dart';
 import 'package:new_nuntium/features/Auth/view/login_view.dart';
 import 'package:new_nuntium/features/Auth/view/sign_up_view.dart';
 import 'package:new_nuntium/features/Auth/view/verification_code_view.dart';
+import 'package:new_nuntium/features/bookmarks/bookmarks_view.dart';
 import 'package:new_nuntium/features/home/view/home_page.dart';
 import 'package:new_nuntium/features/main/main_view.dart';
 import 'package:new_nuntium/features/onboarding/view/onboarding_screen.dart';
@@ -31,6 +32,7 @@ class Routes {
 
   static const String mainView = '/main_view';
   static const String homeView = '/home_page_view';
+  static const String bookmarksView = '/bookmarks_view';
 }
 
 class RouteGenerator {
@@ -89,6 +91,12 @@ class RouteGenerator {
       case Routes.homeView:
         initHome();
         return MaterialPageRoute(builder: (_) => const HomeView());
+
+      case Routes.bookmarksView:
+        initBookmarks();
+        return MaterialPageRoute(
+          builder: (_) => const BookmarksView(),
+        );
 
       default:
         return unDefinedRoute(settings.name);

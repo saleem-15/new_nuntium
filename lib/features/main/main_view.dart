@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:new_nuntium/features/bookmarks/bookmarks_view.dart';
 import 'package:new_nuntium/features/categories/views/categories_view.dart';
 import 'package:new_nuntium/features/home/view/home_page.dart';
 import 'package:new_nuntium/features/main/controller/main_controller.dart';
@@ -96,23 +97,28 @@ class MainView extends GetView<MainController> {
         ),
       ),
 
-      /// Bookmarks Tab Configuration
-      // PersistentTabConfig(
-      //   screen: const BookmarksView(),
-      //   item: ItemConfig(
-      //     icon: SvgPicture.asset(
-      //       AppIcons.bookmark,
-      //       colorFilter: const ColorFilter.mode(AppColors.purplePrimary, BlendMode.srcIn),
-      //     ),
-      //     inactiveIcon: SvgPicture.asset(
-      //       AppIcons.bookmark,
-      //       colorFilter: const ColorFilter.mode(AppColors.greyPrimary, BlendMode.srcIn),
-      //     ),
-      //     : "Bookmarks",
-      //     activeForegroundColor: AppColors.purplePrimary,
-      //     inactiveForegroundColor: AppColors.greyPrimary,
-      //   ),
-      // ),
+      // Bookmarks Tab Configuration
+      PersistentTabConfig(
+        screen: const BookmarksView(),
+        item: ItemConfig(
+          icon: SvgPicture.asset(
+            AppIcons.bookmark,
+            colorFilter: const ColorFilter.mode(
+              AppColors.purplePrimary,
+              BlendMode.srcIn,
+            ),
+          ),
+          inactiveIcon: SvgPicture.asset(
+            AppIcons.bookmark,
+            colorFilter: const ColorFilter.mode(
+              AppColors.greyPrimary,
+              BlendMode.srcIn,
+            ),
+          ),
+          activeForegroundColor: AppColors.purplePrimary,
+          inactiveForegroundColor: AppColors.greyPrimary,
+        ),
+      ),
 
       // /// Profile Tab Configuration
       // PersistentTabConfig(

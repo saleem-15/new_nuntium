@@ -5,6 +5,7 @@ import 'package:new_nuntium/features/Auth/controller/forget_password_controller.
 import 'package:new_nuntium/features/Auth/controller/login_controller.dart';
 import 'package:new_nuntium/features/Auth/controller/sign_up_controller.dart';
 import 'package:new_nuntium/features/Auth/controller/verification_code_controller.dart';
+import 'package:new_nuntium/features/bookmarks/bookmarks_controller.dart';
 import 'package:new_nuntium/features/categories/controller/categories_controller.dart';
 import 'package:new_nuntium/features/home/controller/home_page._controller.dart';
 import 'package:new_nuntium/features/main/controller/main_controller.dart';
@@ -98,6 +99,7 @@ void initMain() {
   disposeSelectFavoriteTopics();
   initHome();
   initCategories();
+  initBookmarks();
   Get.put(MainController());
 }
 
@@ -122,4 +124,12 @@ void initCategories() {
 
 void disposeCategoriesPage() {
   Get.delete<CategoriesController>();
+}
+
+void initBookmarks() {
+  Get.put(BookmarksController());
+}
+
+void disposeBookmarksPage() {
+  Get.delete<BookmarksController>();
 }
