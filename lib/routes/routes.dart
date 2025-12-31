@@ -4,8 +4,10 @@ import 'package:new_nuntium/features/Auth/view/forget_password_view.dart';
 import 'package:new_nuntium/features/Auth/view/login_view.dart';
 import 'package:new_nuntium/features/Auth/view/sign_up_view.dart';
 import 'package:new_nuntium/features/Auth/view/verification_code_view.dart';
+import 'package:new_nuntium/features/home_page/view/home_page.dart';
 import 'package:new_nuntium/features/onboarding/view/onboarding_screen.dart';
 import 'package:new_nuntium/features/onboarding/view/welcome_screen.dart';
+import 'package:new_nuntium/features/select_favorite_topics/view/select_favorite_topics_view.dart';
 
 import '../config/dependency_injection.dart';
 import '../features/splash/view/splash_screen.dart';
@@ -23,6 +25,10 @@ class Routes {
       '/create_new_password_view';
   static const String verificationCodeView =
       '/verification_code_view';
+  static const String selectFavoriteTopicsView =
+      '/select_favorite_topics_view';
+
+  static const String homeView = '/home_page_view';
 }
 
 class RouteGenerator {
@@ -67,6 +73,16 @@ class RouteGenerator {
       case Routes.signUpView:
         initSignUp();
         return MaterialPageRoute(builder: (_) => const SignUpView());
+
+      case Routes.selectFavoriteTopicsView:
+        initSelectFavoriteTopics();
+        return MaterialPageRoute(
+          builder: (_) => const SelectFavoriteTopics(),
+        );
+
+      case Routes.homeView:
+        initHome();
+        return MaterialPageRoute(builder: (_) => const HomeView());
 
       default:
         return unDefinedRoute(settings.name);

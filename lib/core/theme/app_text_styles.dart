@@ -22,6 +22,13 @@ class AppTextStyles {
     color: AppColors.greyPrimary,
   );
 
+  static TextStyle bodyText2 = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: AppFonts.regular,
+    fontFamily: AppFonts.fontFamily,
+    color: AppColors.blackPrimary,
+  );
+
   //Button Text
   static TextStyle buttonText = TextStyle(
     fontSize: 16.sp,

@@ -66,4 +66,28 @@ class AppStrings {
   static const String confirm = 'Confirm';
   static const String didntReciveEmail = 'Didn’t receive an email?';
   static const String sendAgain = 'Send again';
+
+  //Select favorite topics
+  static const String selectFavoriteTopicsTitle =
+      'Select favorite topics';
+  static const String selectFavoriteTopicsSubTitle =
+      'Select some of your favorite topics to let us suggest better news for you.';
+  static const String fashion = '👗   Fashion';
+  static const String art = '🎨   Art';
+  static const String nature = '🌴   Nature';
+  static const String gaming = '🎮   Gaming';
+  static const String politics = '⚖️   Politics';
+  static const String history = '📜   History';
+  static const String food = '🍔   Food';
+  static const String animals = '🐻   Animals';
+  static const String life = '🌞   Life';
+  static const String sports = '🏈   Sports';
+
+  //Home Page
+  static const String homePageTitle = 'Browse';
+  static const String homePageSubTitle =
+      'Discover things of this world';
+  static const String search = 'Search';
+  static const String recommendedForYou = 'Recommended for you';
+  static const String seeAll = 'See All';
 }

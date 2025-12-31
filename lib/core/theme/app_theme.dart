@@ -13,6 +13,7 @@ class AppTheme {
     textTheme: TextTheme(
       headlineLarge: AppTextStyles.headLine1,
       bodyMedium: AppTextStyles.bodyText1,
+      bodyLarge: AppTextStyles.bodyText1,
       labelMedium: AppTextStyles.buttonText,
     ),
   );
