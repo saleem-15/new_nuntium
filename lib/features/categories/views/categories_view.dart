@@ -7,7 +7,6 @@ import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/core/theme/app_fonts.dart';
 import 'package:new_nuntium/core/widgets/header.dart';
 import 'package:new_nuntium/features/categories/controller/categories_controller.dart';
-import 'package:new_nuntium/features/select_favorite_topics/controller/select_favorite_topics_controller.dart';
 
 class CategoriesView extends GetView<CategoriesController> {
   const CategoriesView({super.key});
@@ -40,27 +39,21 @@ class CategoriesView extends GetView<CategoriesController> {
 
                 return GestureDetector(
                   onTap: controller.onCategoryPressed,
-                  child: GetBuilder<SelectFavoriteTopicsController>(
+                  child: GetBuilder<CategoriesController>(
                     assignId: true,
                     id: topic,
                     builder: (controller) {
-                      final isSelected = controller.selectedTopics
-                          .contains(topic);
                       return AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
                         decoration: BoxDecoration(
-                          color: isSelected
-                              ? AppColors.purplePrimary
-                              : AppColors.greyLighter,
+                          color: AppColors.greyLighter,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         alignment: Alignment.center,
                         child: Text(
                           topic,
                           style: context.body1.copyWith(
-                            color: isSelected
-                                ? Colors.white
-                                : AppColors.greyDarker,
+                            color: AppColors.greyDarker,
                             fontWeight: AppFonts.semiBold,
                           ),
                         ),
