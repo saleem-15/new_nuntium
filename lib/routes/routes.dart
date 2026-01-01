@@ -9,6 +9,7 @@ import 'package:new_nuntium/features/home/view/home_page.dart';
 import 'package:new_nuntium/features/main/main_view.dart';
 import 'package:new_nuntium/features/onboarding/view/onboarding_screen.dart';
 import 'package:new_nuntium/features/onboarding/view/welcome_screen.dart';
+import 'package:new_nuntium/features/profile/view/profile_view.dart';
 import 'package:new_nuntium/features/select_favorite_topics/view/select_favorite_topics_view.dart';
 
 import '../config/dependency_injection.dart';
@@ -33,6 +34,7 @@ class Routes {
   static const String mainView = '/main_view';
   static const String homeView = '/home_page_view';
   static const String bookmarksView = '/bookmarks_view';
+  static const String profileView = '/profile_view';
 }
 
 class RouteGenerator {
@@ -97,6 +99,10 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => const BookmarksView(),
         );
+
+      case Routes.profileView:
+        initProfile();
+        return MaterialPageRoute(builder: (_) => const ProfileView());
 
       default:
         return unDefinedRoute(settings.name);

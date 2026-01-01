@@ -11,6 +11,7 @@ import 'package:new_nuntium/features/home/controller/home_page._controller.dart'
 import 'package:new_nuntium/features/main/controller/main_controller.dart';
 import 'package:new_nuntium/features/onboarding/controller/onboarding_controller.dart';
 import 'package:new_nuntium/features/onboarding/controller/welcome_controller.dart';
+import 'package:new_nuntium/features/profile/profile_controller.dart';
 import 'package:new_nuntium/features/select_favorite_topics/controller/select_favorite_topics_controller.dart';
 import 'package:new_nuntium/features/splash/controller/splash_controller.dart';
 
@@ -100,6 +101,7 @@ void initMain() {
   initHome();
   initCategories();
   initBookmarks();
+  initProfile();
   Get.put(MainController());
 }
 
@@ -132,4 +134,12 @@ void initBookmarks() {
 
 void disposeBookmarksPage() {
   Get.delete<BookmarksController>();
+}
+
+void initProfile() {
+  Get.put(ProfileController());
+}
+
+void disposeProfilePage() {
+  Get.delete<ProfileController>();
 }

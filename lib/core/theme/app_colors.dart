@@ -17,4 +17,5 @@ class AppColors {
 
   // ألوان ثابتة
   static const Color white = Color(0xFFFFFFFF);
+  static const Color transparent = Colors.transparent;
 }

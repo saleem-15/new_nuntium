@@ -5,6 +5,7 @@ import 'package:new_nuntium/features/bookmarks/bookmarks_view.dart';
 import 'package:new_nuntium/features/categories/views/categories_view.dart';
 import 'package:new_nuntium/features/home/view/home_page.dart';
 import 'package:new_nuntium/features/main/controller/main_controller.dart';
+import 'package:new_nuntium/features/profile/view/profile_view.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -120,23 +121,28 @@ class MainView extends GetView<MainController> {
         ),
       ),
 
-      // /// Profile Tab Configuration
-      // PersistentTabConfig(
-      //   screen: const ProfileView(),
-      //   item: ItemConfig(
-      //     icon: SvgPicture.asset(
-      //       AppIcons.profile,
-      //       colorFilter: const ColorFilter.mode(AppColors.purplePrimary, BlendMode.srcIn),
-      //     ),
-      //     inactiveIcon: SvgPicture.asset(
-      //       AppIcons.profile,
-      //       colorFilter: const ColorFilter.mode(AppColors.greyPrimary, BlendMode.srcIn),
-      //     ),
-      //     : "Profile",
-      //     activeForegroundColor: AppColors.purplePrimary,
-      //     inactiveForegroundColor: AppColors.greyPrimary,
-      //   ),
-      // ),
+      /// Profile Tab Configuration
+      PersistentTabConfig(
+        screen: const ProfileView(),
+        item: ItemConfig(
+          icon: SvgPicture.asset(
+            AppIcons.user,
+            colorFilter: const ColorFilter.mode(
+              AppColors.purplePrimary,
+              BlendMode.srcIn,
+            ),
+          ),
+          inactiveIcon: SvgPicture.asset(
+            AppIcons.user,
+            colorFilter: const ColorFilter.mode(
+              AppColors.greyPrimary,
+              BlendMode.srcIn,
+            ),
+          ),
+          activeForegroundColor: AppColors.purplePrimary,
+          inactiveForegroundColor: AppColors.greyPrimary,
+        ),
+      ),
     ];
   }
 }

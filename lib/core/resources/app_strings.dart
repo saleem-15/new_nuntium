@@ -102,4 +102,13 @@ class AppStrings {
       'Saved articles to the library';
   static const String noSavedArticles =
       "You haven't saved any articles yet !";
+
+  //Profile Page
+  static const String profile = 'Profile';
+  static const String notifications = 'Notifications';
+  static const String language = 'Language';
+  static const String changePassword = 'Change Password';
+  static const String privacy = 'Privacy';
+  static const String termsAndConditions = 'Terms & Conditions';
+  static const String signOut = 'Sign Out';
 }
