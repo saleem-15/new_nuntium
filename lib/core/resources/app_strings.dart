@@ -111,4 +111,7 @@ class AppStrings {
   static const String privacy = 'Privacy';
   static const String termsAndConditions = 'Terms & Conditions';
   static const String signOut = 'Sign Out';
+
+  //Language Page
+  static const String english = 'English';
 }

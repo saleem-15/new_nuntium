@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:new_nuntium/core/constants/get_builders_ids.dart';
 import 'package:new_nuntium/core/extensions/theme_extension.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';

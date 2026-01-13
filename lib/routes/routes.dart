@@ -6,6 +6,7 @@ import 'package:new_nuntium/features/Auth/view/sign_up_view.dart';
 import 'package:new_nuntium/features/Auth/view/verification_code_view.dart';
 import 'package:new_nuntium/features/bookmarks/bookmarks_view.dart';
 import 'package:new_nuntium/features/home/view/home_page.dart';
+import 'package:new_nuntium/features/language/language_view.dart';
 import 'package:new_nuntium/features/main/main_view.dart';
 import 'package:new_nuntium/features/onboarding/view/onboarding_screen.dart';
 import 'package:new_nuntium/features/onboarding/view/welcome_screen.dart';
@@ -35,6 +36,7 @@ class Routes {
   static const String homeView = '/home_page_view';
   static const String bookmarksView = '/bookmarks_view';
   static const String profileView = '/profile_view';
+  static const String languageView = '/language_view';
 }
 
 class RouteGenerator {
@@ -103,6 +105,12 @@ class RouteGenerator {
       case Routes.profileView:
         initProfile();
         return MaterialPageRoute(builder: (_) => const ProfileView());
+
+      case Routes.languageView:
+        initLanguage();
+        return MaterialPageRoute(
+          builder: (_) => const LanguageView(),
+        );
 
       default:
         return unDefinedRoute(settings.name);

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/painting/image_provider.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:new_nuntium/core/constants/get_builders_ids.dart';
+import 'package:new_nuntium/routes/routes.dart';
 
 class ProfileController extends GetxController {
   bool isNotificationsOn = true;
@@ -19,7 +20,9 @@ class ProfileController extends GetxController {
     update([AppGetBuildersIds.notificationsSwitch]);
   }
 
-  void onLanguagePressed() {}
+  void onLanguagePressed() {
+    Get.toNamed(Routes.languageView);
+  }
 
   void onChangePasswordPressed() {}
 

@@ -8,6 +8,7 @@ import 'package:new_nuntium/features/Auth/controller/verification_code_controlle
 import 'package:new_nuntium/features/bookmarks/bookmarks_controller.dart';
 import 'package:new_nuntium/features/categories/controller/categories_controller.dart';
 import 'package:new_nuntium/features/home/controller/home_page._controller.dart';
+import 'package:new_nuntium/features/language/language_controller.dart';
 import 'package:new_nuntium/features/main/controller/main_controller.dart';
 import 'package:new_nuntium/features/onboarding/controller/onboarding_controller.dart';
 import 'package:new_nuntium/features/onboarding/controller/welcome_controller.dart';
@@ -142,4 +143,12 @@ void initProfile() {
 
 void disposeProfilePage() {
   Get.delete<ProfileController>();
+}
+
+void initLanguage() {
+  Get.put(LanguageController());
+}
+
+void disposeLanguagePage() {
+  Get.delete<LanguageController>();
 }
