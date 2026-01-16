@@ -20,10 +20,9 @@ class CategorySelector extends StatelessWidget {
         itemCount: controller.categories.length,
         itemBuilder: (_, index) {
           final category = controller.categories[index];
-          final isLastItem =
-              index == controller.categories.length - 1;
+          final isLastItem = index == controller.categories.length - 1;
           return Padding(
-            padding: EdgeInsets.only(right: isLastItem ? 0 : 16.w),
+            padding: EdgeInsetsDirectional.only(end: isLastItem ? 0 : 16.w),
             child: _CategoryItem(category: category),
           );
         },
@@ -41,20 +40,14 @@ class _CategoryItem extends StatelessWidget {
     final controller = Get.find<HomeController>();
 
     return Obx(() {
-      final isSelected =
-          controller.selectedCategory.value == category;
+      final isSelected = controller.selectedCategory.value == category;
       return GestureDetector(
         onTap: () => controller.changeCategory(category),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
-          padding: EdgeInsets.symmetric(
-            horizontal: 16.w,
-            vertical: 8.w,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.w),
           decoration: BoxDecoration(
-            color: isSelected
-                ? AppColors.purplePrimary
-                : AppColors.greyLighter,
+            color: isSelected ? AppColors.purplePrimary : AppColors.greyLighter,
             borderRadius: BorderRadius.circular(20.r),
           ),
           alignment: Alignment.center,
@@ -62,9 +55,7 @@ class _CategoryItem extends StatelessWidget {
             category,
             style: TextStyle(
               fontSize: 12.sp,
-              color: isSelected
-                  ? AppColors.white
-                  : AppColors.greyPrimary,
+              color: isSelected ? AppColors.white : AppColors.greyPrimary,
               fontWeight: AppFonts.semiBold,
             ),
           ),
