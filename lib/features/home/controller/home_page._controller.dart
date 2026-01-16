@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/features/home/data/news_model.dart';
 
 class HomeController extends GetxController {
@@ -8,12 +9,12 @@ class HomeController extends GetxController {
 
   // قائمة الفئات (يفضل وضعها في AppStrings)
   final List<String> categories = [
-    "Random",
-    "Sports",
-    "Gaming",
-    "Politics",
-    "Life",
-    "Animals",
+    AppStrings.random,
+    AppStrings.sports,
+    AppStrings.gaming,
+    AppStrings.politics,
+    AppStrings.life,
+    AppStrings.animals,
   ];
 
   List<News> recentNews = [

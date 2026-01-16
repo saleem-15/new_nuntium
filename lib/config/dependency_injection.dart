@@ -1,5 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
+import 'package:get_it/get_it.dart';
+import 'package:new_nuntium/core/services/language_service.dart';
+import 'package:new_nuntium/core/services/shared_prefrences.dart';
 import 'package:new_nuntium/features/Auth/controller/create_new_password_controller.dart';
 import 'package:new_nuntium/features/Auth/controller/forget_password_controller.dart';
 import 'package:new_nuntium/features/Auth/controller/login_controller.dart';
@@ -8,13 +13,28 @@ import 'package:new_nuntium/features/Auth/controller/verification_code_controlle
 import 'package:new_nuntium/features/bookmarks/bookmarks_controller.dart';
 import 'package:new_nuntium/features/categories/controller/categories_controller.dart';
 import 'package:new_nuntium/features/home/controller/home_page._controller.dart';
-import 'package:new_nuntium/features/language/language_controller.dart';
+import 'package:new_nuntium/features/language/presentation/controller/language_controller.dart';
 import 'package:new_nuntium/features/main/controller/main_controller.dart';
 import 'package:new_nuntium/features/onboarding/controller/onboarding_controller.dart';
 import 'package:new_nuntium/features/onboarding/controller/welcome_controller.dart';
 import 'package:new_nuntium/features/profile/profile_controller.dart';
 import 'package:new_nuntium/features/select_favorite_topics/controller/select_favorite_topics_controller.dart';
 import 'package:new_nuntium/features/splash/controller/splash_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+final getIt = GetIt.instance;
+
+Future<void> initApp() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  getIt.registerSingletonAsync(
+    () async => AppSharedPrefs(await SharedPreferences.getInstance()),
+  );
+
+  await EasyLocalization.ensureInitialized();
+
+  Get.put(LanguageService(), permanent: true);
+}
 
 void initSplash() {
   Get.put(SplashController());

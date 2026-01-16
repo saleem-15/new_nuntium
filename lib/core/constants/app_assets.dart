@@ -2,6 +2,7 @@ const String _baseImagePath = 'assets/images';
 const String _baseVectorPath = 'assets/images/vectors';
 const String _baseAnimationPath = 'assets/animations';
 const String _baseIconPath = 'assets/icons';
+const String kTranslationPath = 'assets/translation';
 
 class AppAssets {
   AppAssets._();

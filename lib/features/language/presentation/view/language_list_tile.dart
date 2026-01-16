@@ -3,25 +3,31 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_nuntium/core/extensions/theme_extension.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/core/theme/app_fonts.dart';
+import 'package:new_nuntium/features/language/model/language.dart';
 
 class LanguageListTile extends StatelessWidget {
   const LanguageListTile({
     super.key,
-    required this.languageName,
-    this.onPressed,
+    required this.language,
+    required this.isCurrentLocale,
+    required this.onPressed,
   });
 
-  final String languageName;
-  final Function()? onPressed;
+  final Language language;
+  final bool isCurrentLocale;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       clipBehavior: Clip.antiAlias,
       height: 56.h,
+
       margin: EdgeInsets.only(bottom: 16.h),
       decoration: ShapeDecoration(
-        color: AppColors.greyLighter,
+        color: isCurrentLocale
+            ? AppColors.purplePrimary
+            : AppColors.greyLighter,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.r),
         ),
@@ -35,17 +41,21 @@ class LanguageListTile extends StatelessWidget {
             children: [
               ///title
               Text(
-                languageName,
+                language.name,
                 style: context.body1.copyWith(
-                  color: AppColors.greyDarker,
                   fontWeight: AppFonts.semiBold,
+                  color: isCurrentLocale
+                      ? AppColors.white
+                      : AppColors.greyDarker,
                 ),
               ),
-
-              Icon(
-                Icons.check,
-                color: AppColors.greyDarker,
-                size: 16.sp,
+              Visibility(
+                visible: isCurrentLocale,
+                child: Icon(
+                  Icons.check_rounded,
+                  color: AppColors.white,
+                  size: 24.sp,
+                ),
               ),
             ],
           ),

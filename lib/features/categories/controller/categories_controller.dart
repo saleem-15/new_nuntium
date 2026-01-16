@@ -5,16 +5,16 @@ class CategoriesController extends GetxController {
   var isLoading = false.obs;
 
   final categories = [
-    AppStrings.sports,
-    AppStrings.politics,
-    AppStrings.life,
-    AppStrings.gaming,
-    AppStrings.animals,
-    AppStrings.nature,
-    AppStrings.food,
-    AppStrings.art,
-    AppStrings.history,
-    AppStrings.fashion,
+    AppStrings.sportsWithEmoji,
+    AppStrings.politicsWithEmoji,
+    AppStrings.lifeWithEmoji,
+    AppStrings.gamingWithEmoji,
+    AppStrings.animalsWithEmoji,
+    AppStrings.natureWithEmoji,
+    AppStrings.foodWithEmoji,
+    AppStrings.artWithEmoji,
+    AppStrings.historyWithEmoji,
+    AppStrings.fashionWithEmoji,
   ].obs;
 
   // هذه الدالة التي سنستدعيها من الخارج
