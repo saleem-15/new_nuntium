@@ -5,7 +5,7 @@ import 'package:new_nuntium/core/constants/get_builders_ids.dart';
 import 'package:new_nuntium/core/extensions/theme_extension.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
-import 'package:new_nuntium/features/profile/profile_controller.dart';
+import 'package:new_nuntium/features/profile/controller/profile_controller.dart';
 import 'package:new_nuntium/features/profile/view/widgets/settings_list_tile.dart';
 
 class ProfileView extends GetView<ProfileController> {
@@ -87,10 +87,7 @@ class ProfileView extends GetView<ProfileController> {
 
           Row(
             children: [
-              CircleAvatar(
-                radius: 36.r,
-                foregroundImage: controller.userImage,
-              ),
+              CircleAvatar(radius: 36.r, foregroundImage: controller.userImage),
               SizedBox(width: 24.w),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

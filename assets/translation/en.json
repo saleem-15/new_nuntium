@@ -101,6 +101,11 @@
   "english": "English",
   "arabic": "Arabic",
 
+
+ "// terms and conditions Page": "/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+  "terms_and_conditions": "Please read these terms carefully before using Nuntium. By accessing or using the app, you agree to be bound by these terms:\n\n1. Nature of Service: Nuntium is a news aggregation and information platform. While we strive to provide accurate content, we do not guarantee the absolute accuracy or completeness of all information provided.\n\n2. Intellectual Property: All text, images, logos, and the 'Nuntium' trademark are the property of the app owners or their respective news providers. Commercial reproduction is strictly prohibited.\n\n3. External Links: The app may contain links to external sites. Nuntium is not responsible for the content or privacy practices of these third-party websites.\n\n4. User Conduct: The app is for personal use only. Use of automated systems to extract data is prohibited. Users must maintain respectful behavior in any interactive sections.\n\n5. Disclaimer of Liability: Nuntium content is provided 'as is' for informational purposes only. We are not liable for any decisions made based on the news published within the app.\n\n6. Amendments: We reserve the right to modify these terms or app features at any time to enhance the user experience.\n\n7. Governing Law: These terms are governed by and construed in accordance with the local laws of the operating country.",
+
+
   "// General & Error Messages": "/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
   "noRouteFound": "No Rout Found",
   "noInternetConnection": "No Internet Connection",
@@ -118,7 +123,6 @@
   "ok": "OK",
   "requiredField": "Required",
   "requiredFullName": "requiredFullName",
-  "termsAndConditionsPolicy": "Lorem ipsum dolor sit amet...",
   "invalidEmail": "invalidEmail",
   "invalidPasswordLength": "invalidPasswordLength",
   "invalidPasswordUpper": "invalidPasswordUpper",

@@ -27,7 +27,9 @@ class ProfileController extends GetxController {
 
   void onPrivacyPressed() {}
 
-  void onTermsAndConditionsPressed() {}
+  void onTermsAndConditionsPressed() {
+    Get.toNamed(Routes.termsAndConditionsView);
+  }
 
   void onSignOutPressed() {}
 }

@@ -123,4 +123,7 @@ class AppStrings {
   // Language Page
   static String get english => tr('english');
   static String get arabic => tr('arabic');
+
+  //Terms And Conditions Page
+  static String get termsAndConditionsBody => tr('terms_and_conditions');
 }

@@ -12,6 +12,7 @@ import 'package:new_nuntium/features/onboarding/view/onboarding_screen.dart';
 import 'package:new_nuntium/features/onboarding/view/welcome_screen.dart';
 import 'package:new_nuntium/features/profile/view/profile_view.dart';
 import 'package:new_nuntium/features/select_favorite_topics/view/select_favorite_topics_view.dart';
+import 'package:new_nuntium/features/terms_and_conditions/presentation/view/terms_and_conditions_view.dart';
 
 import '../config/dependency_injection.dart';
 import '../features/splash/view/splash_screen.dart';
@@ -34,6 +35,7 @@ class Routes {
   static const String bookmarksView = '/bookmarks_view';
   static const String profileView = '/profile_view';
   static const String languageView = '/language_view';
+  static const String termsAndConditionsView = '/terms_and_conditions_view';
 }
 
 class RouteGenerator {
@@ -94,6 +96,12 @@ class RouteGenerator {
       case Routes.languageView:
         initLanguage();
         return MaterialPageRoute(builder: (_) => const LanguageView());
+
+      case Routes.termsAndConditionsView:
+        initTermsAndConditions();
+        return MaterialPageRoute(
+          builder: (_) => const TermsAndConditionsView(),
+        );
 
       default:
         return unDefinedRoute(settings.name);

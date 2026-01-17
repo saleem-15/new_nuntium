@@ -17,9 +17,10 @@ import 'package:new_nuntium/features/language/presentation/controller/language_c
 import 'package:new_nuntium/features/main/controller/main_controller.dart';
 import 'package:new_nuntium/features/onboarding/controller/onboarding_controller.dart';
 import 'package:new_nuntium/features/onboarding/controller/welcome_controller.dart';
-import 'package:new_nuntium/features/profile/profile_controller.dart';
+import 'package:new_nuntium/features/profile/controller/profile_controller.dart';
 import 'package:new_nuntium/features/select_favorite_topics/controller/select_favorite_topics_controller.dart';
 import 'package:new_nuntium/features/splash/controller/splash_controller.dart';
+import 'package:new_nuntium/features/terms_and_conditions/presentation/controller/terms_and_conditions_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
@@ -171,4 +172,12 @@ void initLanguage() {
 
 void disposeLanguagePage() {
   Get.delete<LanguageController>();
+}
+
+void initTermsAndConditions() {
+  Get.put(TermsAndConditionsController());
+}
+
+void disposeTermsAndConditionsPage() {
+  Get.delete<TermsAndConditionsController>();
 }
