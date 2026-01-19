@@ -5,6 +5,7 @@ import 'package:get/route_manager.dart';
 import 'package:get_it/get_it.dart';
 import 'package:new_nuntium/core/services/language_service.dart';
 import 'package:new_nuntium/core/services/shared_prefrences.dart';
+import 'package:new_nuntium/core/services/storage_service.dart';
 import 'package:new_nuntium/features/Auth/controller/create_new_password_controller.dart';
 import 'package:new_nuntium/features/Auth/controller/forget_password_controller.dart';
 import 'package:new_nuntium/features/Auth/controller/login_controller.dart';
@@ -35,6 +36,11 @@ Future<void> initApp() async {
   await EasyLocalization.ensureInitialized();
 
   Get.put(LanguageService(), permanent: true);
+
+  // local storage dependecy
+  final storageService = StorageService();
+  await storageService.init();
+  getIt.registerSingleton<StorageService>(storageService);
 }
 
 void initSplash() {
