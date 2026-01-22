@@ -5,11 +5,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:new_nuntium/core/extensions/theme_extension.dart';
 import 'package:new_nuntium/core/widgets/app_gradient_overlay.dart';
-import 'package:new_nuntium/features/home/controller/home_page._controller.dart';
+import 'package:new_nuntium/features/home/presentation/controller/home_controller.dart';
 import 'package:new_nuntium/features/home/data/news_model.dart';
-import '../../../../core/constants/app_assets.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_fonts.dart';
+import '../../../../../core/constants/app_assets.dart';
+import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/theme/app_fonts.dart';
 
 class RecentNewsCard extends StatelessWidget {
   final News news;
@@ -60,16 +60,11 @@ class RecentNewsCard extends StatelessWidget {
         fadeInDuration: const Duration(milliseconds: 500),
         placeholder: (_, _) => Container(
           color: AppColors.greyLighter,
-          child: const Center(
-            child: CircularProgressIndicator.adaptive(),
-          ),
+          child: const Center(child: CircularProgressIndicator.adaptive()),
         ),
         errorWidget: (_, _, _) => Container(
           color: AppColors.greyLighter,
-          child: const Icon(
-            Icons.broken_image,
-            color: AppColors.greyPrimary,
-          ),
+          child: const Icon(Icons.broken_image, color: AppColors.greyPrimary),
         ),
       ),
     );

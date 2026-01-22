@@ -6,8 +6,7 @@ import 'package:new_nuntium/features/bookmarks/bookmarks_controller.dart';
 import 'package:new_nuntium/features/bookmarks/bookmarks_view.dart';
 import 'package:new_nuntium/features/categories/controller/categories_controller.dart';
 import 'package:new_nuntium/features/categories/views/categories_view.dart';
-import 'package:new_nuntium/features/home/controller/home_page._controller.dart';
-import 'package:new_nuntium/features/home/view/home_page.dart';
+import 'package:new_nuntium/features/home/presentation/view/home_page.dart';
 
 class MainController extends GetxController {
   var currentPageIndex = 0.obs;
@@ -18,13 +17,6 @@ class MainController extends GetxController {
     const BookmarksView(),
     // const ProfileView(),
   ];
-
-  @override
-  void onInit() {
-    super.onInit();
-    //the Home screen always will opened, So its data must be fetched
-    Get.find<HomeController>().fetchData();
-  }
 
   void changePage(int index) {
     currentPageIndex.value = index;
