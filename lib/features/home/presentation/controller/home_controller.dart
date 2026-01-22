@@ -5,18 +5,16 @@ import 'package:new_nuntium/config/dependency_injection.dart';
 import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/check_if_saved_use_case.dart';
-import 'package:new_nuntium/features/bookmarks/domain/use_cases/delete_bookmark_use_case.dart';
-import 'package:new_nuntium/features/bookmarks/domain/use_cases/save_bookmark_use_case.dart';
 import 'package:new_nuntium/features/home/domain/use_cases/fetch_news_use_case.dart';
+import 'package:new_nuntium/features/home/domain/use_cases/toggle_bookmark_use_case.dart';
 
 class HomeController extends GetxController {
   // ---Dependencies---
   final _fetchNewsUseCase = getIt<FetchNewsUseCase>();
 
   // Bookmark Use Cases
-  final _saveBookmarkUseCase = getIt<SaveBookmarkUseCase>();
-  final _deleteBookmarkUseCase = getIt<DeleteBookmarkUseCase>();
   final _checkIfArticleSavedUseCase = getIt<CheckIfSavedUseCase>();
+  final _toggleBookmarkUseCase = getIt<ToggleBookmarkUseCase>();
 
   // ---UI State---
   late FocusNode searchFocusNode;
@@ -44,6 +42,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     searchFocusNode = FocusNode();
     searchFocusNode.addListener(() {
       isSearchFieldFocused.value = searchFocusNode.hasFocus;
@@ -105,24 +104,15 @@ class HomeController extends GetxController {
   }
 
   Future<void> onArticleBookmarkPressed(Article pressedArticle) async {
-    // تبديل حالة الحفظ في التخزين
-    if (pressedArticle.isSaved) {
-      await _deleteBookmarkUseCase(pressedArticle.id);
-    } else {
-      await _saveBookmarkUseCase(pressedArticle);
-    }
+    final isSavedNow = await _toggleBookmarkUseCase.call(
+      article: pressedArticle,
+    );
 
-    // في الإصدار 5، نستخدم mapItems لتحديث عنصر داخل القائمة دون إعادة تحميلها
-    pagingController.mapItems((article) {
-      if (article.id == pressedArticle.id) {
-        // نُرجع نسخة محدثة من المقال
-        // (ملاحظة: بما أن Article هو HiveObject، التعديل المباشر قد يعمل،
-        // لكن الأفضل إنشاء نسخة جديدة أو تعديل الخاصية وإرجاع الكائن)
-        article.isSaved = !pressedArticle.isSaved;
-        return article;
-      }
-      return article;
-    });
+    // Modifying its 'isSaved' property directly updates the instance stored in the
+    // pagingController's internal list, ensuring data consistency without redundant loops.
+    pressedArticle.isSaved = isSavedNow;
+
+    update([(pressedArticle.id)]);
   }
 
   void onRefreshPressed() {

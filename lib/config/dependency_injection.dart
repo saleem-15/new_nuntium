@@ -23,6 +23,7 @@ import 'package:new_nuntium/features/home/data/data_source/news_remote_data_sour
 import 'package:new_nuntium/features/home/data/repository/news_repository_impl.dart';
 import 'package:new_nuntium/features/home/domain/repository/news_repository.dart';
 import 'package:new_nuntium/features/home/domain/use_cases/fetch_news_use_case.dart';
+import 'package:new_nuntium/features/home/domain/use_cases/toggle_bookmark_use_case.dart';
 import 'package:new_nuntium/features/home/presentation/controller/home_controller.dart';
 import 'package:new_nuntium/features/language/presentation/controller/language_controller.dart';
 import 'package:new_nuntium/features/main/controller/main_controller.dart';
@@ -165,6 +166,10 @@ void initHome() {
   // 2. Domain Layer
   getIt.registerLazySingleton<FetchNewsUseCase>(
     () => FetchNewsUseCase(getIt<NewsRepository>()),
+  );
+
+  getIt.registerLazySingleton<ToggleBookmarkUseCase>(
+    () => ToggleBookmarkUseCase(getIt<BookmarkRepository>()),
   );
 
   Get.put(HomeController());
