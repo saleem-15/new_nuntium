@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:get_it/get_it.dart';
+import 'package:new_nuntium/core/network/api_client.dart';
 import 'package:new_nuntium/core/services/language_service.dart';
 import 'package:new_nuntium/core/services/shared_prefrences.dart';
 import 'package:new_nuntium/core/services/storage_service.dart';
@@ -12,8 +13,17 @@ import 'package:new_nuntium/features/Auth/controller/login_controller.dart';
 import 'package:new_nuntium/features/Auth/controller/sign_up_controller.dart';
 import 'package:new_nuntium/features/Auth/controller/verification_code_controller.dart';
 import 'package:new_nuntium/features/bookmarks/bookmarks_controller.dart';
+import 'package:new_nuntium/features/bookmarks/data/repository/bookmark_repository_imp.dart';
+import 'package:new_nuntium/features/bookmarks/domain/repository/bookmark_repository.dart';
+import 'package:new_nuntium/features/bookmarks/domain/use_cases/check_if_saved_use_case.dart';
+import 'package:new_nuntium/features/bookmarks/domain/use_cases/delete_bookmark_use_case.dart';
+import 'package:new_nuntium/features/bookmarks/domain/use_cases/save_bookmark_use_case.dart';
 import 'package:new_nuntium/features/categories/controller/categories_controller.dart';
-import 'package:new_nuntium/features/home/controller/home_page._controller.dart';
+import 'package:new_nuntium/features/home/data/data_source/news_remote_data_source.dart';
+import 'package:new_nuntium/features/home/data/repository/news_repository_impl.dart';
+import 'package:new_nuntium/features/home/domain/repository/news_repository.dart';
+import 'package:new_nuntium/features/home/domain/use_cases/fetch_news_use_case.dart';
+import 'package:new_nuntium/features/home/presentation/controller/home_controller.dart';
 import 'package:new_nuntium/features/language/presentation/controller/language_controller.dart';
 import 'package:new_nuntium/features/main/controller/main_controller.dart';
 import 'package:new_nuntium/features/onboarding/controller/onboarding_controller.dart';
@@ -41,6 +51,8 @@ Future<void> initApp() async {
   final storageService = StorageService();
   await storageService.init();
   getIt.registerSingleton<StorageService>(storageService);
+
+  getIt.registerSingleton(ApiClient());
 }
 
 void initSplash() {
@@ -126,9 +138,9 @@ void disposeForgetPassword() {
 
 void initMain() {
   disposeSelectFavoriteTopics();
+  initBookmarks();
   initHome();
   initCategories();
-  initBookmarks();
   initProfile();
   Get.put(MainController());
 }
@@ -141,6 +153,20 @@ void disposeMainPage() {
 }
 
 void initHome() {
+  // 1. Data Layer
+  getIt.registerLazySingleton<NewsRemoteDataSource>(
+    () => NewsRemoteDataSource(getIt<ApiClient>()),
+  );
+
+  getIt.registerLazySingleton<NewsRepository>(
+    () => NewsRepositoryImpl(getIt<NewsRemoteDataSource>()),
+  );
+
+  // 2. Domain Layer
+  getIt.registerLazySingleton<FetchNewsUseCase>(
+    () => FetchNewsUseCase(getIt<NewsRepository>()),
+  );
+
   Get.put(HomeController());
 }
 
@@ -157,6 +183,20 @@ void disposeCategoriesPage() {
 }
 
 void initBookmarks() {
+  getIt.registerLazySingleton<BookmarkRepository>(
+    () => BookmarkRepositoryImpl(getIt<StorageService>()),
+  );
+
+  getIt.registerLazySingleton<SaveBookmarkUseCase>(
+    () => SaveBookmarkUseCase(getIt<BookmarkRepository>()),
+  );
+  getIt.registerLazySingleton<DeleteBookmarkUseCase>(
+    () => DeleteBookmarkUseCase(getIt<BookmarkRepository>()),
+  );
+  getIt.registerLazySingleton<CheckIfSavedUseCase>(
+    () => CheckIfSavedUseCase(getIt<BookmarkRepository>()),
+  );
+
   Get.put(BookmarksController());
 }
 

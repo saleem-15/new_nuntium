@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 
 class AppStrings {
+
   AppStrings._();
 
   // Onboarding
@@ -89,6 +90,8 @@ class AppStrings {
   static String get recommendedForYou =>
       tr('recommended_for_you'); // غير موجود في JSON
   static String get seeAll => tr('seeAll'); // غير موجود في JSON
+    static String get noArticlesFound => tr('No articles found');
+
 
   static String get fashion => tr('fashion');
   static String get art => tr('art');

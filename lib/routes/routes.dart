@@ -5,7 +5,7 @@ import 'package:new_nuntium/features/Auth/view/login_view.dart';
 import 'package:new_nuntium/features/Auth/view/sign_up_view.dart';
 import 'package:new_nuntium/features/Auth/view/verification_code_view.dart';
 import 'package:new_nuntium/features/bookmarks/bookmarks_view.dart';
-import 'package:new_nuntium/features/home/view/home_page.dart';
+import 'package:new_nuntium/features/home/presentation/view/home_page.dart';
 import 'package:new_nuntium/features/language/presentation/view/language_view.dart';
 import 'package:new_nuntium/features/main/main_view.dart';
 import 'package:new_nuntium/features/onboarding/view/onboarding_screen.dart';
@@ -32,6 +32,7 @@ class Routes {
 
   static const String mainView = '/main_view';
   static const String homeView = '/home_page_view';
+  static const String articleView = '/article_view';
   static const String bookmarksView = '/bookmarks_view';
   static const String profileView = '/profile_view';
   static const String languageView = '/language_view';
@@ -102,6 +103,10 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => const TermsAndConditionsView(),
         );
+
+      // case Routes.articleView:
+      //   final news = settings.arguments as News; // استقبال البيانات
+      //   return MaterialPageRoute(builder: (_) => ArticleView(news: news));
 
       default:
         return unDefinedRoute(settings.name);

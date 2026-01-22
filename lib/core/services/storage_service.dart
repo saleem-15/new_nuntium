@@ -1,10 +1,8 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:new_nuntium/core/models/article.dart';
 
-import 'package:new_nuntium/features/home/data/news_model.dart';
-
 class StorageService {
-  late Box<News> _bookmarkBox;
+  late Box<Article> _bookmarkBox;
   static const String _bookmarkBoxName = 'bookmarks';
 
   /// Must be called when the app starts
@@ -19,14 +17,14 @@ class StorageService {
   }
 
   Future<void> _initBookmarkBox() async {
-    _bookmarkBox = await Hive.openBox<News>(_bookmarkBoxName);
+    _bookmarkBox = await Hive.openBox<Article>(_bookmarkBoxName);
   }
 
-  Future<void> saveBookmark(News bookmark) async {
+  Future<void> saveBookmark(Article bookmark) async {
     await _bookmarkBox.put(bookmark.id, bookmark..isSaved = true);
   }
 
-  List<News> getAllBookmarks() {
+  List<Article> getAllBookmarks() {
     return _bookmarkBox.values.toList();
   }
 
@@ -34,7 +32,7 @@ class StorageService {
     await _bookmarkBox.delete(id);
   }
 
-  bool isBookmarkSaved(String id) {
+  bool isArticleSaved(String id) {
     return _bookmarkBox.containsKey(id);
   }
 

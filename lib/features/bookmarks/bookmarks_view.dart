@@ -9,7 +9,7 @@ import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/core/theme/app_fonts.dart';
 import 'package:new_nuntium/core/widgets/header.dart';
 import 'package:new_nuntium/features/bookmarks/bookmarks_controller.dart';
-import 'package:new_nuntium/features/home/view/widgets/recommended_news_card.dart';
+import 'package:new_nuntium/features/home/presentation/view/widgets/recommended_news_card.dart';
 
 class BookmarksView extends GetView<BookmarksController> {
   const BookmarksView({super.key});

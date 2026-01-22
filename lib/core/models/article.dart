@@ -17,7 +17,7 @@ class Article extends HiveObject {
   final String imageUrl;
 
   @HiveField(4)
-  final bool isSaved;
+  bool isSaved;
 
   @HiveField(5)
   final String? content;
@@ -42,32 +42,19 @@ class Article extends HiveObject {
     };
   }
 
-  factory Article.fromMap(Map<String, dynamic> map, String documentId) {
-    return Article(
-      id: documentId,
-      title: map['title'] ?? '',
-      category: map['category'] ?? 'General',
-      imageUrl: map['imageUrl'] ?? '',
-      isSaved: map['isSaved'] ?? false,
-      content: map['content'],
-    );
-  }
-
-  Article copyWith({
-    String? id,
-    String? title,
-    String? category,
-    String? imageUrl,
-    bool? isSaved,
-    String? content,
+  // تحديث factory Article.fromMap
+  factory Article.fromMap(
+    Map<String, dynamic> map, {
+    String category = 'General',
   }) {
     return Article(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      category: category ?? this.category,
-      imageUrl: imageUrl ?? this.imageUrl,
-      isSaved: isSaved ?? this.isSaved,
-      content: content ?? this.content,
+      // بما أن NewsAPI لا تعطي ID، نستخدم الرابط كمفتاح فريد
+      id: map['url'] ?? DateTime.now().toIso8601String(),
+      title: map['title'] ?? 'No Title',
+      category: category,
+      imageUrl:
+          map['urlToImage'] ?? 'https://placehold.co/600x400', // صورة افتراضية
+      content: map['content'] ?? map['description'] ?? '',
     );
   }
 }
