@@ -12,12 +12,14 @@ import 'package:new_nuntium/features/Auth/controller/forget_password_controller.
 import 'package:new_nuntium/features/Auth/controller/login_controller.dart';
 import 'package:new_nuntium/features/Auth/controller/sign_up_controller.dart';
 import 'package:new_nuntium/features/Auth/controller/verification_code_controller.dart';
-import 'package:new_nuntium/features/bookmarks/bookmarks_controller.dart';
 import 'package:new_nuntium/features/bookmarks/data/repository/bookmark_repository_imp.dart';
 import 'package:new_nuntium/features/bookmarks/domain/repository/bookmark_repository.dart';
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/check_if_saved_use_case.dart';
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/delete_bookmark_use_case.dart';
+import 'package:new_nuntium/features/bookmarks/domain/use_cases/get_saved_articles_use_case.dart';
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/save_bookmark_use_case.dart';
+import 'package:new_nuntium/features/bookmarks/domain/use_cases/watch_bookmarks_changes_use_case.dart';
+import 'package:new_nuntium/features/bookmarks/presentation/controller/bookmarks_controller.dart';
 import 'package:new_nuntium/features/categories/controller/categories_controller.dart';
 import 'package:new_nuntium/features/home/data/data_source/news_remote_data_source.dart';
 import 'package:new_nuntium/features/home/data/repository/news_repository_impl.dart';
@@ -200,6 +202,14 @@ void initBookmarks() {
   );
   getIt.registerLazySingleton<CheckIfSavedUseCase>(
     () => CheckIfSavedUseCase(getIt<BookmarkRepository>()),
+  );
+
+  getIt.registerLazySingleton<GetSavedArticlesUseCase>(
+    () => GetSavedArticlesUseCase(getIt<BookmarkRepository>()),
+  );
+
+  getIt.registerLazySingleton(
+    () => WatchBookmarksChangesUseCase(getIt<BookmarkRepository>()),
   );
 
   Get.put(BookmarksController());

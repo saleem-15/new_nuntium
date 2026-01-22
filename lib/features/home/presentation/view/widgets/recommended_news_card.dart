@@ -2,20 +2,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_nuntium/core/extensions/theme_extension.dart';
+import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/core/theme/app_fonts.dart';
-import 'package:new_nuntium/features/home/data/news_model.dart';
 
-class RecommendedNewsCard extends StatelessWidget {
-  const RecommendedNewsCard({
+class RecommendedArticleCard extends StatelessWidget {
+  const RecommendedArticleCard({
     super.key,
-    required this.news,
+    required this.article,
     required this.onTap,
     this.margin,
   });
 
-  final News news;
-  final void Function(News) onTap;
+  final Article article;
+  final void Function(Article) onTap;
   final EdgeInsetsGeometry? margin;
 
   @override
@@ -33,9 +33,9 @@ class RecommendedNewsCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(12.r),
                 child: CachedNetworkImage(
-                  width: 96.w,
-                  height: 96.w,
-                  imageUrl: news.imageUrl,
+                  width: 96.h,
+                  height: 96.h,
+                  imageUrl: article.imageUrl,
                   fit: BoxFit.cover,
                   fadeInDuration: const Duration(milliseconds: 500),
                   placeholder: (_, _) => Container(
@@ -58,12 +58,12 @@ class RecommendedNewsCard extends StatelessWidget {
 
               Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 8.h),
+                    // Article Category
                     Text(
-                      news.category,
+                      article.category,
                       style: context.body1.copyWith(
                         fontSize: 14.sp,
                         fontWeight: AppFonts.regular,
@@ -71,11 +71,12 @@ class RecommendedNewsCard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 8.h),
-                    Text(
-                      news.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.fade,
 
+                    // Article Title
+                    Text(
+                      article.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.clip,
                       style: context.body1.copyWith(
                         color: AppColors.blackPrimary,
                         fontWeight: AppFonts.semiBold,

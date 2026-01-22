@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:new_nuntium/config/dependency_injection.dart';
 import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
+import 'package:new_nuntium/features/bookmarks/domain/entity/bookmark_event.dart';
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/check_if_saved_use_case.dart';
+import 'package:new_nuntium/features/bookmarks/domain/use_cases/watch_bookmarks_changes_use_case.dart';
 import 'package:new_nuntium/features/home/domain/use_cases/fetch_news_use_case.dart';
 import 'package:new_nuntium/features/home/domain/use_cases/toggle_bookmark_use_case.dart';
 
@@ -15,6 +19,8 @@ class HomeController extends GetxController {
   // Bookmark Use Cases
   final _checkIfArticleSavedUseCase = getIt<CheckIfSavedUseCase>();
   final _toggleBookmarkUseCase = getIt<ToggleBookmarkUseCase>();
+  final _watchBookmarksUseCase = getIt<WatchBookmarksChangesUseCase>();
+  StreamSubscription? _bookmarksSubscription;
 
   // ---UI State---
   late FocusNode searchFocusNode;
@@ -70,6 +76,24 @@ class HomeController extends GetxController {
         return await _fetchArticles(pageKey);
       },
     );
+
+    _listenToBookmarksChanges();
+  }
+
+  ///  Listens to Bookmarks changes and updates the UI accordingly
+  void _listenToBookmarksChanges() {
+    _watchBookmarksUseCase.call().listen((BookmarkChangeEvent event) {
+      final isSaved = event.action == BookmarkAction.added;
+      final eventArticleId = event.article.id;
+
+      pagingController.mapItems((article) {
+        if (article.id == eventArticleId) {
+          article.isSaved = isSaved;
+          update([eventArticleId]);
+        }
+        return article;
+      });
+    });
   }
 
   /// دالة لجلب المقالات (تُستدعى تلقائياً بواسطة fetchPage)
@@ -127,6 +151,7 @@ class HomeController extends GetxController {
   void onClose() {
     searchFocusNode.dispose();
     pagingController.dispose();
+    _bookmarksSubscription?.cancel();
     super.onClose();
   }
 }

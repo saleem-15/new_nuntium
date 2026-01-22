@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_nuntium/features/bookmarks/bookmarks_controller.dart';
-import 'package:new_nuntium/features/bookmarks/bookmarks_view.dart';
+import 'package:new_nuntium/features/bookmarks/presentation/controller/bookmarks_controller.dart';
+import 'package:new_nuntium/features/bookmarks/presentation/view/bookmarks_view.dart';
 import 'package:new_nuntium/features/categories/controller/categories_controller.dart';
 import 'package:new_nuntium/features/categories/views/categories_view.dart';
 import 'package:new_nuntium/features/home/presentation/view/home_page.dart';

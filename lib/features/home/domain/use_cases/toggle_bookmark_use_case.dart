@@ -10,7 +10,7 @@ class ToggleBookmarkUseCase {
     // نتحقق من الحالة الحالية (سواء من الأوبجكت الممرر أو من الداتا بيس)
     // يفضل الاعتماد على الأوبجكت لسرعة الاستجابة، أو فحصه من الريبو إذا أردت دقة مطلقة
     if (article.isSaved) {
-      await _repository.deleteBookmark(article.id);
+      await _repository.deleteBookmark(article);
     } else {
       await _repository.saveBookmark(article);
     }

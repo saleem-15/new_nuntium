@@ -4,7 +4,7 @@ import 'package:new_nuntium/features/Auth/view/forget_password_view.dart';
 import 'package:new_nuntium/features/Auth/view/login_view.dart';
 import 'package:new_nuntium/features/Auth/view/sign_up_view.dart';
 import 'package:new_nuntium/features/Auth/view/verification_code_view.dart';
-import 'package:new_nuntium/features/bookmarks/bookmarks_view.dart';
+import 'package:new_nuntium/features/bookmarks/presentation/view/bookmarks_view.dart';
 import 'package:new_nuntium/features/home/presentation/view/home_page.dart';
 import 'package:new_nuntium/features/language/presentation/view/language_view.dart';
 import 'package:new_nuntium/features/main/main_view.dart';
