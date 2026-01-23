@@ -20,16 +20,18 @@ class ArticleAdapter extends TypeAdapter<Article> {
       id: fields[0] as String,
       title: fields[1] as String,
       category: fields[2] as String,
-      imageUrl: fields[3] as String,
-      isSaved: fields[4] as bool,
-      content: fields[5] as String?,
+      sourceName: fields[3] as String,
+      imageUrl: fields[4] as String,
+      isSaved: fields[5] as bool,
+      content: fields[6] as String,
+      url: fields[7] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Article obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -37,11 +39,15 @@ class ArticleAdapter extends TypeAdapter<Article> {
       ..writeByte(2)
       ..write(obj.category)
       ..writeByte(3)
-      ..write(obj.imageUrl)
+      ..write(obj.sourceName)
       ..writeByte(4)
-      ..write(obj.isSaved)
+      ..write(obj.imageUrl)
       ..writeByte(5)
-      ..write(obj.content);
+      ..write(obj.isSaved)
+      ..writeByte(6)
+      ..write(obj.content)
+      ..writeByte(7)
+      ..write(obj.url);
   }
 
   @override

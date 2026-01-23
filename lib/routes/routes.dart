@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/features/Auth/view/create_new_password_view.dart';
 import 'package:new_nuntium/features/Auth/view/forget_password_view.dart';
 import 'package:new_nuntium/features/Auth/view/login_view.dart';
 import 'package:new_nuntium/features/Auth/view/sign_up_view.dart';
 import 'package:new_nuntium/features/Auth/view/verification_code_view.dart';
+import 'package:new_nuntium/features/article_details/presentation/controller/presentation/view/article_view.dart';
 import 'package:new_nuntium/features/bookmarks/presentation/view/bookmarks_view.dart';
 import 'package:new_nuntium/features/home/presentation/view/home_page.dart';
 import 'package:new_nuntium/features/language/presentation/view/language_view.dart';
@@ -85,6 +87,17 @@ class RouteGenerator {
       case Routes.homeView:
         initHome();
         return MaterialPageRoute(builder: (_) => const HomeView());
+
+      // داخل switch (settings.name)
+      case Routes.articleView:
+        // 1. التقاط البيانات التي أرسلتها في Get.toNamed
+        if (settings.arguments is Article) {
+          final article = settings.arguments as Article;
+
+          // 2. تمريرها لدالة الحقن
+          initArticle(article);
+        }
+        return MaterialPageRoute(builder: (_) => const ArticleView());
 
       case Routes.bookmarksView:
         initBookmarks();

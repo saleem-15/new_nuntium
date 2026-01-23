@@ -14,21 +14,29 @@ class Article extends HiveObject {
   final String category;
 
   @HiveField(3)
-  final String imageUrl;
+  final String sourceName;
 
   @HiveField(4)
-  bool isSaved;
+  final String imageUrl;
 
   @HiveField(5)
-  final String? content;
+  bool isSaved;
+
+  @HiveField(6)
+  final String content;
+
+  @HiveField(7)
+  final String url;
 
   Article({
     required this.id,
     required this.title,
     required this.category,
+    required this.sourceName,
     required this.imageUrl,
     this.isSaved = false,
-    this.content,
+    required this.content,
+    required this.url,
   });
 
   // دوال التحويل (اختيارية إذا كنت ستستخدم Hive فقط، ولكنها مفيدة للـ API)
@@ -39,6 +47,7 @@ class Article extends HiveObject {
       'imageUrl': imageUrl,
       'isSaved': isSaved,
       'content': content,
+      'url': url,
     };
   }
 
@@ -52,9 +61,11 @@ class Article extends HiveObject {
       id: map['url'] ?? DateTime.now().toIso8601String(),
       title: map['title'] ?? 'No Title',
       category: category,
+      sourceName: map['source']['name'],
       imageUrl:
           map['urlToImage'] ?? 'https://placehold.co/600x400', // صورة افتراضية
       content: map['content'] ?? map['description'] ?? '',
+      url: map['url'],
     );
   }
 }

@@ -38,4 +38,6 @@ class AppIcons {
   static const String bookmark = '$_baseIconPath/bookmark.svg';
   static const String delete = '$_baseIconPath/delete.svg';
   static const String bookmarkFilled = '$_baseIconPath/bookmark_filled.svg';
+  static const String share = '$_baseIconPath/send.svg';
+  static const String back = '$_baseIconPath/back.svg';
 }

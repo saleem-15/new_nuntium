@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:get_it/get_it.dart';
+import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/core/network/api_client.dart';
 import 'package:new_nuntium/core/services/language_service.dart';
 import 'package:new_nuntium/core/services/shared_prefrences.dart';
@@ -12,6 +13,7 @@ import 'package:new_nuntium/features/Auth/controller/forget_password_controller.
 import 'package:new_nuntium/features/Auth/controller/login_controller.dart';
 import 'package:new_nuntium/features/Auth/controller/sign_up_controller.dart';
 import 'package:new_nuntium/features/Auth/controller/verification_code_controller.dart';
+import 'package:new_nuntium/features/article_details/presentation/controller/article_controller.dart';
 import 'package:new_nuntium/features/bookmarks/data/repository/bookmark_repository_imp.dart';
 import 'package:new_nuntium/features/bookmarks/domain/repository/bookmark_repository.dart';
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/check_if_saved_use_case.dart';
@@ -241,4 +243,19 @@ void initTermsAndConditions() {
 
 void disposeTermsAndConditionsPage() {
   Get.delete<TermsAndConditionsController>();
+}
+
+// عدل الدالة لتستقبل Article
+void initArticle(Article article) {
+  // نحذف الكنترلر القديم (إن وجد) لضمان عدم بقاء بيانات مقال سابق
+  if (Get.isRegistered<ArticleController>()) {
+    Get.delete<ArticleController>();
+  }
+
+  // نحقن الكنترلر ونعطيه المقال مباشرة عبر الـ Constructor
+  Get.put(ArticleController(article: article));
+}
+
+void disposeArticlePage() {
+  Get.delete<ArticleController>();
 }
