@@ -4,6 +4,7 @@ import 'package:get/state_manager.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
+import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/core/widgets/header.dart';
 import 'package:new_nuntium/features/home/presentation/controller/home_controller.dart';
 import 'package:new_nuntium/features/home/presentation/view/widgets/article_card.dart';
@@ -18,7 +19,24 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Obx(() {
+        return AnimatedOpacity(
+          duration: const Duration(milliseconds: 300),
+          opacity: controller.showScrollUpButton.value ? 1.0 : 0.0,
+          child: Visibility(
+            visible: controller.showScrollUpButton.value,
+            child: FloatingActionButton(
+              onPressed: controller.scrollToTop,
+              backgroundColor: AppColors.purplePrimary,
+              mini: true,
+              child: const Icon(Icons.arrow_upward, color: Colors.white),
+            ),
+          ),
+        );
+      }),
+
       body: CustomScrollView(
+        controller: controller.scrollController,
         slivers: [
           // Page Header
           SliverToBoxAdapter(

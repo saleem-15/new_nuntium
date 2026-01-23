@@ -46,6 +46,9 @@ class HomeController extends GetxController {
 
   late final PagingController<int, Article> pagingController;
 
+  late ScrollController scrollController;
+  var showScrollUpButton = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -79,6 +82,20 @@ class HomeController extends GetxController {
     );
 
     _listenToBookmarksChanges();
+
+    scrollController = ScrollController();
+    _listenToScrollPosition();
+  }
+
+  void _listenToScrollPosition() {
+    scrollController.addListener(() {
+      // إذا نزل المستخدم أكثر من 400 بيكسل، نظهر الزر
+      if (scrollController.offset >= 400) {
+        if (!showScrollUpButton.value) showScrollUpButton.value = true;
+      } else {
+        if (showScrollUpButton.value) showScrollUpButton.value = false;
+      }
+    });
   }
 
   ///  Listens to Bookmarks changes and updates the UI accordingly
@@ -95,6 +112,14 @@ class HomeController extends GetxController {
         return article;
       });
     });
+  }
+
+  void scrollToTop() {
+    scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 600),
+      curve: Curves.easeInOut,
+    );
   }
 
   /// دالة لجلب المقالات (تُستدعى تلقائياً بواسطة fetchPage)
@@ -153,6 +178,8 @@ class HomeController extends GetxController {
     searchFocusNode.dispose();
     pagingController.dispose();
     _bookmarksSubscription?.cancel();
+    scrollController.dispose();
+
     super.onClose();
   }
 }
