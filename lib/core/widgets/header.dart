@@ -35,18 +35,18 @@ class Header extends StatelessWidget {
       child: Column(
         children: [
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             child: Text(
               title,
               style: context.headline1,
-              textAlign: TextAlign.left,
+              textAlign: TextAlign.start,
             ),
           ),
 
           SizedBox(height: 8.h),
 
           Align(
-            alignment: AlignmentGeometry.topLeft,
+            alignment: AlignmentDirectional.topStart,
             child: Text(subTtitle, style: context.body1),
           ),
         ],
