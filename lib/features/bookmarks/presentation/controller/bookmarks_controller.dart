@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:new_nuntium/config/dependency_injection.dart';
@@ -6,6 +7,7 @@ import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/delete_bookmark_use_case.dart';
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/get_saved_articles_use_case.dart';
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/watch_bookmarks_changes_use_case.dart';
+import 'package:new_nuntium/routes/routes.dart';
 
 class BookmarksController extends GetxController {
   // --- Dependencies ---
@@ -40,7 +42,10 @@ class BookmarksController extends GetxController {
     }
   }
 
-  void onArticleTapped(Article tappedArticle) {}
+  void onBookmarkTapped(Article tappedArticle) {
+    log("Article ${tappedArticle.title} is Tapped");
+    Get.toNamed(Routes.articleView, arguments: tappedArticle);
+  }
 
   void fetchBookmarksIfNeeded() {}
 

@@ -94,7 +94,7 @@ class BookmarksView extends GetView<BookmarksController> {
                       child: RecommendedArticleCard(
                         article: article,
                         margin: EdgeInsets.only(bottom: 16.h),
-                        onTap: controller.onArticleTapped,
+                        onTap: controller.onBookmarkTapped,
                       ),
                     );
                   },

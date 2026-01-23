@@ -21,7 +21,7 @@ class RecommendedArticleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onTap,
+      onTap: () => onTap(article),
       child: Container(
         margin: margin,
         height: 96.h,
