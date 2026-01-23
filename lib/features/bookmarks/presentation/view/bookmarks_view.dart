@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -33,8 +35,10 @@ class BookmarksView extends GetView<BookmarksController> {
               }
 
               if (controller.articles.isEmpty) {
-                return _buildEmbty(context);
+                log("Bookmarks is empty");
+                return Expanded(child: _buildEmbty(context));
               }
+              log("Bookmarks");
 
               return Expanded(
                 child: ListView.builder(
@@ -133,7 +137,7 @@ class BookmarksView extends GetView<BookmarksController> {
         SizedBox(height: 24.h),
 
         SizedBox(
-          width: 256.w,
+          width: 300.w,
           child: Text(
             AppStrings.noSavedArticles,
             textAlign: TextAlign.center,
