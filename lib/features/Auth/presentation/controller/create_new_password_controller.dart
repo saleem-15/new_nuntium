@@ -22,4 +22,7 @@ class CreateNewPasswordController extends GetxController {
   void onConfirmPressed() {}
 
   void onTryAgainPressed() {}
+
+  void changePassword() {}
+  void toggleRepeatPasswordVisibility() {}
 }

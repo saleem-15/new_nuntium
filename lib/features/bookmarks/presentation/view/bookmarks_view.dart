@@ -63,8 +63,8 @@ class BookmarksView extends GetView<BookmarksController> {
                           color: Colors.redAccent,
                           borderRadius: BorderRadius.circular(16.r),
                         ),
-                        alignment: Alignment
-                            .centerLeft, // Align icon to the swipe side
+                        // Align icon to the swipe side
+                        alignment: AlignmentDirectional.centerStart,
                         padding: EdgeInsets.symmetric(horizontal: 20.w),
                         child: Row(
                           children: [

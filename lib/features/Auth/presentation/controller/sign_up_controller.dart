@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_nuntium/routes/routes.dart';
+import 'package:new_nuntium/config/routes.dart';
 
 class SignUpController extends GetxController {
   late TextEditingController userNameController;

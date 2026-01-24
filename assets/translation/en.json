@@ -124,6 +124,8 @@
   "currentPasswordHint": "Current Password",
   "ok": "OK",
   "requiredField": "Required",
+  "tooShort": "Too short",
+  "passwordsDontMatch": "Passwords do not match",
   "requiredFullName": "requiredFullName",
   "invalidEmail": "invalidEmail",
   "invalidPasswordLength": "invalidPasswordLength",

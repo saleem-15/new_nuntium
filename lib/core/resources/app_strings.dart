@@ -50,13 +50,18 @@ class AppStrings {
       tr('remember_password'); // غير موجود في JSON
   static String get tryAgain => tr('try_again'); // غير موجود في JSON
 
-  // Create New Password
-  static String get createNewPasswordTitle =>
-      tr('createNewPasswordTitle'); // غير موجود في JSON
+  // Create New Password && Change Password Pages
+  // غير موجود في JSON
+  static String get createNewPasswordTitle => tr('createNewPasswordTitle');
+  // غير موجود في JSON
   static String get createNewPasswordSubTitle =>
-      tr('createNewPasswordSubTitle'); // غير موجود في JSON
+      tr('createNewPasswordSubTitle');
   static String get newPassword => tr('newPasswordHint');
   static String get repeateNewPassword => tr('repeatNewPassword');
+  static String get currentPassword => tr('currentPassword');
+  static String get requiredField => tr('requiredField');
+  static String get passwordsDontMatch => tr('passwordsDontMatch');
+  static String get tooShort => tr('tooShort');
 
   // Verification Code
   static String get verificatonCodeTitle => tr('verificationCodeTitle');

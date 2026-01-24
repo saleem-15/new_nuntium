@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
-import 'package:new_nuntium/routes/routes.dart';
+import 'package:new_nuntium/config/routes.dart';
 
 class SelectFavoriteTopicsController extends GetxController {
   final List<String> topics = [

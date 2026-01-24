@@ -8,11 +8,12 @@ import 'package:new_nuntium/core/network/api_client.dart';
 import 'package:new_nuntium/core/services/language_service.dart';
 import 'package:new_nuntium/core/services/shared_prefrences.dart';
 import 'package:new_nuntium/core/services/storage_service.dart';
-import 'package:new_nuntium/features/Auth/controller/create_new_password_controller.dart';
-import 'package:new_nuntium/features/Auth/controller/forget_password_controller.dart';
-import 'package:new_nuntium/features/Auth/controller/login_controller.dart';
-import 'package:new_nuntium/features/Auth/controller/sign_up_controller.dart';
-import 'package:new_nuntium/features/Auth/controller/verification_code_controller.dart';
+import 'package:new_nuntium/features/Auth/presentation/controller/change_password_controller.dart';
+import 'package:new_nuntium/features/Auth/presentation/controller/create_new_password_controller.dart';
+import 'package:new_nuntium/features/Auth/presentation/controller/forget_password_controller.dart';
+import 'package:new_nuntium/features/Auth/presentation/controller/login_controller.dart';
+import 'package:new_nuntium/features/Auth/presentation/controller/sign_up_controller.dart';
+import 'package:new_nuntium/features/Auth/presentation/controller/verification_code_controller.dart';
 import 'package:new_nuntium/features/article_details/presentation/controller/article_controller.dart';
 import 'package:new_nuntium/features/bookmarks/data/repository/bookmark_repository_imp.dart';
 import 'package:new_nuntium/features/bookmarks/domain/repository/bookmark_repository.dart';
@@ -235,6 +236,14 @@ void initLanguage() {
 
 void disposeLanguagePage() {
   Get.delete<LanguageController>();
+}
+
+void initChangePassword() {
+  Get.put(ChangePasswordController());
+}
+
+void disposeChangePasswordPage() {
+  Get.delete<ChangePasswordController>();
 }
 
 void initTermsAndConditions() {

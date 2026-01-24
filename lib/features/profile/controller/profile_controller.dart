@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_nuntium/config/routes.dart';
 import 'package:new_nuntium/core/constants/get_builders_ids.dart';
-import 'package:new_nuntium/routes/routes.dart';
 
 class ProfileController extends GetxController {
   bool isNotificationsOn = true;
@@ -23,7 +23,9 @@ class ProfileController extends GetxController {
     Get.toNamed(Routes.languageView);
   }
 
-  void onChangePasswordPressed() {}
+  void onChangePasswordPressed() {
+    Get.toNamed(Routes.changePasswordView);
+  }
 
   void onPrivacyPressed() {}
 

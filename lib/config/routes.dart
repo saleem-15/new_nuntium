@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:new_nuntium/core/models/article.dart';
-import 'package:new_nuntium/features/Auth/view/create_new_password_view.dart';
-import 'package:new_nuntium/features/Auth/view/forget_password_view.dart';
-import 'package:new_nuntium/features/Auth/view/login_view.dart';
-import 'package:new_nuntium/features/Auth/view/sign_up_view.dart';
-import 'package:new_nuntium/features/Auth/view/verification_code_view.dart';
+import 'package:new_nuntium/features/Auth/presentation/view/change_password_view.dart';
+import 'package:new_nuntium/features/Auth/presentation/view/forget_password_view.dart';
+import 'package:new_nuntium/features/Auth/presentation/view/login_view.dart';
+import 'package:new_nuntium/features/Auth/presentation/view/sign_up_view.dart';
+import 'package:new_nuntium/features/Auth/presentation/view/verification_code_view.dart';
 import 'package:new_nuntium/features/article_details/presentation/controller/presentation/view/article_view.dart';
 import 'package:new_nuntium/features/bookmarks/presentation/view/bookmarks_view.dart';
 import 'package:new_nuntium/features/home/presentation/view/home_page.dart';
@@ -16,28 +16,35 @@ import 'package:new_nuntium/features/profile/view/profile_view.dart';
 import 'package:new_nuntium/features/select_favorite_topics/view/select_favorite_topics_view.dart';
 import 'package:new_nuntium/features/terms_and_conditions/presentation/view/terms_and_conditions_view.dart';
 
-import '../config/dependency_injection.dart';
 import '../features/splash/view/splash_screen.dart';
+import 'dependency_injection.dart';
 
 class Routes {
   Routes._();
 
+  //  --- Welcoming ---
   static const String splashView = '/splash_view';
   static const String onBoardingView = '/on_boarding_view';
   static const String welcomeView = '/welcome_view';
+  static const String selectFavoriteTopicsView = '/select_favorite_topics_view';
+
+  //  --- Auth ---
   static const String loginView = '/login_view';
   static const String signUpView = '/sign_up_view';
   static const String forgetPasswordView = '/forget_password_view';
   static const String createNewPasswordView = '/create_new_password_view';
   static const String verificationCodeView = '/verification_code_view';
-  static const String selectFavoriteTopicsView = '/select_favorite_topics_view';
 
+  //  --- Main Views ---
   static const String mainView = '/main_view';
   static const String homeView = '/home_page_view';
-  static const String articleView = '/article_view';
-  static const String bookmarksView = '/bookmarks_view';
   static const String profileView = '/profile_view';
+  static const String bookmarksView = '/bookmarks_view';
+  static const String articleView = '/article_view';
+
+  // --- Profile related ---
   static const String languageView = '/language_view';
+  static const String changePasswordView = '/change_password_view';
   static const String termsAndConditionsView = '/terms_and_conditions_view';
 }
 
@@ -57,6 +64,11 @@ class RouteGenerator {
         initWelcome();
         return MaterialPageRoute(builder: (_) => const WelcomeView());
 
+      case Routes.selectFavoriteTopicsView:
+        initSelectFavoriteTopics();
+        return MaterialPageRoute(builder: (_) => const SelectFavoriteTopics());
+
+      //************************** Auth Views **************************
       case Routes.loginView:
         initLogin();
         return MaterialPageRoute(builder: (_) => const LoginView());
@@ -69,17 +81,14 @@ class RouteGenerator {
         initVerificationCode();
         return MaterialPageRoute(builder: (_) => const VerificationCodeView());
 
-      case Routes.createNewPasswordView:
-        initCreateNewPassword();
-        return MaterialPageRoute(builder: (_) => const CreateNewPasswordView());
+      // case Routes.createNewPasswordView:
+      //   initCreateNewPassword();
+      //   return MaterialPageRoute(builder: (_) => const CreateNewPasswordView());
       case Routes.signUpView:
         initSignUp();
         return MaterialPageRoute(builder: (_) => const SignUpView());
 
-      case Routes.selectFavoriteTopicsView:
-        initSelectFavoriteTopics();
-        return MaterialPageRoute(builder: (_) => const SelectFavoriteTopics());
-
+      //************************** Main Views **************************
       case Routes.mainView:
         initMain();
         return MaterialPageRoute(builder: (_) => const MainView());
@@ -88,13 +97,12 @@ class RouteGenerator {
         initHome();
         return MaterialPageRoute(builder: (_) => const HomeView());
 
-      // داخل switch (settings.name)
       case Routes.articleView:
-        // 1. التقاط البيانات التي أرسلتها في Get.toNamed
+        // 1. Pick the arguments that was sent via Get.toNamed
         if (settings.arguments is Article) {
           final article = settings.arguments as Article;
 
-          // 2. تمريرها لدالة الحقن
+          // 2. Inject the arguments in dependency injection method
           initArticle(article);
         }
         return MaterialPageRoute(builder: (_) => const ArticleView());
@@ -103,6 +111,7 @@ class RouteGenerator {
         initBookmarks();
         return MaterialPageRoute(builder: (_) => const BookmarksView());
 
+      //************************** Profile Views **************************
       case Routes.profileView:
         initProfile();
         return MaterialPageRoute(builder: (_) => const ProfileView());
@@ -111,15 +120,15 @@ class RouteGenerator {
         initLanguage();
         return MaterialPageRoute(builder: (_) => const LanguageView());
 
+      case Routes.changePasswordView:
+        initChangePassword();
+        return MaterialPageRoute(builder: (_) => const ChangePasswordView());
+
       case Routes.termsAndConditionsView:
         initTermsAndConditions();
         return MaterialPageRoute(
           builder: (_) => const TermsAndConditionsView(),
         );
-
-      // case Routes.articleView:
-      //   final news = settings.arguments as News; // استقبال البيانات
-      //   return MaterialPageRoute(builder: (_) => ArticleView(news: news));
 
       default:
         return unDefinedRoute(settings.name);

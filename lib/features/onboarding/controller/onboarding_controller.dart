@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:get/get.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
-import 'package:new_nuntium/routes/routes.dart';
+import 'package:new_nuntium/config/routes.dart';
 
 class OnboardingController extends GetxController {
   final CarouselSliderController carouselSliderController =

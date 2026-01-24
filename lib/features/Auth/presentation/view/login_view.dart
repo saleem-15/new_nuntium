@@ -8,9 +8,9 @@ import 'package:new_nuntium/core/theme/app_fonts.dart';
 import 'package:new_nuntium/core/widgets/custom_rich_text.dart';
 import 'package:new_nuntium/core/widgets/custom_text_field.dart';
 import 'package:new_nuntium/core/widgets/primary_button.dart';
-import 'package:new_nuntium/features/Auth/controller/login_controller.dart';
-import 'package:new_nuntium/features/Auth/view/password_icon.dart';
-import 'package:new_nuntium/features/Auth/view/social_button.dart';
+import 'package:new_nuntium/features/Auth/presentation/controller/login_controller.dart';
+import 'package:new_nuntium/features/Auth/presentation/view/widgets/password_icon.dart';
+import 'package:new_nuntium/features/Auth/presentation/view/widgets/social_button.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({super.key});

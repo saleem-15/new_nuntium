@@ -11,7 +11,7 @@ import 'package:new_nuntium/features/bookmarks/domain/use_cases/check_if_saved_u
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/watch_bookmarks_changes_use_case.dart';
 import 'package:new_nuntium/features/home/domain/use_cases/fetch_news_use_case.dart';
 import 'package:new_nuntium/features/home/domain/use_cases/toggle_bookmark_use_case.dart';
-import 'package:new_nuntium/routes/routes.dart';
+import 'package:new_nuntium/config/routes.dart';
 
 class HomeController extends GetxController {
   // ---Dependencies---

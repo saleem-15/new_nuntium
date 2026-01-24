@@ -6,8 +6,8 @@ import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/widgets/custom_rich_text.dart';
 import 'package:new_nuntium/core/widgets/custom_text_field.dart';
 import 'package:new_nuntium/core/widgets/primary_button.dart';
-import 'package:new_nuntium/features/Auth/controller/sign_up_controller.dart';
-import 'package:new_nuntium/features/Auth/view/password_icon.dart';
+import 'package:new_nuntium/features/Auth/presentation/controller/sign_up_controller.dart';
+import 'package:new_nuntium/features/Auth/presentation/view/widgets/password_icon.dart';
 
 class SignUpView extends GetView<SignUpController> {
   const SignUpView({super.key});
