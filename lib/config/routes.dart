@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_nuntium/core/models/article.dart';
+import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/features/Auth/presentation/view/change_password_view.dart';
 import 'package:new_nuntium/features/Auth/presentation/view/forget_password_view.dart';
 import 'package:new_nuntium/features/Auth/presentation/view/login_view.dart';
@@ -12,6 +13,7 @@ import 'package:new_nuntium/features/language/presentation/view/language_view.da
 import 'package:new_nuntium/features/main/main_view.dart';
 import 'package:new_nuntium/features/onboarding/view/onboarding_screen.dart';
 import 'package:new_nuntium/features/onboarding/view/welcome_screen.dart';
+import 'package:new_nuntium/features/profile/view/app_content_view.dart';
 import 'package:new_nuntium/features/profile/view/profile_view.dart';
 import 'package:new_nuntium/features/select_favorite_topics/view/select_favorite_topics_view.dart';
 import 'package:new_nuntium/features/terms_and_conditions/presentation/view/terms_and_conditions_view.dart';
@@ -46,6 +48,7 @@ class Routes {
   static const String languageView = '/language_view';
   static const String changePasswordView = '/change_password_view';
   static const String termsAndConditionsView = '/terms_and_conditions_view';
+  static const String privacyAndPolicyView = '/privacy_and_policy_view';
 }
 
 class RouteGenerator {
@@ -123,6 +126,15 @@ class RouteGenerator {
       case Routes.changePasswordView:
         initChangePassword();
         return MaterialPageRoute(builder: (_) => const ChangePasswordView());
+
+      case Routes.privacyAndPolicyView:
+        initChangePassword();
+        return MaterialPageRoute(
+          builder: (_) => AppContentView(
+            title: AppStrings.privacyPolicyTitle,
+            content: AppStrings.privacyPolicyContent,
+          ),
+        );
 
       case Routes.termsAndConditionsView:
         initTermsAndConditions();

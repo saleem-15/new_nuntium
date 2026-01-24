@@ -133,4 +133,8 @@ class AppStrings {
 
   //Terms And Conditions Page
   static String get termsAndConditionsBody => tr('terms_and_conditions');
+
+  // Privacy And Policy
+  static String get privacyPolicyTitle => tr('privacy_policy_title');
+  static String get privacyPolicyContent => tr('privacy_policy_content');
 }
