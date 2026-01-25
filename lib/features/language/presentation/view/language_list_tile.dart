@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:new_nuntium/core/constants/app_assets.dart';
 import 'package:new_nuntium/core/extensions/theme_extension.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/core/theme/app_fonts.dart';
@@ -33,9 +35,10 @@ class LanguageListTile extends StatelessWidget {
         ),
       ),
       child: MaterialButton(
+        padding: EdgeInsets.zero,
         onPressed: onPressed,
         child: Padding(
-          padding: EdgeInsetsDirectional.only(start: 24.w, end: 16.w),
+          padding: EdgeInsetsDirectional.only(start: 24.w, end: 21.w),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -51,11 +54,7 @@ class LanguageListTile extends StatelessWidget {
               ),
               Visibility(
                 visible: isCurrentLocale,
-                child: Icon(
-                  Icons.check_rounded,
-                  color: AppColors.white,
-                  size: 24.sp,
-                ),
+                child: SvgPicture.asset(AppIcons.check),
               ),
             ],
           ),

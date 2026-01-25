@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:new_nuntium/core/constants/app_assets.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
+import 'package:new_nuntium/core/widgets/app_back_button.dart';
 import 'package:new_nuntium/core/widgets/primary_button.dart';
 import 'package:new_nuntium/features/Auth/presentation/controller/change_password_controller.dart';
 
@@ -15,13 +14,7 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () => Get.back(),
-          child: Padding(
-            padding: EdgeInsets.all(12.w),
-            child: SvgPicture.asset(AppIcons.back, fit: BoxFit.scaleDown),
-          ),
-        ),
+        leading: AppBackButton(),
         title: Text(AppStrings.changePassword),
       ),
       body: SingleChildScrollView(

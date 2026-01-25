@@ -62,6 +62,8 @@ class ArticleView extends GetView<ArticleController> {
               children: [
                 _buildIconButton(
                   iconPath: AppIcons.back, // استبدل بمسار أيقونة الرجوع لديك
+                  matchTextDirection: true,
+
                   onTap: controller.onBackPressed,
                 ),
 
@@ -168,6 +170,7 @@ class ArticleView extends GetView<ArticleController> {
   Widget _buildIconButton({
     required String iconPath,
     required VoidCallback onTap,
+    bool matchTextDirection = false,
     Color? color,
   }) {
     return GestureDetector(
@@ -182,8 +185,9 @@ class ArticleView extends GetView<ArticleController> {
           borderRadius: BorderRadius.circular(12.r),
         ),
         padding: EdgeInsets.all(8.w),
-        child: SvgPicture.asset(
+        child: SvgPicture.asset( 
           iconPath,
+          matchTextDirection: matchTextDirection,
           colorFilter: ColorFilter.mode(color ?? Colors.white, BlendMode.srcIn),
         ),
       ),

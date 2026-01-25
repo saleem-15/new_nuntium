@@ -20,6 +20,7 @@ class AppTheme {
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.light,
+        
       ),
       titleTextStyle: AppTextStyles.headLine1,
     ),

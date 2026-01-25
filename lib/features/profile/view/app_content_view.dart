@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_nuntium/core/extensions/theme_extension.dart';
-import 'package:new_nuntium/core/widgets/app_back_button.dart';
+import 'package:new_nuntium/core/widgets/nuntium_app_bar.dart';
 
 class AppContentView extends StatelessWidget {
   final String title;
@@ -12,7 +12,7 @@ class AppContentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title), leading: AppBackButton()),
+      appBar: NuntiumAppBar(title: title),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
         child: Text(
