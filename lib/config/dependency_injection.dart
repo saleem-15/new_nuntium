@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:get_it/get_it.dart';
@@ -49,6 +50,8 @@ Future<void> initApp() async {
     () async => AppSharedPrefs(await SharedPreferences.getInstance()),
   );
 
+  // Load '.env' file which holds the Api Key 
+  await dotenv.load(fileName: ".env");
   await EasyLocalization.ensureInitialized();
 
   Get.put(LanguageService(), permanent: true);

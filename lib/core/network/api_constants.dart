@@ -55,7 +55,7 @@ class ApiConstants {
 
 */
 
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiConstants {
   // Private constructor to prevent instantiation
@@ -63,8 +63,7 @@ class ApiConstants {
 
   // -- Base Configuration --
   static const String baseUrl = "https://newsapi.org/v2";
-  // It's recommended to store keys in .env file, but for now we keep it here as requested
-  static const String apiKey = "8afe77481e534d1ab76a4dbf5d533508";
+  static String apiKey = dotenv.env['API_KEY'] ?? "";
 
   // -- Timeouts --
   static const Duration connectTimeout = Duration(seconds: 30);
