@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         onGenerateRoute: RouteGenerator.getRoute,
-        initialRoute: Routes.mainView,
+        initialRoute: Routes.splashView,
         builder: (context, child) {
           return Directionality(
             textDirection: LanguageService.getTextDirection(context),

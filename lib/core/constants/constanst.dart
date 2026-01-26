@@ -14,4 +14,5 @@ class Constants {
 
 class SharedPrefsKeys {
   static const String locale = 'locale';
+  static const String isFirstTime = 'is_first_time';
 }
