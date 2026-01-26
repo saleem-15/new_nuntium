@@ -7,26 +7,32 @@ class PrimaryButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final double? width;
+  final bool isLoading;
 
   const PrimaryButton({
     super.key,
     required this.text,
     required this.onPressed,
     this.width,
+    this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return FilledButton(
-      onPressed: onPressed,
+      onPressed: isLoading ? null : onPressed,
+
       style: FilledButton.styleFrom(
+        disabledBackgroundColor: AppColors.purpleLight,
         backgroundColor: AppColors.purplePrimary,
         minimumSize: Size(double.infinity, 56.h),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.r),
         ),
       ),
-      child: Text(text, style: context.buttonText),
+      child: isLoading
+          ? CircularProgressIndicator()
+          : Text(text, style: context.buttonText),
     );
   }
 }
