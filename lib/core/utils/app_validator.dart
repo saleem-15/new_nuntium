@@ -35,24 +35,22 @@ class AppValidator {
     return null;
   }
 
+  static String? validateName(String? value) {
+    if (value == null || value.isEmpty) {
+      return AppStrings.requiredField;
+    }
 
+    //Allows characters from all languages & spaces
+    final nameRegExp = RegExp(r'^[\p{L}\s]+$', unicode: true);
 
-static String? validateName(String? value) {
-  if (value == null || value.isEmpty) {
-    return AppStrings.requiredField;
+    if (value.length < 3) {
+      return AppStrings.tooShort;
+    } else if (value.length > 15) {
+      return AppStrings.usernameLengthError;
+    } else if (!nameRegExp.hasMatch(value)) {
+      return AppStrings.usernameLettersError;
+    }
+
+    return null;
   }
-
-  //Allows characters from all languages & spaces
-  final nameRegExp = RegExp(r'^[\p{L}\s]+$', unicode: true);
-
-  if (value.length < 3) {
-    return AppStrings.tooShort;
-  } else if (value.length > 15) {
-    return 'Username must be between 3 and 15 characters';
-  } else if (!nameRegExp.hasMatch(value)) {
-    return 'يجب أن يحتوي الاسم على حروف فقط';
-  }
-
-  return null;
-}
 }

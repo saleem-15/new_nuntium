@@ -151,5 +151,8 @@
   "notVerifiedEmail": "البريد الإلكتروني غير مفعل",
   "invalidEmptyFullName": "الاسم الكامل فارغ",
   "invalidFullName": "اسم كامل غير صالح",
-  "termsAndConditionsPolicy": "لوريم إيبسوم دولور سيت أميت..."
+  "termsAndConditionsPolicy": "لوريم إيبسوم دولور سيت أميت...",
+  "usernameLengthError": "يجب أن يكون اسم المستخدم بين 3 و 15 حرفًا",
+  "usernameLettersError": "يجب أن يحتوي الاسم على حروف فقط",
+  "errorLoadingNews": "خطأ في تحميل الأخبار"
 }

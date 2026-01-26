@@ -131,4 +131,11 @@ class AppStrings {
   // Privacy And Policy
   static String get privacyPolicyTitle => tr('privacy_policy_title');
   static String get privacyPolicyContent => tr('privacy_policy_content');
+
+  // Validation Messages
+  static String get usernameLengthError => tr('usernameLengthError');
+  static String get usernameLettersError => tr('usernameLettersError');
+
+  // Error Messages
+  static String get errorLoadingNews => tr('errorLoadingNews');
 }
