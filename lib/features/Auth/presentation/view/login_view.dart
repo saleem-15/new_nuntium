@@ -8,9 +8,9 @@ import 'package:new_nuntium/core/theme/app_fonts.dart';
 import 'package:new_nuntium/core/widgets/custom_rich_text.dart';
 import 'package:new_nuntium/core/widgets/custom_text_field.dart';
 import 'package:new_nuntium/core/widgets/primary_button.dart';
-import 'package:new_nuntium/features/Auth/presentation/controller/login_controller.dart';
-import 'package:new_nuntium/features/Auth/presentation/view/widgets/password_icon.dart';
-import 'package:new_nuntium/features/Auth/presentation/view/widgets/social_button.dart';
+import 'package:new_nuntium/features/auth/presentation/controller/login_controller.dart';
+import 'package:new_nuntium/features/auth/presentation/view/widgets/password_icon.dart';
+import 'package:new_nuntium/features/auth/presentation/view/widgets/social_button.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
@@ -21,7 +21,7 @@ class LoginView extends GetView<LoginController> {
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Form(
-          key: controller.loginFormKey,
+          key: controller.formKey,
           child: Column(
             children: [
               SizedBox(height: 72.h),
@@ -48,6 +48,7 @@ class LoginView extends GetView<LoginController> {
                 prefixIcon: Icons.email_outlined,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
+                validator: controller.validateEmail,
               ),
 
               SizedBox(height: 16.h),
@@ -75,9 +76,7 @@ class LoginView extends GetView<LoginController> {
                   onTap: controller.onForgetPasswordPressed,
                   child: Text(
                     AppStrings.forgotPassword,
-                    style: context.body1.copyWith(
-                      fontWeight: AppFonts.medium,
-                    ),
+                    style: context.body1.copyWith(fontWeight: AppFonts.medium),
                   ),
                 ),
               ),
@@ -92,9 +91,7 @@ class LoginView extends GetView<LoginController> {
 
               Text(
                 AppStrings.or,
-                style: context.body1.copyWith(
-                  fontWeight: AppFonts.semiBold,
-                ),
+                style: context.body1.copyWith(fontWeight: AppFonts.semiBold),
               ),
 
               SizedBox(height: 48.h),

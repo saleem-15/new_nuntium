@@ -5,7 +5,7 @@ import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/core/widgets/app_back_button.dart';
 import 'package:new_nuntium/core/widgets/primary_button.dart';
-import 'package:new_nuntium/features/Auth/presentation/controller/change_password_controller.dart';
+import 'package:new_nuntium/features/auth/presentation/controller/change_password_controller.dart';
 
 class ChangePasswordView extends GetView<ChangePasswordController> {
   const ChangePasswordView({super.key});

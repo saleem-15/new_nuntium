@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
-import 'package:new_nuntium/features/Auth/presentation/view/change_password_view.dart';
-import 'package:new_nuntium/features/Auth/presentation/view/forget_password_view.dart';
-import 'package:new_nuntium/features/Auth/presentation/view/login_view.dart';
-import 'package:new_nuntium/features/Auth/presentation/view/sign_up_view.dart';
-import 'package:new_nuntium/features/Auth/presentation/view/verification_code_view.dart';
+import 'package:new_nuntium/features/auth/presentation/view/change_password_view.dart';
+import 'package:new_nuntium/features/auth/presentation/view/forget_password_view.dart';
+import 'package:new_nuntium/features/auth/presentation/view/login_view.dart';
+import 'package:new_nuntium/features/auth/presentation/view/sign_up_view.dart';
+import 'package:new_nuntium/features/auth/presentation/view/verification_code_view.dart';
 import 'package:new_nuntium/features/article_details/presentation/controller/presentation/view/article_view.dart';
 import 'package:new_nuntium/features/bookmarks/presentation/view/bookmarks_view.dart';
 import 'package:new_nuntium/features/home/presentation/view/home_page.dart';
