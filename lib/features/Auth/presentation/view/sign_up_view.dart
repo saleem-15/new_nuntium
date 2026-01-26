@@ -6,8 +6,8 @@ import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/widgets/custom_rich_text.dart';
 import 'package:new_nuntium/core/widgets/custom_text_field.dart';
 import 'package:new_nuntium/core/widgets/primary_button.dart';
-import 'package:new_nuntium/features/Auth/presentation/controller/sign_up_controller.dart';
-import 'package:new_nuntium/features/Auth/presentation/view/widgets/password_icon.dart';
+import 'package:new_nuntium/features/auth/presentation/controller/sign_up_controller.dart';
+import 'package:new_nuntium/features/auth/presentation/view/widgets/password_icon.dart';
 
 class SignUpView extends GetView<SignUpController> {
   const SignUpView({super.key});
@@ -19,7 +19,7 @@ class SignUpView extends GetView<SignUpController> {
         padding: EdgeInsets.symmetric(horizontal: 20.w),
 
         child: Form(
-          key: controller.signUpFormKey,
+          key: controller.formKey,
           child: Column(
             children: [
               SizedBox(height: 72.h),
@@ -46,6 +46,7 @@ class SignUpView extends GetView<SignUpController> {
                 prefixIcon: Icons.person,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
+                validator: controller.validateUsername,
               ),
 
               SizedBox(height: 16.h),
@@ -57,6 +58,7 @@ class SignUpView extends GetView<SignUpController> {
                 prefixIcon: Icons.email_outlined,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
+                validator: controller.validateEmail,
               ),
 
               SizedBox(height: 16.h),
@@ -68,8 +70,7 @@ class SignUpView extends GetView<SignUpController> {
                   hintText: AppStrings.password,
                   prefixIcon: Icons.lock_outline,
                   isPassword: controller.isPasswordHidden,
-                  onFieldSubmitted: (_) =>
-                      FocusScope.of(context).nextFocus(),
+                  onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
                   textInputAction: TextInputAction.next,
                   suffixIcon: PasswordIcon(
                     isPasswordEmpty: controller.isPasswordEmpty,
@@ -90,7 +91,7 @@ class SignUpView extends GetView<SignUpController> {
                   prefixIcon: Icons.lock_outline,
                   isPassword: true,
                   textInputAction: TextInputAction.done,
-                  validator: controller.validatePassword,
+                  validator: controller.validateRepeatPassword,
                 ),
               ),
 
@@ -98,7 +99,7 @@ class SignUpView extends GetView<SignUpController> {
 
               PrimaryButton(
                 text: AppStrings.signIn,
-                onPressed: controller.onSignUpPressed,
+                onPressed: controller.signUp,
               ),
 
               SizedBox(height: 180.h),
