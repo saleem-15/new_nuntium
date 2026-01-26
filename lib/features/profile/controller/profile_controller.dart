@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_nuntium/config/dependency_injection.dart';
 import 'package:new_nuntium/config/routes.dart';
 import 'package:new_nuntium/core/constants/get_builders_ids.dart';
+import 'package:new_nuntium/features/auth/domain/repositories/auth_repository.dart';
+import 'package:new_nuntium/features/auth/domain/use_cases/sign_out_use_case.dart';
+import 'package:new_nuntium/features/profile/view/widgets/sign_out_dialog.dart';
 
 class ProfileController extends GetxController {
+  final _signOutUseCase = getIt<SignOutUseCase>();
+  final _authRepos = getIt<AuthRepository>();
+
   bool isNotificationsOn = true;
 
   String userName = 'Eren Turkmen';
@@ -15,6 +22,8 @@ class ProfileController extends GetxController {
   );
 
   void toggleNotifications(bool value) {
+
+    
     isNotificationsOn = value;
     update([AppGetBuildersIds.notificationsSwitch]);
   }
@@ -35,5 +44,24 @@ class ProfileController extends GetxController {
     Get.toNamed(Routes.termsAndConditionsView);
   }
 
-  void onSignOutPressed() {}
+  void onSignOutPressed() {
+    showSignoutDialog(onSignOutPressed: _performSignOut);
+  }
+
+  Future<void> _performSignOut() async {
+    //close dialog
+    Get.back();
+
+    try {
+      await _signOutUseCase.call();
+
+      Get.offAllNamed(Routes.loginView);
+    } catch (e) {
+      Get.snackbar(
+        "Error",
+        "Failed to sign out. Please try again.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
 }
