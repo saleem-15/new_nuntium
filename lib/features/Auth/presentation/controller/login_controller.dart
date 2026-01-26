@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_nuntium/config/dependency_injection.dart';
 import 'package:new_nuntium/config/routes.dart';
+import 'package:new_nuntium/core/errors/app_exception.dart';
+
+import '../../domain/use_cases/login_use_case.dart';
 
 class LoginController extends GetxController {
+  // --- Dependencies ---
+  final _loginUseCase = getIt<LoginUseCase>();
+
+  // --- UI Controllers & State ---
   late TextEditingController emailController;
   late TextEditingController passwordController;
-
-  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
-
   bool isPasswordHidden = true;
   bool isPasswordEmpty = true;
+  RxBool isLoading = true.obs;
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
@@ -27,23 +35,50 @@ class LoginController extends GetxController {
     });
   }
 
-  @override
-  void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.onClose();
+  Future<void> login() async {
+    // 1. التحقق من صحة المدخلات قبل إرسال الطلب
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    isLoading.value = true;
+
+    try {
+      // 2. استدعاء UseCase (طبقة الـ Domain)
+      await _loginUseCase.call(
+        emailController.text.trim(),
+        passwordController.text,
+      );
+
+      // 3. النجاح: الانتقال إلى الصفحة الرئيسية وحذف الصفحات السابقة من الذاكرة
+      Get.offAllNamed(Routes.mainView);
+    } catch (e) {
+      // 4. الفشل: التعامل مع الأخطاء وعرض رسالة للمستخدم
+      String message = "unknown_error"; // مفتاح احتياطي
+
+      if (e is AppException) {
+        message = e.messageKey; // استخدام المفتاح القادم من طبقة البيانات
+      } else {
+        // طباعة الخطأ في الكونسول للمساعدة في التطوير
+        debugPrint("Login Error: $e");
+      }
+
+      // عرض التنبيه (تأكد من استخدام .tr() للترجمة)
+      Get.snackbar(
+        "error",
+        message,
+        backgroundColor: Colors.redAccent.withValues(alpha: 0.8),
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   void togglePasswordVisibility() {
     isPasswordHidden = !isPasswordHidden;
     update();
-  }
-
-  void login() {
-    // if the data is correct
-    if (loginFormKey.currentState!.validate()) {
-      // Get.offAllNamed(Routes.HOME);
-    }
   }
 
   String? validateEmail(String? value) {
@@ -56,7 +91,6 @@ class LoginController extends GetxController {
     return null;
   }
 
-  // مراجعة التحقق من كلمة المرور
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return "Please enter your password";
@@ -80,4 +114,11 @@ class LoginController extends GetxController {
   }
 
   void onSignInWithFacebookPressed() {}
+
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
+  }
 }
