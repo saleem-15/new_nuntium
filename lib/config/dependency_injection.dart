@@ -1,4 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get_instance/get_instance.dart';
@@ -9,13 +11,19 @@ import 'package:new_nuntium/core/network/api_client.dart';
 import 'package:new_nuntium/core/services/language_service.dart';
 import 'package:new_nuntium/core/services/shared_prefrences.dart';
 import 'package:new_nuntium/core/services/storage_service.dart';
-import 'package:new_nuntium/features/Auth/presentation/controller/change_password_controller.dart';
-import 'package:new_nuntium/features/Auth/presentation/controller/create_new_password_controller.dart';
-import 'package:new_nuntium/features/Auth/presentation/controller/forget_password_controller.dart';
-import 'package:new_nuntium/features/Auth/presentation/controller/login_controller.dart';
-import 'package:new_nuntium/features/Auth/presentation/controller/sign_up_controller.dart';
-import 'package:new_nuntium/features/Auth/presentation/controller/verification_code_controller.dart';
 import 'package:new_nuntium/features/article_details/presentation/controller/article_controller.dart';
+import 'package:new_nuntium/features/auth/data/data_sources/auth_remote_data_source.dart';
+import 'package:new_nuntium/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:new_nuntium/features/auth/domain/repositories/auth_repository.dart';
+import 'package:new_nuntium/features/auth/domain/use_cases/login_use_case.dart';
+import 'package:new_nuntium/features/auth/domain/use_cases/sign_out_use_case.dart';
+import 'package:new_nuntium/features/auth/domain/use_cases/signup_use_case.dart';
+import 'package:new_nuntium/features/auth/presentation/controller/change_password_controller.dart';
+import 'package:new_nuntium/features/auth/presentation/controller/create_new_password_controller.dart';
+import 'package:new_nuntium/features/auth/presentation/controller/forget_password_controller.dart';
+import 'package:new_nuntium/features/auth/presentation/controller/login_controller.dart';
+import 'package:new_nuntium/features/auth/presentation/controller/sign_up_controller.dart';
+import 'package:new_nuntium/features/auth/presentation/controller/verification_code_controller.dart';
 import 'package:new_nuntium/features/bookmarks/data/repository/bookmark_repository_imp.dart';
 import 'package:new_nuntium/features/bookmarks/domain/repository/bookmark_repository.dart';
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/check_if_saved_use_case.dart';
@@ -50,7 +58,9 @@ Future<void> initApp() async {
     () async => AppSharedPrefs(await SharedPreferences.getInstance()),
   );
 
-  // Load '.env' file which holds the Api Key 
+  await Firebase.initializeApp();
+
+  // Load '.env' file which holds the Api Key
   await dotenv.load(fileName: ".env");
   await EasyLocalization.ensureInitialized();
 
@@ -61,6 +71,7 @@ Future<void> initApp() async {
   await storageService.init();
   getIt.registerSingleton<StorageService>(storageService);
 
+  initAuth();
   getIt.registerSingleton(ApiClient());
 }
 
@@ -90,8 +101,22 @@ void disposeWelcome() {
   Get.delete<WelcomeController>();
 }
 
+void initAuth() {
+  getIt.registerLazySingleton(() => FirebaseAuth.instance);
+
+  getIt.registerLazySingleton<AuthRemoteDataSource>(
+    () => AuthRemoteDataSourceImpl(getIt()),
+  );
+
+  getIt.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(getIt()),
+  );
+}
+
 void initLogin() {
   disposeWelcome();
+  getIt.registerLazySingleton(() => LoginUseCase(getIt<AuthRepository>()));
+
   Get.put(LoginController());
 }
 
@@ -101,6 +126,7 @@ void disposeLogin() {
 
 void initSignUp() {
   disposeLogin();
+  getIt.registerLazySingleton(() => SignupUseCase(getIt<AuthRepository>()));
   Get.put(SignUpController());
 }
 
@@ -226,6 +252,8 @@ void disposeBookmarksPage() {
 }
 
 void initProfile() {
+  getIt.registerLazySingleton(() => SignOutUseCase(getIt<AuthRepository>()));
+  
   Get.put(ProfileController());
 }
 
