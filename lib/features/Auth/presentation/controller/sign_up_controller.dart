@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_nuntium/config/dependency_injection.dart';
@@ -18,7 +20,7 @@ class SignUpController extends GetxController {
 
   bool isPasswordHidden = true;
   bool isPasswordEmpty = true;
-  RxBool isLoading = true.obs;
+  RxBool isLoading = false.obs;
 
   @override
   void onInit() {
@@ -28,14 +30,7 @@ class SignUpController extends GetxController {
     passwordController = TextEditingController();
     repeatPasswordController = TextEditingController();
 
-    // listen to the changes in the password field
-    passwordController.addListener(() {
-      bool isEmpty = passwordController.text.isEmpty;
-      if (isPasswordEmpty != isEmpty) {
-        isPasswordEmpty = isEmpty;
-        update();
-      }
-    });
+    _listenToPasswordFieldChanges();
   }
 
   void togglePasswordVisibility() {
@@ -43,19 +38,15 @@ class SignUpController extends GetxController {
     update();
   }
 
-  void login() {
-    // if the data is correct
-    if (formKey.currentState!.validate()) {
-      // Get.offAllNamed(Routes.HOME);
-    }
-  }
-
-  Future<void> signUp() async {
-    // Validate the inputs
+  Future<void> onSignUpPressed() async {
     if (!formKey.currentState!.validate()) {
       return;
     }
 
+    await _signUp();
+  }
+
+  Future<void> _signUp() async {
     isLoading.value = true;
 
     try {
@@ -72,9 +63,10 @@ class SignUpController extends GetxController {
       if (e is AppException) {
         message = e.messageKey;
       } else {
-        debugPrint("Login Error: $e");
+        log("Login Error: $e");
       }
 
+      log("Login Error: $e");
       Get.snackbar(
         "error",
         message,
@@ -91,55 +83,16 @@ class SignUpController extends GetxController {
     Get.offNamed(Routes.loginView);
   }
 
-  String? validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Please enter your email";
-    }
-    if (!GetUtils.isEmail(value)) {
-      return "Please enter a valid email address";
-    }
-    return null;
-  }
-
-  // مراجعة التحقق من كلمة المرور
-  String? validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Please enter your password";
-    }
-    if (value.length < 6) {
-      return "Password must be at least 6 characters";
-    }
-    return null;
-  }
-
-  String? validateRepeatPassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Please re-enter your password";
-    }
-    if (passwordController.text.trim() !=
-        repeatPasswordController.text.trim()) {
-      return "Passwords do not match";
-    }
-    return null;
-  }
-
-  String? validateUsername(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter a username';
-    }
-
-    // Length validation
-    if (value.length < 3 || value.length > 15) {
-      return 'Username must be between 3 and 15 characters';
-    }
-
-    // Regex validation: Starts with a letter, allows letters, numbers, and underscores
-    final RegExp usernameRegex = RegExp(r'^[a-zA-Z][a-zA-Z0-9_]*$');
-    if (!usernameRegex.hasMatch(value)) {
-      return 'Only letters, numbers, and underscores allowed (must start with a letter)';
-    }
-
-    return null; // Return null if the input is valid
+  /// listen to the changes in the password field
+  /// useful for showing/hiding password icon
+  void _listenToPasswordFieldChanges() {
+    passwordController.addListener(() {
+      bool isEmpty = passwordController.text.isEmpty;
+      if (isPasswordEmpty != isEmpty) {
+        isPasswordEmpty = isEmpty;
+        update();
+      }
+    });
   }
 
   @override

@@ -15,7 +15,7 @@ class LoginController extends GetxController {
   late TextEditingController passwordController;
   bool isPasswordHidden = true;
   bool isPasswordEmpty = true;
-  RxBool isLoading = true.obs;
+  RxBool isLoading = false.obs;
 
   final formKey = GlobalKey<FormState>();
 
@@ -35,35 +35,26 @@ class LoginController extends GetxController {
     });
   }
 
-  Future<void> login() async {
-    // 1. التحقق من صحة المدخلات قبل إرسال الطلب
-    if (!formKey.currentState!.validate()) {
-      return;
-    }
-
+  Future<void> _signIn() async {
     isLoading.value = true;
 
     try {
-      // 2. استدعاء UseCase (طبقة الـ Domain)
       await _loginUseCase.call(
         emailController.text.trim(),
-        passwordController.text,
+        passwordController.text.trim(),
       );
 
-      // 3. النجاح: الانتقال إلى الصفحة الرئيسية وحذف الصفحات السابقة من الذاكرة
       Get.offAllNamed(Routes.mainView);
     } catch (e) {
-      // 4. الفشل: التعامل مع الأخطاء وعرض رسالة للمستخدم
       String message = "unknown_error"; // مفتاح احتياطي
 
       if (e is AppException) {
-        message = e.messageKey; // استخدام المفتاح القادم من طبقة البيانات
+        // استخدام المفتاح القادم من طبقة البيانات
+        message = e.messageKey;
       } else {
-        // طباعة الخطأ في الكونسول للمساعدة في التطوير
         debugPrint("Login Error: $e");
       }
 
-      // عرض التنبيه (تأكد من استخدام .tr() للترجمة)
       Get.snackbar(
         "error",
         message,
@@ -81,31 +72,17 @@ class LoginController extends GetxController {
     update();
   }
 
-  String? validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Please enter your email";
-    }
-    if (!GetUtils.isEmail(value)) {
-      return "Please enter a valid email address";
-    }
-    return null;
-  }
-
-  String? validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Please enter your password";
-    }
-    if (value.length < 6) {
-      return "Password must be at least 6 characters";
-    }
-    return null;
-  }
-
   void onForgetPasswordPressed() {
     Get.toNamed(Routes.forgetPasswordView);
   }
 
-  void onSignInPressed() {}
+  void onSignInPressed() {
+    // Validate the inputs before sending the request
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+    _signIn();
+  }
 
   void onSignInWithGooglePressed() {}
 

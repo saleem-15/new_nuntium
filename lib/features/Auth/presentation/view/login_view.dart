@@ -5,6 +5,7 @@ import 'package:new_nuntium/core/constants/app_assets.dart';
 import 'package:new_nuntium/core/extensions/theme_extension.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/theme/app_fonts.dart';
+import 'package:new_nuntium/core/utils/app_validator.dart';
 import 'package:new_nuntium/core/widgets/custom_rich_text.dart';
 import 'package:new_nuntium/core/widgets/custom_text_field.dart';
 import 'package:new_nuntium/core/widgets/primary_button.dart';
@@ -48,7 +49,7 @@ class LoginView extends GetView<LoginController> {
                 prefixIcon: Icons.email_outlined,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
-                validator: controller.validateEmail,
+                validator: AppValidator.validateEmail,
               ),
 
               SizedBox(height: 16.h),
@@ -65,7 +66,7 @@ class LoginView extends GetView<LoginController> {
                     isPasswordHidden: controller.isPasswordHidden,
                     onPressed: controller.togglePasswordVisibility,
                   ),
-                  validator: controller.validatePassword,
+                  validator: AppValidator.validatePassword,
                 ),
               ),
 
@@ -82,9 +83,12 @@ class LoginView extends GetView<LoginController> {
               ),
               SizedBox(height: 24.h),
 
-              PrimaryButton(
-                text: AppStrings.signIn,
-                onPressed: controller.onSignInPressed,
+              Obx(
+                () => PrimaryButton(
+                  text: AppStrings.signIn,
+                  isLoading: controller.isLoading.value,
+                  onPressed: controller.onSignInPressed,
+                ),
               ),
 
               SizedBox(height: 48.h),

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
 import 'package:new_nuntium/core/extensions/theme_extension.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
+import 'package:new_nuntium/core/utils/app_validator.dart';
 import 'package:new_nuntium/core/widgets/custom_rich_text.dart';
 import 'package:new_nuntium/core/widgets/custom_text_field.dart';
 import 'package:new_nuntium/core/widgets/primary_button.dart';
@@ -46,7 +47,7 @@ class SignUpView extends GetView<SignUpController> {
                 prefixIcon: Icons.person,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
-                validator: controller.validateUsername,
+                validator: AppValidator.validateName,
               ),
 
               SizedBox(height: 16.h),
@@ -58,7 +59,7 @@ class SignUpView extends GetView<SignUpController> {
                 prefixIcon: Icons.email_outlined,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
-                validator: controller.validateEmail,
+                validator: AppValidator.validateEmail,
               ),
 
               SizedBox(height: 16.h),
@@ -77,7 +78,7 @@ class SignUpView extends GetView<SignUpController> {
                     isPasswordHidden: controller.isPasswordHidden,
                     onPressed: controller.togglePasswordVisibility,
                   ),
-                  validator: controller.validatePassword,
+                  validator: AppValidator.validatePassword,
                 ),
               ),
 
@@ -91,15 +92,21 @@ class SignUpView extends GetView<SignUpController> {
                   prefixIcon: Icons.lock_outline,
                   isPassword: true,
                   textInputAction: TextInputAction.done,
-                  validator: controller.validateRepeatPassword,
+                  validator: (value) => AppValidator.validateMatchPassword(
+                    value,
+                    controller.passwordController.text.trim(),
+                  ),
                 ),
               ),
 
               SizedBox(height: 24.h),
 
-              PrimaryButton(
-                text: AppStrings.signIn,
-                onPressed: controller.signUp,
+              Obx(
+                () => PrimaryButton(
+                  text: AppStrings.signUp,
+                  isLoading: controller.isLoading.value,
+                  onPressed: controller.onSignUpPressed,
+                ),
               ),
 
               SizedBox(height: 180.h),

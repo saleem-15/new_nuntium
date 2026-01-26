@@ -1,15 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_nuntium/config/dependency_injection.dart';
 import 'package:new_nuntium/config/routes.dart';
 import 'package:new_nuntium/core/constants/get_builders_ids.dart';
-import 'package:new_nuntium/features/auth/domain/repositories/auth_repository.dart';
+import 'package:new_nuntium/core/errors/app_exception.dart';
 import 'package:new_nuntium/features/auth/domain/use_cases/sign_out_use_case.dart';
 import 'package:new_nuntium/features/profile/view/widgets/sign_out_dialog.dart';
 
 class ProfileController extends GetxController {
   final _signOutUseCase = getIt<SignOutUseCase>();
-  final _authRepos = getIt<AuthRepository>();
 
   bool isNotificationsOn = true;
 
@@ -22,8 +23,6 @@ class ProfileController extends GetxController {
   );
 
   void toggleNotifications(bool value) {
-
-    
     isNotificationsOn = value;
     update([AppGetBuildersIds.notificationsSwitch]);
   }
@@ -54,12 +53,21 @@ class ProfileController extends GetxController {
 
     try {
       await _signOutUseCase.call();
+      log('sign out is good ');
 
       Get.offAllNamed(Routes.loginView);
     } catch (e) {
+      String message = "Failed to sign out. Please try again.";
+      if (e is AppException) {
+        // استخدام المفتاح القادم من طبقة البيانات
+        message = e.messageKey;
+      } else {}
+
+      log(message);
       Get.snackbar(
         "Error",
-        "Failed to sign out. Please try again.",
+        message,
+        // "Failed to sign out. Please try again.",
         snackPosition: SnackPosition.BOTTOM,
       );
     }
