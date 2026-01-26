@@ -6,20 +6,14 @@ class AppStrings {
   // Onboarding
   static String get onboardingTitle1 => tr('firstToKnow');
   static String get onboardingSubtitle1 => tr('paragraph');
-
-  // ملاحظة: ملف JSON لا يحتوي حالياً على عناوين فرعية لـ Onboarding 2 و 3
-  // سأبقيها كما هي حالياً لتضيفها لاحقاً في ملف JSON
   static String get onboardingTitle2 => tr('onboarding_title_2');
   static String get onboardingSubtitle2 => tr('onboarding_subtitle_2');
-
   static String get onboardingTitle3 => tr('onboarding_title_3');
   static String get onboardingSubtitle3 => tr('onboarding_subtitle_3');
-
   static String get next => tr('next');
 
   // Welcome
-  static String get nuntium =>
-      tr('nuntium'); // تأكد من إضافة هذا المفتاح لملف JSON
+  static String get nuntium => tr('nuntium');
   static String get welcomeBody => tr('paragraph');
   static String get getStarted => tr('getStarted');
 
@@ -30,6 +24,7 @@ class AppStrings {
   static String get password => tr('password');
   static String get forgotPassword => tr('forgetPassword');
   static String get signIn => tr('signIn');
+  static String get invalidEmail => tr('invalidEmail');
   static String get or => tr('or');
   static String get signInwithGoogle => tr('google');
   static String get signInwithFacebook => tr('facebook');
@@ -46,14 +41,11 @@ class AppStrings {
   // Forget Password
   static String get forgetPasswordTitle => tr('forget');
   static String get forgetPasswordSubTitle => tr('forgetParagraph');
-  static String get remmeberPassword =>
-      tr('remember_password'); // غير موجود في JSON
-  static String get tryAgain => tr('try_again'); // غير موجود في JSON
+  static String get remmeberPassword => tr('remember_password');
+  static String get tryAgain => tr('try_again');
 
   // Create New Password && Change Password Pages
-  // غير موجود في JSON
   static String get createNewPasswordTitle => tr('createNewPasswordTitle');
-  // غير موجود في JSON
   static String get createNewPasswordSubTitle =>
       tr('createNewPasswordSubTitle');
   static String get newPassword => tr('newPasswordHint');
@@ -91,9 +83,8 @@ class AppStrings {
   static String get homePageTitle => tr('browse');
   static String get homePageSubTitle => tr('homeParagraph');
   static String get search => tr('search');
-  static String get recommendedForYou =>
-      tr('recommended_for_you'); // غير موجود في JSON
-  static String get seeAll => tr('seeAll'); // غير موجود في JSON
+  static String get recommendedForYou => tr('recommended_for_you');
+  static String get seeAll => tr('seeAll');
   static String get noArticlesFound => tr('No articles found');
 
   static String get fashion => tr('fashion');
