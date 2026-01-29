@@ -3,12 +3,15 @@ import 'package:get/get.dart';
 import 'package:new_nuntium/config/dependency_injection.dart';
 import 'package:new_nuntium/config/routes.dart';
 import 'package:new_nuntium/core/errors/app_exception.dart';
+import 'package:new_nuntium/core/resources/app_strings.dart';
+import 'package:new_nuntium/features/auth/domain/use_cases/sign_in_with_google_use_case.dart';
 
 import '../../domain/use_cases/login_use_case.dart';
 
 class LoginController extends GetxController {
   // --- Dependencies ---
-  final _loginUseCase = getIt<LoginUseCase>();
+  final _signInUseCase = getIt<LoginUseCase>();
+  final _signInWithGoogleUseCase = getIt<SignInWithGoogleUseCase>();
 
   // --- UI Controllers & State ---
   late TextEditingController emailController;
@@ -39,7 +42,7 @@ class LoginController extends GetxController {
     isLoading.value = true;
 
     try {
-      await _loginUseCase.call(
+      await _signInUseCase.call(
         emailController.text.trim(),
         passwordController.text.trim(),
       );
@@ -84,7 +87,14 @@ class LoginController extends GetxController {
     _signIn();
   }
 
-  void onSignInWithGooglePressed() {}
+  Future<void> onSignInWithGooglePressed() async {
+    try {
+      await _signInWithGoogleUseCase.call();
+      Get.offAllNamed(Routes.homeView);
+    } on Exception catch (e) {
+      Get.snackbar(AppStrings.googleSignInFailed, e.toString());
+    }
+  }
 
   void onSignUpPressed() {
     Get.offNamed(Routes.signUpView);

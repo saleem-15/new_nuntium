@@ -1,5 +1,3 @@
-import 'package:new_nuntium/core/errors/app_exception.dart';
-
 import '../repositories/auth_repository.dart';
 
 class SignInWithGoogleUseCase {
@@ -9,7 +7,6 @@ class SignInWithGoogleUseCase {
   SignInWithGoogleUseCase(this._authRepository);
 
   Future<void> call() {
-    // return _authRepository.signInWithGoogle();
-    throw AppException('Un implemented');
+    return _authRepository.signInWithGoogle();
   }
 }

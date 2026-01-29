@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../data_sources/auth_remote_data_source.dart';
@@ -43,6 +44,11 @@ class AuthRepositoryImpl implements AuthRepository {
       password,
     );
     return _mapFirebaseUserToEntity(updatedUser);
+  }
+
+  @override
+  Future<User> signInWithGoogle() async {
+    return await _remoteDataSource.signInWithGoogle();
   }
 
   @override
