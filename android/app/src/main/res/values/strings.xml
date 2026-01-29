@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">New Nuntium</string>
+    <string name="facebook_app_id">2497659397296529</string>
+    <string name="facebook_client_token">380b65a89bec54900187dfbbd038014b</string>
+    <string name="fb_login_protocol_scheme">fb2497659397296529</string>
+</resources>
