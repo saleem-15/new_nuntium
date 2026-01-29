@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:new_nuntium/core/extensions/theme_extension.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
-  final IconData? prefixIcon;
+
+  /// Svg icon path
+  final String? prefixIcon;
   final Widget? suffixIcon;
   final bool isPassword;
   final TextInputType keyboardType;
@@ -34,25 +37,28 @@ class CustomTextField extends StatelessWidget {
       obscureText: isPassword,
       keyboardType: keyboardType,
       validator: validator,
-
-      textInputAction: textInputAction, // ربط الخاصية
-      onFieldSubmitted: onFieldSubmitted, // ربط الخاصية
-      style: context.body1, // استخدام الـ Extension
+      textInputAction: textInputAction,
+      onFieldSubmitted: onFieldSubmitted,
+      style: context.body1,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: context.body1.copyWith(
-          color: AppColors.greyPrimary,
-        ),
+        hintStyle: context.body1.copyWith(color: AppColors.greyPrimary),
         prefixIcon: prefixIcon != null
-            ? Icon(prefixIcon, color: AppColors.greyPrimary)
+            ? SvgPicture.asset(
+                prefixIcon!,
+                fit: BoxFit.scaleDown,
+                colorFilter: ColorFilter.mode(
+                  AppColors.greyPrimary,
+                  BlendMode.srcIn,
+                ),
+              )
             : null,
         suffixIcon: suffixIcon,
         filled: true,
-        fillColor:
-            AppColors.greyLighter, // خلفية خفيفة كما في التصميم
+        fillColor: AppColors.greyLighter,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide.none, // بدون حدود ظاهرة افتراضياً
+          borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
@@ -60,10 +66,7 @@ class CustomTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(
-            color: context.primaryColor,
-            width: 1,
-          ),
+          borderSide: BorderSide(color: context.primaryColor, width: 1),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),

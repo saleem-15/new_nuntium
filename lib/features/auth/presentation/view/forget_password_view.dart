@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
+import 'package:new_nuntium/core/constants/app_assets.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/widgets/custom_rich_text.dart';
 import 'package:new_nuntium/core/widgets/custom_text_field.dart';
@@ -26,7 +27,7 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
             CustomTextField(
               controller: controller.emailController,
               hintText: AppStrings.emailAdress,
-              prefixIcon: Icons.email_outlined,
+              prefixIcon: AppIcons.email,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
             ),

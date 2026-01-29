@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
+import 'package:new_nuntium/core/constants/app_assets.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/utils/app_validator.dart';
 import 'package:new_nuntium/core/widgets/custom_rich_text.dart';
@@ -33,7 +34,7 @@ class SignUpView extends GetView<SignUpController> {
               CustomTextField(
                 controller: controller.userNameController,
                 hintText: AppStrings.userName,
-                prefixIcon: Icons.person,
+                prefixIcon: AppIcons.user,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
                 validator: AppValidator.validateName,
@@ -45,7 +46,7 @@ class SignUpView extends GetView<SignUpController> {
               CustomTextField(
                 controller: controller.emailController,
                 hintText: AppStrings.emailAdress,
-                prefixIcon: Icons.email_outlined,
+                prefixIcon: AppIcons.email,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 validator: AppValidator.validateEmail,
@@ -58,7 +59,7 @@ class SignUpView extends GetView<SignUpController> {
                 builder: (_) => CustomTextField(
                   controller: controller.passwordController,
                   hintText: AppStrings.password,
-                  prefixIcon: Icons.lock_outline,
+                  prefixIcon: AppIcons.lock,
                   isPassword: controller.isPasswordHidden,
                   onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
                   textInputAction: TextInputAction.next,
@@ -78,8 +79,8 @@ class SignUpView extends GetView<SignUpController> {
                 builder: (_) => CustomTextField(
                   controller: controller.repeatPasswordController,
                   hintText: AppStrings.repeatPassword,
-                  prefixIcon: Icons.lock_outline,
-                  isPassword: true,
+                  prefixIcon: AppIcons.lock,
+                   isPassword: true,
                   textInputAction: TextInputAction.done,
                   validator: (value) => AppValidator.validateMatchPassword(
                     value,

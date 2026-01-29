@@ -35,7 +35,7 @@ class LoginView extends GetView<LoginController> {
               CustomTextField(
                 controller: controller.emailController,
                 hintText: AppStrings.emailAdress,
-                prefixIcon: Icons.email_outlined,
+              prefixIcon: AppIcons.email,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 validator: AppValidator.validateEmail,
@@ -48,7 +48,7 @@ class LoginView extends GetView<LoginController> {
                 builder: (_) => CustomTextField(
                   controller: controller.passwordController,
                   hintText: AppStrings.password,
-                  prefixIcon: Icons.lock_outline,
+                  prefixIcon: AppIcons.lock,
                   isPassword: controller.isPasswordHidden,
                   suffixIcon: PasswordIcon(
                     isPasswordEmpty: controller.isPasswordEmpty,

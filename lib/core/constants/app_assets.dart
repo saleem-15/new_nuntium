@@ -41,4 +41,6 @@ class AppIcons {
   static const String share = '$_baseIconPath/send.svg';
   static const String back = '$_baseIconPath/back.svg';
   static const String check = '$_baseIconPath/check.svg';
+  static const String email = '$_baseIconPath/email.svg';
+  static const String lock = '$_baseIconPath/lock.svg';
 }
