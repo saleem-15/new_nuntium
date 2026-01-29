@@ -8,6 +8,7 @@ import 'package:new_nuntium/core/theme/app_fonts.dart';
 import 'package:new_nuntium/core/utils/app_validator.dart';
 import 'package:new_nuntium/core/widgets/custom_rich_text.dart';
 import 'package:new_nuntium/core/widgets/custom_text_field.dart';
+import 'package:new_nuntium/core/widgets/header.dart';
 import 'package:new_nuntium/core/widgets/primary_button.dart';
 import 'package:new_nuntium/features/auth/presentation/controller/login_controller.dart';
 import 'package:new_nuntium/features/auth/presentation/view/widgets/password_icon.dart';
@@ -25,22 +26,10 @@ class LoginView extends GetView<LoginController> {
           key: controller.formKey,
           child: Column(
             children: [
-              SizedBox(height: 72.h),
-
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  AppStrings.loginTitle,
-                  style: context.headline1,
-                  textAlign: TextAlign.left,
-                ),
+              Header(
+                title: AppStrings.loginTitle,
+                subTtitle: AppStrings.loginSubTitle,
               ),
-
-              SizedBox(height: 8.h),
-
-              Text(AppStrings.loginSubTitle, style: context.body1),
-
-              SizedBox(height: 32.h),
 
               //Email Field
               CustomTextField(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
-import 'package:new_nuntium/core/extensions/theme_extension.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/utils/app_validator.dart';
 import 'package:new_nuntium/core/widgets/custom_rich_text.dart';
 import 'package:new_nuntium/core/widgets/custom_text_field.dart';
+import 'package:new_nuntium/core/widgets/header.dart';
 import 'package:new_nuntium/core/widgets/primary_button.dart';
 import 'package:new_nuntium/features/auth/presentation/controller/sign_up_controller.dart';
 import 'package:new_nuntium/features/auth/presentation/view/widgets/password_icon.dart';
@@ -23,21 +23,10 @@ class SignUpView extends GetView<SignUpController> {
           key: controller.formKey,
           child: Column(
             children: [
-              SizedBox(height: 72.h),
-
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  AppStrings.signUpTitle,
-                  style: context.headline1,
-                  textAlign: TextAlign.left,
-                ),
+              Header(
+                title: AppStrings.signUpTitle,
+                subTtitle: AppStrings.signUpSubTitle,
               ),
-
-              SizedBox(height: 8.h),
-
-              Text(AppStrings.signUpSubTitle, style: context.body1),
-
               SizedBox(height: 32.h),
 
               //User Name Field
