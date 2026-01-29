@@ -90,7 +90,7 @@ class LoginController extends GetxController {
   Future<void> onSignInWithGooglePressed() async {
     try {
       await _signInWithGoogleUseCase.call();
-      Get.offAllNamed(Routes.homeView);
+      Get.offAllNamed(Routes.mainView);
     } on Exception catch (e) {
       Get.snackbar(AppStrings.googleSignInFailed, e.toString());
     }
