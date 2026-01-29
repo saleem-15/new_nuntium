@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../../../core/errors/app_exception.dart';
 
 abstract class AuthRemoteDataSource {
   Future<User> signInWithEmail(String email, String password);
   Future<User> signUpWithEmail(String email, String password);
-  Future<void> signOut(); 
+  Future<void> signOut();
+  Future<void> resetPassword(String email);
   Stream<User?> get userStream;
 }
 
@@ -22,7 +24,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
       return credential.user!;
     } on FirebaseAuthException catch (e) {
-      throw AppException(e.code); 
+      throw AppException(e.code);
     }
   }
 
@@ -53,4 +55,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Stream<User?> get userStream => _firebaseAuth.authStateChanges();
+
+  @override
+  Future<void> resetPassword(String email) {
+    return _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
 }

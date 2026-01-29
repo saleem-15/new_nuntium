@@ -6,6 +6,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:get_it/get_it.dart';
+import 'package:new_nuntium/core/constants/constanst.dart';
+import 'package:new_nuntium/core/extensions/get_it_extension.dart';
 import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/core/network/api_client.dart';
 import 'package:new_nuntium/core/services/language_service.dart';
@@ -16,6 +18,7 @@ import 'package:new_nuntium/features/auth/data/data_sources/auth_remote_data_sou
 import 'package:new_nuntium/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:new_nuntium/features/auth/domain/repositories/auth_repository.dart';
 import 'package:new_nuntium/features/auth/domain/use_cases/login_use_case.dart';
+import 'package:new_nuntium/features/auth/domain/use_cases/reset_password.dart';
 import 'package:new_nuntium/features/auth/domain/use_cases/sign_in_with_facebook_use_case.dart';
 import 'package:new_nuntium/features/auth/domain/use_cases/sign_in_with_google_use_case.dart';
 import 'package:new_nuntium/features/auth/domain/use_cases/sign_out_use_case.dart';
@@ -24,6 +27,7 @@ import 'package:new_nuntium/features/auth/presentation/controller/change_passwor
 import 'package:new_nuntium/features/auth/presentation/controller/create_new_password_controller.dart';
 import 'package:new_nuntium/features/auth/presentation/controller/forget_password_controller.dart';
 import 'package:new_nuntium/features/auth/presentation/controller/login_controller.dart';
+import 'package:new_nuntium/features/auth/presentation/controller/resend_time_controller.dart';
 import 'package:new_nuntium/features/auth/presentation/controller/sign_up_controller.dart';
 import 'package:new_nuntium/features/auth/presentation/controller/verification_code_controller.dart';
 import 'package:new_nuntium/features/bookmarks/data/repository/bookmark_repository_imp.dart';
@@ -104,26 +108,26 @@ void disposeWelcome() {
 }
 
 void initAuth() {
-  getIt.registerLazySingleton(() => FirebaseAuth.instance);
+  getIt.safeRegisterLazySingleton(() => FirebaseAuth.instance);
 
-  getIt.registerLazySingleton<AuthRemoteDataSource>(
+  getIt.safeRegisterLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(getIt()),
   );
 
-  getIt.registerLazySingleton<AuthRepository>(
+  getIt.safeRegisterLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(getIt()),
   );
 }
 
 void initLogin() {
   disposeWelcome();
-  getIt.registerLazySingleton(() => LoginUseCase(getIt<AuthRepository>()));
+  getIt.safeRegisterLazySingleton(() => LoginUseCase(getIt<AuthRepository>()));
 
-  getIt.registerLazySingleton(
+  getIt.safeRegisterLazySingleton(
     () => SignInWithGoogleUseCase(getIt<AuthRepository>()),
   );
 
-  getIt.registerLazySingleton(
+  getIt.safeRegisterLazySingleton(
     () => SignInWithFacebookUseCase(getIt<AuthRepository>()),
   );
 
@@ -136,7 +140,7 @@ void disposeLogin() {
 
 void initSignUp() {
   disposeLogin();
-  getIt.registerLazySingleton(() => SignupUseCase(getIt<AuthRepository>()));
+  getIt.safeRegisterLazySingleton(() => SignupUseCase(getIt<AuthRepository>()));
   Get.put(SignUpController());
 }
 
@@ -173,6 +177,15 @@ void disposeCreateNewPassword() {
 }
 
 void initForgetPassword() {
+  getIt.safeRegisterLazySingleton(
+    () => ResetPasswordUseCase(getIt<AuthRepository>()),
+  );
+
+  Get.lazyPut(
+    () => ResendTimerController(),
+    tag: Constants.resendDialogControllerId,
+  );
+
   Get.put(ForgetPasswordController());
 }
 
@@ -199,20 +212,20 @@ void disposeMainPage() {
 
 void initHome() {
   // 1. Data Layer
-  getIt.registerLazySingleton<NewsRemoteDataSource>(
+  getIt.safeRegisterLazySingleton<NewsRemoteDataSource>(
     () => NewsRemoteDataSource(getIt<ApiClient>()),
   );
 
-  getIt.registerLazySingleton<NewsRepository>(
+  getIt.safeRegisterLazySingleton<NewsRepository>(
     () => NewsRepositoryImpl(getIt<NewsRemoteDataSource>()),
   );
 
   // 2. Domain Layer
-  getIt.registerLazySingleton<FetchNewsUseCase>(
+  getIt.safeRegisterLazySingleton<FetchNewsUseCase>(
     () => FetchNewsUseCase(getIt<NewsRepository>()),
   );
 
-  getIt.registerLazySingleton<ToggleBookmarkUseCase>(
+  getIt.safeRegisterLazySingleton<ToggleBookmarkUseCase>(
     () => ToggleBookmarkUseCase(getIt<BookmarkRepository>()),
   );
 
@@ -232,25 +245,25 @@ void disposeCategoriesPage() {
 }
 
 void initBookmarks() {
-  getIt.registerLazySingleton<BookmarkRepository>(
+  getIt.safeRegisterLazySingleton<BookmarkRepository>(
     () => BookmarkRepositoryImpl(getIt<StorageService>()),
   );
 
-  getIt.registerLazySingleton<SaveBookmarkUseCase>(
+  getIt.safeRegisterLazySingleton<SaveBookmarkUseCase>(
     () => SaveBookmarkUseCase(getIt<BookmarkRepository>()),
   );
-  getIt.registerLazySingleton<DeleteBookmarkUseCase>(
+  getIt.safeRegisterLazySingleton<DeleteBookmarkUseCase>(
     () => DeleteBookmarkUseCase(getIt<BookmarkRepository>()),
   );
-  getIt.registerLazySingleton<CheckIfSavedUseCase>(
+  getIt.safeRegisterLazySingleton<CheckIfSavedUseCase>(
     () => CheckIfSavedUseCase(getIt<BookmarkRepository>()),
   );
 
-  getIt.registerLazySingleton<GetSavedArticlesUseCase>(
+  getIt.safeRegisterLazySingleton<GetSavedArticlesUseCase>(
     () => GetSavedArticlesUseCase(getIt<BookmarkRepository>()),
   );
 
-  getIt.registerLazySingleton(
+  getIt.safeRegisterLazySingleton(
     () => WatchBookmarksChangesUseCase(getIt<BookmarkRepository>()),
   );
 
@@ -262,7 +275,9 @@ void disposeBookmarksPage() {
 }
 
 void initProfile() {
-  getIt.registerLazySingleton(() => SignOutUseCase(getIt<AuthRepository>()));
+  getIt.safeRegisterLazySingleton(
+    () => SignOutUseCase(getIt<AuthRepository>()),
+  );
 
   Get.put(ProfileController());
 }

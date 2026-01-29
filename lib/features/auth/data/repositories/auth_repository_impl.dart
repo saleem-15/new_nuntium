@@ -13,22 +13,35 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<UserEntity> login(String email, String password) async {
     // جلب بيانات المستخدم من Firebase عبر مصدر البيانات
-    final firebaseUser = await _remoteDataSource.signInWithEmail(email, password);
-    
+    final firebaseUser = await _remoteDataSource.signInWithEmail(
+      email,
+      password,
+    );
+
     // تحويل كائن Firebase User إلى UserEntity الخاص بالتطبيق
     return _mapFirebaseUserToEntity(firebaseUser);
   }
 
   @override
-  Future<UserEntity> register(String email, String password, String name) async {
+  Future<UserEntity> register(
+    String email,
+    String password,
+    String name,
+  ) async {
     // إنشاء حساب جديد
-    final firebaseUser = await _remoteDataSource.signUpWithEmail(email, password);
-    
+    final firebaseUser = await _remoteDataSource.signUpWithEmail(
+      email,
+      password,
+    );
+
     // تحديث اسم المستخدم في Firebase بعد الإنشاء (اختياري)
     await firebaseUser.updateDisplayName(name);
     await firebaseUser.reload();
-    
-    final updatedUser = await _remoteDataSource.signInWithEmail(email, password);
+
+    final updatedUser = await _remoteDataSource.signInWithEmail(
+      email,
+      password,
+    );
     return _mapFirebaseUserToEntity(updatedUser);
   }
 
@@ -54,5 +67,10 @@ class AuthRepositoryImpl implements AuthRepository {
       email: user.email ?? "",
       displayName: user.displayName,
     );
+  }
+
+  @override
+  Future<void> resetPassword(String email) async {
+    await _remoteDataSource.resetPassword(email);
   }
 }

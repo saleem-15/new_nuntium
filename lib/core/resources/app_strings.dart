@@ -44,6 +44,11 @@ class AppStrings {
   static String get forgetPasswordSubTitle => tr('forgetParagraph');
   static String get remmeberPassword => tr('remember_password');
   static String get tryAgain => tr('try_again');
+static String get checkYourMail => tr('checkYourMail');
+static String get emailSentDescription => tr('emailSentDescription');
+static String get doneBackToLogin => tr('doneBackToLogin');
+static String get resendLink => tr('resendLink');
+static String get emailSendFailed => tr('emailSendFailed');
 
   // Create New Password && Change Password Pages
   static String get createNewPasswordTitle => tr('createNewPasswordTitle');
@@ -139,4 +144,6 @@ class AppStrings {
 
   // Error Messages
   static String get errorLoadingNews => tr('errorLoadingNews');
+  static String get error => tr("error");
+
 }

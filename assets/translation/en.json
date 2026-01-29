@@ -35,9 +35,14 @@
 
   "// Forget Password": "/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
   "forget": "Forgot Password 🤔",
-  "forgetParagraph": "We need your email adress so we can send you the password reset code.",
+  "forgetParagraph": "We need your email adress so we can send you the password reset link.",
   "remember_password": "Remember password?",
   "try_again": "Try again",
+  "checkYourMail": "Check your email",
+  "emailSentDescription": "We have sent a password reset link to",
+  "doneBackToLogin": "Done, Return to Login",
+  "resendLink": "Didn't receive the link? Resend",
+  "emailSendFailed": "Failed to send email. Please try again.",
 
   "// Create New Password": "/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
   "createNewPasswordTitle": "Create New Password",
