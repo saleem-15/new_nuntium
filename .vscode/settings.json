@@ -1,5 +1,7 @@
 {
     "conventionalCommits.scopes": [
-        "login"
+        "login",
+        "auth",
+        "Global Widgets"
     ]
 }
