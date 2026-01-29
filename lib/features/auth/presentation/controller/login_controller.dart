@@ -1,20 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_nuntium/config/dependency_injection.dart';
 import 'package:new_nuntium/config/routes.dart';
 import 'package:new_nuntium/core/errors/app_exception.dart';
-import 'package:new_nuntium/features/auth/domain/use_cases/sign_in_with_facebook_use_case.dart';
-import 'package:new_nuntium/features/auth/domain/use_cases/sign_in_with_google_use_case.dart';
 
 import '../../domain/use_cases/login_use_case.dart';
 
 class LoginController extends GetxController {
   // --- Dependencies ---
   final _loginUseCase = getIt<LoginUseCase>();
-  final _signInWithGoogleUseCase = getIt<SignInWithGoogleUseCase>();
-  final _signInWithFacebookleUseCase = getIt<SignInWithFacebookUseCase>();
 
   // --- UI Controllers & State ---
   late TextEditingController emailController;
@@ -90,30 +84,13 @@ class LoginController extends GetxController {
     _signIn();
   }
 
-  Future<void> onSignInWithGooglePressed() async {
-    try {
-      await _signInWithGoogleUseCase.call();
-
-      Get.offAllNamed(Routes.mainView);
-    } catch (e) {
-      log(e.toString());
-    }
-  }
+  void onSignInWithGooglePressed() {}
 
   void onSignUpPressed() {
     Get.offNamed(Routes.signUpView);
   }
 
-  Future<void> onSignInWithFacebookPressed() async {
-    try {
-      await _signInWithFacebookleUseCase.call();
-      
-
-      Get.offAllNamed(Routes.mainView);
-    } catch (e) {
-      log(e.toString());
-    }
-  }
+  void onSignInWithFacebookPressed() {}
 
   @override
   void onClose() {
