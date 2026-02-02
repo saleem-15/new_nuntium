@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_nuntium/config/dependency_injection.dart';
 import 'package:new_nuntium/config/routes.dart';
-import 'package:new_nuntium/core/errors/app_exception.dart';
-import 'package:new_nuntium/core/resources/app_strings.dart';
+import 'package:new_nuntium/core/widgets/error_snack_bar.dart';
 import 'package:new_nuntium/features/auth/domain/use_cases/sign_in_with_google_use_case.dart';
 
 import '../../domain/use_cases/login_use_case.dart';
@@ -41,33 +40,18 @@ class LoginController extends GetxController {
   Future<void> _signIn() async {
     isLoading.value = true;
 
-    try {
-      await _signInUseCase.call(
-        emailController.text.trim(),
-        passwordController.text.trim(),
-      );
+    final result = await _signInUseCase.call(
+      emailController.text.trim(),
+      passwordController.text.trim(),
+    );
 
-      Get.offAllNamed(Routes.mainView);
-    } catch (e) {
-      String message = "unknown_error"; // مفتاح احتياطي
+    result.fold(
+      (failure) => showErrorSnackBar(failure.message),
 
-      if (e is AppException) {
-        // استخدام المفتاح القادم من طبقة البيانات
-        message = e.messageKey;
-      } else {
-        debugPrint("Login Error: $e");
-      }
+      (right) => Get.offAllNamed(Routes.mainView),
+    );
 
-      Get.snackbar(
-        "error",
-        message,
-        backgroundColor: Colors.redAccent.withValues(alpha: 0.8),
-        colorText: Colors.white,
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } finally {
-      isLoading.value = false;
-    }
+    isLoading.value = false;
   }
 
   void togglePasswordVisibility() {
@@ -88,12 +72,14 @@ class LoginController extends GetxController {
   }
 
   Future<void> onSignInWithGooglePressed() async {
-    try {
-      await _signInWithGoogleUseCase.call();
-      Get.offAllNamed(Routes.mainView);
-    } on Exception catch (e) {
-      Get.snackbar(AppStrings.googleSignInFailed, e.toString());
-    }
+    final result = await _signInWithGoogleUseCase.call();
+
+    result.fold(
+      (failure) => showErrorSnackBar(failure.message),
+      (right) => Get.offAllNamed(Routes.mainView),
+    );
+
+    // Get.snackbar(AppStrings.googleSignInFailed, e.toString());
   }
 
   void onSignUpPressed() {

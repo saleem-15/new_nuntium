@@ -13,7 +13,6 @@ class NewsRemoteDataSource implements BaseNewsRemoteDataSource {
 
   NewsRemoteDataSource(this._apiClient);
 
-  // استبدل دالة fetchNews القديمة بهذه:
   @override
   Future<List<Article>> fetchTopHeadlines({
     required String category,

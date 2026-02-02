@@ -1,5 +1,3 @@
-import 'package:new_nuntium/core/errors/app_exception.dart';
-
 import '../repositories/auth_repository.dart';
 
 class SignInWithFacebookUseCase {
@@ -10,6 +8,6 @@ class SignInWithFacebookUseCase {
 
   Future<void> call() {
     // return _authRepository.signInWithFacebook();
-    throw AppException('Un implemented');
+    throw UnimplementedError('Un implemented');
   }
 }

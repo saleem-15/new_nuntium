@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_nuntium/config/dependency_injection.dart';
 import 'package:new_nuntium/config/routes.dart';
 import 'package:new_nuntium/core/constants/get_builders_ids.dart';
-import 'package:new_nuntium/core/errors/app_exception.dart';
+import 'package:new_nuntium/core/widgets/snack_bars/error_snack_bar.dart';
 import 'package:new_nuntium/features/auth/domain/use_cases/sign_out_use_case.dart';
 import 'package:new_nuntium/features/profile/view/widgets/sign_out_dialog.dart';
 
@@ -51,25 +49,11 @@ class ProfileController extends GetxController {
     //close dialog
     Get.back();
 
-    try {
-      await _signOutUseCase.call();
-      log('sign out is good ');
+    final result = await _signOutUseCase.call();
 
-      Get.offAllNamed(Routes.loginView);
-    } catch (e) {
-      String message = "Failed to sign out. Please try again.";
-      if (e is AppException) {
-        // استخدام المفتاح القادم من طبقة البيانات
-        message = e.messageKey;
-      } else {}
-
-      log(message);
-      Get.snackbar(
-        "Error",
-        message,
-        // "Failed to sign out. Please try again.",
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    }
+    result.fold(
+      (failure) => showErrorSnackBar(failure.message),
+      (right) => Get.offAllNamed(Routes.loginView),
+    );
   }
 }

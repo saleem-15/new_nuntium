@@ -1,59 +1,98 @@
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:new_nuntium/core/errors/error_handler.dart';
+import 'package:new_nuntium/core/errors/failures.dart';
+import 'package:new_nuntium/core/network/network_info.dart';
 
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../data_sources/auth_remote_data_source.dart';
 
-/// تنفيذ مستودع المصادقة
-/// هذا الكلاس مسؤول عن التنسيق بين مصدر البيانات وطبقة الـ Domain
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
+  final NetworkInfo _networkInfo;
 
-  AuthRepositoryImpl(this._remoteDataSource);
+  AuthRepositoryImpl(this._remoteDataSource, this._networkInfo);
 
   @override
-  Future<UserEntity> login(String email, String password) async {
-    // جلب بيانات المستخدم من Firebase عبر مصدر البيانات
-    final firebaseUser = await _remoteDataSource.signInWithEmail(
-      email,
-      password,
-    );
+  Future<Either<Failure, UserEntity>> login(
+    String email,
+    String password,
+  ) async {
+    if (!await _networkInfo.isConnected) {
+      return Left(OfflineFailure());
+    }
 
-    // تحويل كائن Firebase User إلى UserEntity الخاص بالتطبيق
-    return _mapFirebaseUserToEntity(firebaseUser);
+    try {
+      final firebaseUser = await _remoteDataSource.signInWithEmail(
+        email,
+        password,
+      );
+
+      // Convert Firebase 'User' into a 'UserEntity'
+      return Right(_mapFirebaseUserToEntity(firebaseUser));
+    } catch (e, s) {
+      return Left(ErrorHandler.handleAuth(e, s));
+    }
   }
 
   @override
-  Future<UserEntity> register(
+  Future<Either<Failure, UserEntity>> register(
     String email,
     String password,
     String name,
   ) async {
-    // إنشاء حساب جديد
-    final firebaseUser = await _remoteDataSource.signUpWithEmail(
-      email,
-      password,
-    );
+    if (!await _networkInfo.isConnected) {
+      return Left(OfflineFailure());
+    }
 
-    // تحديث اسم المستخدم في Firebase بعد الإنشاء (اختياري)
-    await firebaseUser.updateDisplayName(name);
-    await firebaseUser.reload();
+    try {
+      final firebaseUser = await _remoteDataSource.signUpWithEmail(
+        email,
+        password,
+      );
 
-    final updatedUser = await _remoteDataSource.signInWithEmail(
-      email,
-      password,
-    );
-    return _mapFirebaseUserToEntity(updatedUser);
+      // تحديث اسم المستخدم في Firebase بعد الإنشاء (اختياري)
+      await firebaseUser.updateDisplayName(name);
+      await firebaseUser.reload();
+
+      final updatedUser = await _remoteDataSource.signInWithEmail(
+        email,
+        password,
+      );
+      return Right(_mapFirebaseUserToEntity(updatedUser));
+    } catch (e, s) {
+      return Left(ErrorHandler.handleAuth(e, s));
+    }
   }
 
   @override
-  Future<User> signInWithGoogle() async {
-    return await _remoteDataSource.signInWithGoogle();
+  Future<Either<Failure, User>> signInWithGoogle() async {
+    if (!await _networkInfo.isConnected) {
+      return Left(OfflineFailure());
+    }
+
+    try {
+      final user = await _remoteDataSource.signInWithGoogle();
+
+      return Right(user);
+    } catch (e, s) {
+      return Left(ErrorHandler.handleAuth(e, s));
+    }
   }
 
   @override
-  Future<void> signOut() async {
-    return await _remoteDataSource.signOut();
+  Future<Either<Failure, void>> signOut() async {
+    if (!await _networkInfo.isConnected) {
+      return Left(OfflineFailure());
+    }
+
+    try {
+      await _remoteDataSource.signOut();
+      return Right(null);
+    } catch (e, s) {
+      return Left(ErrorHandler.handleAuth(e, s));
+    }
   }
 
   @override
@@ -76,7 +115,16 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> resetPassword(String email) async {
-    await _remoteDataSource.resetPassword(email);
+  Future<Either<Failure, void>> resetPassword(String email) async {
+    if (!await _networkInfo.isConnected) {
+      return Left(OfflineFailure());
+    }
+    try {
+      await _remoteDataSource.resetPassword(email);
+
+      return Right(null);
+    } catch (e, s) {
+      return Left(ErrorHandler.handleAuth(e, s));
+    }
   }
 }

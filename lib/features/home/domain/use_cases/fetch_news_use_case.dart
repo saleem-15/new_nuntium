@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+import 'package:new_nuntium/core/errors/failures.dart';
 import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/features/home/domain/repository/news_repository.dart';
 
@@ -9,7 +11,7 @@ class FetchNewsUseCase {
   final NewsRepository _newsRepository;
 
   /// Callable class method to execute the use case
-  Future<List<Article>> call({
+  Future<Either<Failure, List<Article>>> call({
     required String category,
     required int page,
     required int pageSize,

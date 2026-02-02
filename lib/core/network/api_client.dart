@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
+import '../errors/exceptions.dart';
 import 'api_constants.dart';
 import 'api_interceptor.dart';
 
@@ -56,15 +57,19 @@ class ApiClient {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.receiveTimeout:
       case DioExceptionType.sendTimeout:
-        return Exception("Connection timed out. Please check your internet.");
-      case DioExceptionType.badResponse:
-        return Exception(
-          "Server error: ${error.response?.statusCode} ${error.response?.statusMessage}",
-        );
       case DioExceptionType.connectionError:
-        return Exception("No Internet connection.");
+        throw OfflineException();
+
+      case DioExceptionType.badResponse:
+        // Extract the error message from the server if it Exists
+        final message = error.response?.data['message'] ?? "Server Error";
+        throw ServerException(
+           message,
+          statusCode: error.response?.statusCode,
+        );
+
       default:
-        return Exception("Something went wrong. Please try again.");
+        throw ServerException("Unexpected error occurred: $error");
     }
   }
 }

@@ -1,3 +1,6 @@
+import 'package:dartz/dartz.dart';
+import 'package:new_nuntium/core/errors/failures.dart';
+
 import '../repositories/auth_repository.dart';
 
 class SignOutUseCase {
@@ -5,7 +8,7 @@ class SignOutUseCase {
 
   SignOutUseCase(this._authRepository);
 
-  Future<void> call() async {
+  Future<Either<Failure,void>> call() async {
     return await _authRepository.signOut();
   }
 }

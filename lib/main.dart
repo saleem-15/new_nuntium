@@ -1,17 +1,31 @@
+import 'dart:ui';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:new_nuntium/config/dependency_injection.dart';
+import 'package:new_nuntium/config/routes.dart';
 import 'package:new_nuntium/core/constants/app_assets.dart';
 import 'package:new_nuntium/core/services/language_service.dart';
-import 'package:new_nuntium/config/routes.dart';
 
 import 'core/theme/app_theme.dart';
+import 'core/utils/app_logger.dart';
 
 Future<void> main() async {
   await initApp();
+
+  // تمرير جميع أخطاء فلاتر (الأخطاء البرمجية) إلى Crashlytics
+  FlutterError.onError = (errorDetails) {
+    crashlytics.recordFlutterFatalError(errorDetails);
+  };
+
+  // تمرير الأخطاء التي تحدث خارج إطار فلاتر (مثل الأخطاء غير المتزامنة)
+  PlatformDispatcher.instance.onError = (error, stack) {
+    crashlytics.recordError(error, stack, fatal: true);
+    return true;
+  };
 
   // ضبط إعدادات النظام لتشمل المساحة العلوية والسفلية
   SystemChrome.setSystemUIOverlayStyle(

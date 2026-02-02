@@ -1,4 +1,8 @@
+import 'package:dartz/dartz.dart';
+import 'package:new_nuntium/core/errors/exceptions.dart';
+import 'package:new_nuntium/core/errors/failures.dart';
 import 'package:new_nuntium/core/models/article.dart';
+import 'package:new_nuntium/core/network/network_info.dart';
 import 'package:new_nuntium/features/home/domain/repository/news_repository.dart';
 
 import '../data_source/news_remote_data_source.dart';
@@ -7,20 +11,31 @@ import '../data_source/news_remote_data_source.dart';
 /// This class coordinates between Remote Data Source (API) and Local Data Source (if any).
 class NewsRepositoryImpl implements NewsRepository {
   final NewsRemoteDataSource _remoteDataSource;
+  final NetworkInfo _networkInfo;
 
-  NewsRepositoryImpl(this._remoteDataSource);
+  NewsRepositoryImpl(this._remoteDataSource, this._networkInfo);
 
   @override
-  Future<List<Article>> fetchNews({
+  Future<Either<Failure, List<Article>>> fetchNews({
     required String category,
     required int page,
     required int pageSize,
   }) async {
+    if (!await _networkInfo.isConnected) {
+      return Left(OfflineFailure());
+    }
+
     // Calling the remote data source defined in previous steps
-    return await _remoteDataSource.fetchTopHeadlines(
-      category: category,
-      page: page,
-      pageSize: pageSize,
-    );
+    try {
+      final news = await _remoteDataSource.fetchTopHeadlines(
+        category: category,
+        page: page,
+        pageSize: pageSize,
+      );
+
+      return Right(news);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    }
   }
 }

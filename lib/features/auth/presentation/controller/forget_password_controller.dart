@@ -40,18 +40,18 @@ class ForgetPasswordController extends GetxController {
   }
 
   Future<void> _sendEmail(String email) async {
-    try {
-      await _resetPasswordUseCase.call(email);
-      showSuccessDialog(
+    final result = await _resetPasswordUseCase.call(email);
+
+    result.fold(
+      (failure) => showErrorSnackBar(failure.message),
+      (right) => showSuccessDialog(
         email,
         reSendEmail: _sendEmail,
         timerController: Get.find<ResendTimerController>(
           tag: Constants.resendDialogControllerId,
         ),
-      );
-    } on Exception catch (e) {
-      showErrorSnackBar(e.toString());
-    }
+      ),
+    );
   }
 
   void onTryAgainPressed() {

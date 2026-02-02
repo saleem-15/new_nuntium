@@ -28,12 +28,13 @@ dependencies:
   webview_flutter: ^4.13.1
 
   # Network
+  internet_connection_checker: ^1.0.0+1
   dio: ^5.9.0
   firebase_core: ^4.4.0
   firebase_auth: ^6.1.4
   google_sign_in: ^7.2.0
   flutter_facebook_auth: ^7.0.0
-
+  
   infinite_scroll_pagination: ^5.1.1
   pretty_dio_logger: ^1.4.0
   share_plus: ^12.0.1
@@ -42,6 +43,8 @@ dependencies:
   mockito: ^5.4.4
   build_runner: ^2.4.13
   logger: ^2.6.2
+  dartz: ^0.10.1
+  firebase_crashlytics: ^5.0.7
 
 dev_dependencies:
   flutter_test:

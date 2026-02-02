@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:new_nuntium/config/dependency_injection.dart';
+import 'package:new_nuntium/config/routes.dart';
 import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/features/bookmarks/domain/entity/bookmark_event.dart';
@@ -11,7 +12,6 @@ import 'package:new_nuntium/features/bookmarks/domain/use_cases/check_if_saved_u
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/watch_bookmarks_changes_use_case.dart';
 import 'package:new_nuntium/features/home/domain/use_cases/fetch_news_use_case.dart';
 import 'package:new_nuntium/features/home/domain/use_cases/toggle_bookmark_use_case.dart';
-import 'package:new_nuntium/config/routes.dart';
 
 class HomeController extends GetxController {
   // ---Dependencies---
@@ -124,26 +124,65 @@ class HomeController extends GetxController {
 
   /// دالة لجلب المقالات (تُستدعى تلقائياً بواسطة fetchPage)
   Future<List<Article>> _fetchArticles(int pageKey) async {
-    try {
-      String categoryParam = selectedCategory.value;
-      if (categoryParam == AppStrings.random) categoryParam = 'general';
+    String categoryParam = selectedCategory.value;
+    if (categoryParam == AppStrings.random) categoryParam = 'general';
 
-      final newArticles = await _fetchNewsUseCase(
-        category: categoryParam,
-        page: pageKey,
-        pageSize: _pageSize,
-      );
+    final result = await _fetchNewsUseCase(
+      category: categoryParam,
+      page: pageKey,
+      pageSize: _pageSize,
+    );
 
-      // تحديث حالة الحفظ
-      return newArticles.map((article) {
-        article.isSaved = _checkIfArticleSavedUseCase(article.id);
-        return article;
-      }).toList();
-    } catch (error) {
-      // في حالة الخطأ، نعيد رميه ليقوم PagingController بمعالجته
-      rethrow;
-    }
+    return result.fold(
+      (failure) {
+        // throw an error to PagingController (Its the only way to pass the error to it)
+        // the Library shows errorIndicator when it catches an exception
+        throw Exception(failure.message);
+      },
+      (newArticles) {
+        // Update isSaved property for each fetched article
+        return newArticles.map((article) {
+          article.isSaved = _checkIfArticleSavedUseCase(article.id);
+          return article;
+        }).toList();
+      },
+    );
   }
+
+  // /// دالة لجلب المقالات (تُستدعى تلقائياً بواسطة fetchPage)
+  // Future<void> _fetchArticles(int pageKey) async {
+  //   final result = await _fetchNewsUseCase(
+  //     category: selectedCategory.value == AppStrings.random
+  //         ? 'general'
+  //         : selectedCategory.value,
+  //     page: pageKey,
+  //     pageSize: _pageSize,
+  //   );
+
+  //   result.fold(
+  //     (failure) {
+  //       // throw an error to PagingController (Its the only way to pass the error to it)
+  //       // the Library shows errorIndicator when it catches an exception
+  //       throw Exception(failure.message);
+  //     },
+  //     (newArticles) {
+
+  //       final updatedArticles = newArticles.map((article) {
+  //         article.isSaved = _checkIfArticleSavedUseCase(article.id);
+  //         return article;
+  //       }).toList();
+
+  //       final isLastPage = updatedArticles.length < _pageSize;
+
+  //       if (isLastPage) {
+  //         pagingController.appendLastPage(updatedArticles);
+  //       } else {
+  //         final nextPageKey = pageKey + 1;
+  //         pagingController.appendPage(updatedArticles, nextPageKey);
+  //       }
+  //     },
+  //   );
+  // }
 
   void changeCategory(String category) {
     if (selectedCategory.value == category) return;

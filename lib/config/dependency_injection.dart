@@ -6,10 +6,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:new_nuntium/core/constants/constanst.dart';
 import 'package:new_nuntium/core/extensions/get_it_extension.dart';
 import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/core/network/api_client.dart';
+import 'package:new_nuntium/core/network/network_info.dart';
 import 'package:new_nuntium/core/services/language_service.dart';
 import 'package:new_nuntium/core/services/shared_prefrences.dart';
 import 'package:new_nuntium/core/services/storage_service.dart';
@@ -79,6 +81,10 @@ Future<void> initApp() async {
 
   initAuth();
   getIt.registerSingleton(ApiClient());
+
+  getIt.registerLazySingleton<NetworkInfo>(
+    () => NetworkInfoImpl(InternetConnectionChecker()),
+  );
 }
 
 void initSplash() {
@@ -115,7 +121,8 @@ void initAuth() {
   );
 
   getIt.safeRegisterLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(getIt()),
+    () =>
+        AuthRepositoryImpl(getIt<AuthRemoteDataSource>(), getIt<NetworkInfo>()),
   );
 }
 
@@ -217,7 +224,7 @@ void initHome() {
   );
 
   getIt.safeRegisterLazySingleton<NewsRepository>(
-    () => NewsRepositoryImpl(getIt<NewsRemoteDataSource>()),
+    () => NewsRepositoryImpl(getIt<NewsRemoteDataSource>(),getIt<NetworkInfo>()),
   );
 
   // 2. Domain Layer

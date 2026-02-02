@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_nuntium/config/dependency_injection.dart';
 import 'package:new_nuntium/config/routes.dart';
-import 'package:new_nuntium/core/errors/app_exception.dart';
+import 'package:new_nuntium/core/widgets/error_snack_bar.dart';
 import 'package:new_nuntium/features/auth/domain/use_cases/signup_use_case.dart';
 
 class SignUpController extends GetxController {
@@ -49,34 +47,48 @@ class SignUpController extends GetxController {
   Future<void> _signUp() async {
     isLoading.value = true;
 
-    try {
-      await _signupUseCase.call(
-        emailController.text.trim(),
-        passwordController.text.trim(),
-        userNameController.text.trim(),
-      );
+    final result = await _signupUseCase.call(
+      emailController.text.trim(),
+      passwordController.text.trim(),
+      userNameController.text.trim(),
+    );
 
-      Get.offAllNamed(Routes.mainView);
-    } catch (e) {
-      String message = "unknown_error"; // مفتاح احتياطي
+    result.fold(
+      (failure) => showErrorSnackBar(failure.message),
 
-      if (e is AppException) {
-        message = e.messageKey;
-      } else {
-        log("Login Error: $e");
-      }
+      (right) => Get.offAllNamed(Routes.mainView),
+    );
 
-      log("Login Error: $e");
-      Get.snackbar(
-        "error",
-        message,
-        backgroundColor: Colors.redAccent.withValues(alpha: 0.8),
-        colorText: Colors.white,
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } finally {
-      isLoading.value = false;
-    }
+    isLoading.value = false;
+
+    // try {
+    //   await _signupUseCase.call(
+    //     emailController.text.trim(),
+    //     passwordController.text.trim(),
+    //     userNameController.text.trim(),
+    //   );
+
+    //   Get.offAllNamed(Routes.mainView);
+    // } catch (e) {
+    //   String message = "unknown_error"; // مفتاح احتياطي
+
+    //   if (e is AppException) {
+    //     message = e.messageKey;
+    //   } else {
+    //     log("Login Error: $e");
+    //   }
+
+    //   log("Login Error: $e");
+    //   Get.snackbar(
+    //     "error",
+    //     message,
+    //     backgroundColor: Colors.redAccent.withValues(alpha: 0.8),
+    //     colorText: Colors.white,
+    //     snackPosition: SnackPosition.BOTTOM,
+    //   );
+    // } finally {
+    //   isLoading.value = false;
+    // }
   }
 
   void onSignInPressed() {
