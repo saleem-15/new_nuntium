@@ -1,4 +1,13 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:logger/logger.dart';
+
+final crashlytics = FirebaseCrashlytics.instance;
+
+enum CrashlyticsErrors{
+  serverError,
+  authError,
+  unexpectedError,
+}
 
 class AppLogger {
   static final Logger _logger = Logger(
@@ -40,10 +49,5 @@ class AppLogger {
 
   static void e(String message, [dynamic error, StackTrace? stackTrace]) {
     _logger.e(message, error: error, stackTrace: stackTrace);
-
-    // مستقبلاً: يمكن إضافة كود هنا لإرسال الخطأ إلى Firebase Crashlytics
-    // if (kReleaseMode) {
-    //   FirebaseCrashlytics.instance.recordError(error, stackTrace, reason: message);
-    // }
   }
 }
