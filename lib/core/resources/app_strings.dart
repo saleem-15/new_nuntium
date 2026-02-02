@@ -123,6 +123,7 @@ static String get emailSendFailed => tr('emailSendFailed');
   static String get privacy => tr('privacy');
   static String get termsAndConditions => tr('termsAndConditions');
   static String get signOut => tr('signout');
+  static String get signOutFailed => tr('signoutFailed');
   static String get logoutConfirmation => tr('logoutConfirmation');
   static String get yes => tr('logoutConfirmationYes');
   static String get cancel => tr('logoutConfirmationNo');
