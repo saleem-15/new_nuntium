@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:new_nuntium/core/errors/exceptions.dart';
+import 'package:new_nuntium/core/errors/error_handler.dart';
 import 'package:new_nuntium/core/errors/failures.dart';
 import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/core/network/network_info.dart';
@@ -34,8 +34,8 @@ class NewsRepositoryImpl implements NewsRepository {
       );
 
       return Right(news);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+    } catch (error, stackTrace) {
+      return Left(ErrorHandler.handle(error, stackTrace));
     }
   }
 }

@@ -5,7 +5,8 @@ import 'package:new_nuntium/core/utils/app_logger.dart';
 class ErrorHandler {
   ErrorHandler._();
 
-  static Failure handleAuth(dynamic error, StackTrace stackTrace) {
+  /// Handle App Exceptions and convert them into Failures with user-friendly messages.
+  static Failure handle(dynamic error, StackTrace stackTrace) {
     return switch (error) {
       OfflineException _ => OfflineFailure(),
 
@@ -55,3 +56,16 @@ class ErrorHandler {
     return UnkonwnFailure("Unknown error occurred $e");
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

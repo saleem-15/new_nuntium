@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-import '../errors/exceptions.dart';
 import 'api_constants.dart';
 import 'api_interceptor.dart';
 
@@ -39,37 +38,6 @@ class ApiClient {
   /// [path]: The endpoint path (e.g., '/top-headlines').
   /// [queryParams]: Optional query parameters.
   Future<Response> get(String path, {Map<String, dynamic>? queryParams}) async {
-    try {
-      final response = await _dio.get(path, queryParameters: queryParams);
-      return response;
-    } on DioException catch (e) {
-      // Handle Dio specific errors (timeouts, 404, 500, etc.)
-      throw _handleDioError(e);
-    } catch (e) {
-      // Handle generic errors
-      throw Exception("Unexpected error: $e");
-    }
-  }
-
-  /// Handle Dio Exceptions and convert them into user-friendly messages.
-  Exception _handleDioError(DioException error) {
-    switch (error.type) {
-      case DioExceptionType.connectionTimeout:
-      case DioExceptionType.receiveTimeout:
-      case DioExceptionType.sendTimeout:
-      case DioExceptionType.connectionError:
-        throw OfflineException();
-
-      case DioExceptionType.badResponse:
-        // Extract the error message from the server if it Exists
-        final message = error.response?.data['message'] ?? "Server Error";
-        throw ServerException(
-           message,
-          statusCode: error.response?.statusCode,
-        );
-
-      default:
-        throw ServerException("Unexpected error occurred: $error");
-    }
+    return await _dio.get(path, queryParameters: queryParams);
   }
 }

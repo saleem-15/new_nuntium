@@ -32,7 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
       // Convert Firebase 'User' into a 'UserEntity'
       return Right(_mapFirebaseUserToEntity(firebaseUser));
     } catch (e, s) {
-      return Left(ErrorHandler.handleAuth(e, s));
+      return Left(ErrorHandler.handle(e, s));
     }
   }
 
@@ -62,7 +62,7 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       return Right(_mapFirebaseUserToEntity(updatedUser));
     } catch (e, s) {
-      return Left(ErrorHandler.handleAuth(e, s));
+      return Left(ErrorHandler.handle(e, s));
     }
   }
 
@@ -77,7 +77,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return Right(user);
     } catch (e, s) {
-      return Left(ErrorHandler.handleAuth(e, s));
+      return Left(ErrorHandler.handle(e, s));
     }
   }
 
@@ -91,7 +91,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await _remoteDataSource.signOut();
       return Right(null);
     } catch (e, s) {
-      return Left(ErrorHandler.handleAuth(e, s));
+      return Left(ErrorHandler.handle(e, s));
     }
   }
 
@@ -124,7 +124,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return Right(null);
     } catch (e, s) {
-      return Left(ErrorHandler.handleAuth(e, s));
+      return Left(ErrorHandler.handle(e, s));
     }
   }
 }

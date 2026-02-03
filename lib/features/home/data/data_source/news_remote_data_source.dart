@@ -1,3 +1,4 @@
+import 'package:new_nuntium/core/errors/exception_handler.dart';
 import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/core/network/api_client.dart';
 import 'package:new_nuntium/core/network/api_constants.dart';
@@ -19,25 +20,25 @@ class NewsRemoteDataSource implements BaseNewsRemoteDataSource {
     int page = 1,
     int pageSize = 20,
   }) async {
-    final response = await _apiClient.get(
-      ApiConstants.topHeadlines,
-      queryParams: {
-        'country': 'us',
-        'category': category.toLowerCase(),
-        'page': page, // إرسال رقم الصفحة
-        'pageSize': pageSize,
-      },
-    );
+    try {
+      final response = await _apiClient.get(
+        ApiConstants.topHeadlines,
+        queryParams: {
+          'country': 'us',
+          'category': category.toLowerCase(),
+          'page': page, // إرسال رقم الصفحة
+          'pageSize': pageSize,
+        },
+      );
 
-    if (response.statusCode == 200) {
       final List<dynamic> articlesJson = response.data['articles'];
 
       return articlesJson
           .map((json) => Article.fromMap(json, category: category))
           .where((article) => article.title != '[Removed]')
           .toList();
-    } else {
-      throw Exception('Failed to load news');
+    } on Exception catch (e) {
+      throw handleDioError(e);
     }
   }
 
@@ -63,8 +64,8 @@ class NewsRemoteDataSource implements BaseNewsRemoteDataSource {
       } else {
         return [];
       }
-    } catch (e) {
-      rethrow;
+    } on Exception catch (e) {
+      throw handleDioError(e);
     }
   }
 }
