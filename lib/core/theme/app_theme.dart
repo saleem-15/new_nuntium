@@ -20,7 +20,6 @@ class AppTheme {
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.light,
-        
       ),
       titleTextStyle: AppTextStyles.headLine1,
     ),
@@ -31,6 +30,12 @@ class AppTheme {
       bodyMedium: AppTextStyles.bodyText1,
       bodyLarge: AppTextStyles.bodyText1,
       labelMedium: AppTextStyles.buttonText,
+    ),
+
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: AppColors.purplePrimary,
+      selectionHandleColor: AppColors.purplePrimary,
+      selectionColor: AppColors.purpleLight.withValues(alpha: .5),
     ),
   );
 }
