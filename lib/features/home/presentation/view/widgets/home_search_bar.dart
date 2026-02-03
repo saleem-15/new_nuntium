@@ -10,8 +10,15 @@ import 'package:new_nuntium/features/home/presentation/controller/home_controlle
 
 class HomeSearchBar extends GetView<HomeController> {
   final Function(String)? onChanged;
+  final void Function() onSearchPressed;
+  final TextEditingController searchFieldController;
 
-  const HomeSearchBar({super.key, this.onChanged});
+  const HomeSearchBar({
+    super.key,
+    this.onChanged,
+    required this.onSearchPressed,
+    required this.searchFieldController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +40,18 @@ class HomeSearchBar extends GetView<HomeController> {
             ),
           ),
           child: TextField(
+            onEditingComplete: controller.search,
             focusNode: controller.searchFocusNode,
+            controller: searchFieldController,
             onChanged: onChanged,
             decoration: InputDecoration(
               hintText: AppStrings.search,
               hintStyle: context.body1.copyWith(color: AppColors.greyPrimary),
-              prefixIcon: Padding(
+              prefixIcon: IconButton(
                 padding: EdgeInsets.all(14.w),
-                child: SvgPicture.asset(
+
+                onPressed: onSearchPressed,
+                icon: SvgPicture.asset(
                   AppIcons.search,
                   colorFilter: ColorFilter.mode(
                     controller.isSearchFieldFocused.value

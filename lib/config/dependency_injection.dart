@@ -57,6 +57,8 @@ import 'package:new_nuntium/features/splash/controller/splash_controller.dart';
 import 'package:new_nuntium/features/terms_and_conditions/presentation/controller/terms_and_conditions_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../features/home/domain/use_cases/search_news_use_case.dart';
+
 final getIt = GetIt.instance;
 
 Future<void> initApp() async {
@@ -234,6 +236,10 @@ void initHome() {
 
   getIt.safeRegisterLazySingleton<ToggleBookmarkUseCase>(
     () => ToggleBookmarkUseCase(getIt<BookmarkRepository>()),
+  );
+ 
+  getIt.safeRegisterLazySingleton<SearchNewsUseCase>(
+    () => SearchNewsUseCase(getIt<NewsRepository>()),
   );
 
   Get.put(HomeController());

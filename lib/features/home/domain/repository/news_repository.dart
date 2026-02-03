@@ -12,6 +12,10 @@ abstract class NewsRepository {
     required int pageSize,
   });
 
-  // You can add other methods here, e.g., searchNews
-  // Future<List<Article>> searchNews({required String query});
+  Future<Either<Failure, List<Article>>> searchNews({
+    required String query,
+    required int page,
+    required int pageSize,
+  });
+
 }

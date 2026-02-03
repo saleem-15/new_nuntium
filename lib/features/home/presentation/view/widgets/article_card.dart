@@ -36,6 +36,7 @@ class ArticleCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white, // ضمان وجود لون خلفية
         borderRadius: BorderRadius.circular(16.r),
+
         border: Border.all(width: 1.w, color: AppColors.greyLighter),
       ),
       child: MaterialButton(

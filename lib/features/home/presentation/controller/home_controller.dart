@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:new_nuntium/config/dependency_injection.dart';
 import 'package:new_nuntium/config/routes.dart';
+import 'package:new_nuntium/core/errors/failures.dart';
 import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/features/bookmarks/domain/entity/bookmark_event.dart';
@@ -13,9 +15,12 @@ import 'package:new_nuntium/features/bookmarks/domain/use_cases/watch_bookmarks_
 import 'package:new_nuntium/features/home/domain/use_cases/fetch_news_use_case.dart';
 import 'package:new_nuntium/features/home/domain/use_cases/toggle_bookmark_use_case.dart';
 
+import '../../domain/use_cases/search_news_use_case.dart';
+
 class HomeController extends GetxController {
   // ---Dependencies---
   final _fetchNewsUseCase = getIt<FetchNewsUseCase>();
+  final _searchNewsUseCase = getIt<SearchNewsUseCase>();
 
   // Bookmark Use Cases
   final _checkIfArticleSavedUseCase = getIt<CheckIfSavedUseCase>();
@@ -47,6 +52,9 @@ class HomeController extends GetxController {
   late final PagingController<int, Article> pagingController;
 
   late ScrollController scrollController;
+  late final TextEditingController searchFieldController;
+  String get _searchQuery => searchFieldController.text.trim();
+
   var showScrollUpButton = false.obs;
 
   @override
@@ -54,6 +62,8 @@ class HomeController extends GetxController {
     super.onInit();
 
     searchFocusNode = FocusNode();
+    searchFieldController = TextEditingController();
+
     searchFocusNode.addListener(() {
       isSearchFieldFocused.value = searchFocusNode.hasFocus;
     });
@@ -122,25 +132,36 @@ class HomeController extends GetxController {
     );
   }
 
-  /// دالة لجلب المقالات (تُستدعى تلقائياً بواسطة fetchPage)
+  ///  fetch Articles for (Search) or (Category) based on input
   Future<List<Article>> _fetchArticles(int pageKey) async {
-    String categoryParam = selectedCategory.value;
-    if (categoryParam == AppStrings.random) categoryParam = 'general';
+    final isSearching = _searchQuery.isNotEmpty;
 
-    final result = await _fetchNewsUseCase(
-      category: categoryParam,
-      page: pageKey,
-      pageSize: _pageSize,
-    );
+    final Either<Failure, List<Article>> result;
+
+    if (isSearching) {
+      // 1. If user is searching, use the Search UseCase
+      result = await _searchNewsUseCase.call(
+        query: _searchQuery,
+        page: pageKey,
+        pageSize: _pageSize,
+      );
+    } else {
+      // 2. If search is empty, use the existing Category UseCase
+      String categoryParam = selectedCategory.value;
+      if (categoryParam == AppStrings.random) categoryParam = 'general';
+
+      result = await _fetchNewsUseCase(
+        category: categoryParam,
+        page: pageKey,
+        pageSize: _pageSize,
+      );
+    }
 
     return result.fold(
       (failure) {
-        // throw an error to PagingController (Its the only way to pass the error to it)
-        // the Library shows errorIndicator when it catches an exception
         throw Exception(failure.message);
       },
       (newArticles) {
-        // Update isSaved property for each fetched article
         return newArticles.map((article) {
           article.isSaved = _checkIfArticleSavedUseCase(article.id);
           return article;
@@ -149,46 +170,14 @@ class HomeController extends GetxController {
     );
   }
 
-  // /// دالة لجلب المقالات (تُستدعى تلقائياً بواسطة fetchPage)
-  // Future<void> _fetchArticles(int pageKey) async {
-  //   final result = await _fetchNewsUseCase(
-  //     category: selectedCategory.value == AppStrings.random
-  //         ? 'general'
-  //         : selectedCategory.value,
-  //     page: pageKey,
-  //     pageSize: _pageSize,
-  //   );
-
-  //   result.fold(
-  //     (failure) {
-  //       // throw an error to PagingController (Its the only way to pass the error to it)
-  //       // the Library shows errorIndicator when it catches an exception
-  //       throw Exception(failure.message);
-  //     },
-  //     (newArticles) {
-
-  //       final updatedArticles = newArticles.map((article) {
-  //         article.isSaved = _checkIfArticleSavedUseCase(article.id);
-  //         return article;
-  //       }).toList();
-
-  //       final isLastPage = updatedArticles.length < _pageSize;
-
-  //       if (isLastPage) {
-  //         pagingController.appendLastPage(updatedArticles);
-  //       } else {
-  //         final nextPageKey = pageKey + 1;
-  //         pagingController.appendPage(updatedArticles, nextPageKey);
-  //       }
-  //     },
-  //   );
-  // }
-
+  // Update changeCategory to clear search when switching categories
   void changeCategory(String category) {
     if (selectedCategory.value == category) return;
-    selectedCategory.value = category;
 
-    // لإعادة تحميل البيانات من البداية
+    //  Clear search when changing category
+    searchFieldController.clear();
+
+    selectedCategory.value = category;
     pagingController.refresh();
   }
 
@@ -220,5 +209,10 @@ class HomeController extends GetxController {
     scrollController.dispose();
 
     super.onClose();
+  }
+
+  void search() {
+    pagingController.refresh();
+    searchFocusNode.unfocus();
   }
 }

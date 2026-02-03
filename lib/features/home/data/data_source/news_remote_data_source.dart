@@ -24,7 +24,6 @@ class NewsRemoteDataSource implements BaseNewsRemoteDataSource {
       final response = await _apiClient.get(
         ApiConstants.topHeadlines,
         queryParams: {
-          'country': 'us',
           'category': category.toLowerCase(),
           'page': page, // إرسال رقم الصفحة
           'pageSize': pageSize,

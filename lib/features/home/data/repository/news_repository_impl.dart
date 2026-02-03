@@ -38,4 +38,25 @@ class NewsRepositoryImpl implements NewsRepository {
       return Left(ErrorHandler.handle(error, stackTrace));
     }
   }
+
+  @override
+  Future<Either<Failure, List<Article>>> searchNews({
+    required String query,
+    required int page,
+    required int pageSize,
+  }) async {
+    if (!await _networkInfo.isConnected) {
+      return Left(OfflineFailure());
+    }
+    try {
+      final news = await _remoteDataSource.searchNews(
+        query: query,
+        page: page,
+        pageSize: pageSize,
+      );
+      return Right(news);
+    } catch (error, stackTrace) {
+      return Left(ErrorHandler.handle(error, stackTrace));
+    }
+  }
 }
