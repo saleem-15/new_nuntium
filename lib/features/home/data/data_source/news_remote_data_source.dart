@@ -43,20 +43,24 @@ class NewsRemoteDataSource implements BaseNewsRemoteDataSource {
   }
 
   @override
-  Future<List<Article>> searchNews({required String query}) async {
+  Future<List<Article>> searchNews({
+    required String query,
+    int page = 1, // Add page
+    int pageSize = 20, // Add pageSize
+  }) async {
     try {
       final response = await _apiClient.get(
         ApiConstants.everything,
         queryParams: {
           ApiConstants.paramQ: query,
-          'sortBy': 'publishedAt', // Sort by newest
-          ApiConstants.paramPageSize: ApiConstants.defaultPageSize,
+          'sortBy': 'publishedAt',
+          ApiConstants.paramPageSize: pageSize,
+          ApiConstants.paramPage: page, // Pass page to API
         },
       );
 
       if (response.data != null && response.data['articles'] != null) {
         final List<dynamic> articlesJson = response.data['articles'];
-
         return articlesJson
             .map((json) => Article.fromMap(json, category: 'Search Results'))
             .where((article) => article.title != '[Removed]')
