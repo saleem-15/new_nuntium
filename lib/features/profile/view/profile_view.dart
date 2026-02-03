@@ -5,7 +5,7 @@ import 'package:new_nuntium/core/constants/get_builders_ids.dart';
 import 'package:new_nuntium/core/extensions/theme_extension.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
-import 'package:new_nuntium/features/profile/controller/profile_controller.dart';
+import 'package:new_nuntium/features/profile/view/controller/profile_controller.dart';
 import 'package:new_nuntium/features/profile/view/widgets/settings_list_tile.dart';
 
 class ProfileView extends GetView<ProfileController> {
@@ -83,29 +83,34 @@ class ProfileView extends GetView<ProfileController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(AppStrings.profile, style: context.headline1),
-        SizedBox(height: 32.h),
-        Row(
-          children: [
-            CircleAvatar(radius: 36.r, foregroundImage: controller.userImage),
-            SizedBox(width: 24.w),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  controller.userName,
-                  style: context.body2.copyWith(color: AppColors.blackPrimary),
+        SizedBox(height: 32.h, width: double.infinity),
+        if (controller.user != null)
+          Row(
+            children: [
+              CircleAvatar(radius: 36.r, foregroundImage: controller.image),
+              SizedBox(width: 24.w),
+              if (controller.user != null)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (controller.user!.displayName != null)
+                      Text(
+                        controller.user!.displayName!,
+                        style: context.body2.copyWith(
+                          color: AppColors.blackPrimary,
+                        ),
+                      ),
+                    Text(
+                      controller.user!.email,
+                      style: context.body1.copyWith(
+                        fontSize: 14.sp,
+                        color: AppColors.greyPrimary,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  controller.userEmail,
-                  style: context.body1.copyWith(
-                    fontSize: 14.sp,
-                    color: AppColors.greyPrimary,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+            ],
+          ),
       ],
     );
   }

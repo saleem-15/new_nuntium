@@ -51,7 +51,10 @@ import 'package:new_nuntium/features/language/presentation/controller/language_c
 import 'package:new_nuntium/features/main/controller/main_controller.dart';
 import 'package:new_nuntium/features/onboarding/controller/onboarding_controller.dart';
 import 'package:new_nuntium/features/onboarding/controller/welcome_controller.dart';
-import 'package:new_nuntium/features/profile/controller/profile_controller.dart';
+import 'package:new_nuntium/features/profile/data/repository/profile_repository_impl.dart';
+import 'package:new_nuntium/features/profile/domain/repository/profile_repository.dart';
+import 'package:new_nuntium/features/profile/domain/use_cases/get_user_data_use_case.dart';
+import 'package:new_nuntium/features/profile/view/controller/profile_controller.dart';
 import 'package:new_nuntium/features/select_favorite_topics/controller/select_favorite_topics_controller.dart';
 import 'package:new_nuntium/features/splash/controller/splash_controller.dart';
 import 'package:new_nuntium/features/terms_and_conditions/presentation/controller/terms_and_conditions_controller.dart';
@@ -290,6 +293,14 @@ void disposeBookmarksPage() {
 void initProfile() {
   getIt.safeRegisterLazySingleton(
     () => SignOutUseCase(getIt<AuthRepository>()),
+  );
+ 
+  getIt.safeRegisterLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(FirebaseAuth.instance),
+  );
+  
+  getIt.safeRegisterLazySingleton(
+    () => GetUserDataUseCase(getIt<ProfileRepository>()),
   );
 
   Get.put(ProfileController());
