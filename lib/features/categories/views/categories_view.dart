@@ -13,59 +13,62 @@ class CategoriesView extends GetView<CategoriesController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          children: [
-            Header(
-              title: AppStrings.categoriesPageTitle,
-              subTtitle: AppStrings.categoriesPageSubTitle,
-            ),
-
-            GridView.builder(
-              shrinkWrap: true,
-              itemCount: controller.categories.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 16.w, // مسافة عمودية بين كل عنصر
-                crossAxisSpacing: 16.w, // مسافة أفقية بين كل عنصر
-                childAspectRatio:
-                    2.5, // للتحكم في ارتفاع المربع بالنسبة لعرضه
+    return SafeArea(
+      bottom: false,
+      child: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Column(
+            children: [
+              Header(
+                title: AppStrings.categoriesPageTitle,
+                subTtitle: AppStrings.categoriesPageSubTitle,
               ),
 
-              itemBuilder: (context, index) {
-                final topic = controller.categories[index];
+              GridView.builder(
+                shrinkWrap: true,
+                itemCount: controller.categories.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 16.w, // مسافة عمودية بين كل عنصر
+                  crossAxisSpacing: 16.w, // مسافة أفقية بين كل عنصر
+                  childAspectRatio:
+                      2.5, // للتحكم في ارتفاع المربع بالنسبة لعرضه
+                ),
 
-                return GestureDetector(
-                  onTap: controller.onCategoryPressed,
-                  child: GetBuilder<CategoriesController>(
-                    assignId: true,
-                    id: topic,
-                    builder: (controller) {
-                      return AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        decoration: BoxDecoration(
-                          color: AppColors.greyLighter,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          topic,
-                          style: context.body1.copyWith(
-                            color: AppColors.greyDarker,
-                            fontWeight: AppFonts.semiBold,
+                itemBuilder: (context, index) {
+                  final topic = controller.categories[index];
+
+                  return GestureDetector(
+                    onTap: controller.onCategoryPressed,
+                    child: GetBuilder<CategoriesController>(
+                      assignId: true,
+                      id: topic,
+                      builder: (controller) {
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          decoration: BoxDecoration(
+                            color: AppColors.greyLighter,
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            topic,
+                            style: context.body1.copyWith(
+                              color: AppColors.greyDarker,
+                              fontWeight: AppFonts.semiBold,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
 
-            SizedBox(height: 16.h),
-          ],
+              SizedBox(height: 16.h),
+            ],
+          ),
         ),
       ),
     );

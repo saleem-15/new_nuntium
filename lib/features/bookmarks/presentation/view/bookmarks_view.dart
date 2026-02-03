@@ -19,93 +19,96 @@ class BookmarksView extends GetView<BookmarksController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          children: [
-            Header(
-              title: AppStrings.bookmarksPageTitle,
-              subTtitle: AppStrings.bookmarksPageSubTitle,
-            ),
+    return SafeArea(
+      bottom: false,
+      child: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Column(
+            children: [
+              Header(
+                title: AppStrings.bookmarksPageTitle,
+                subTtitle: AppStrings.bookmarksPageSubTitle,
+              ),
 
-            Obx(() {
-              if (controller.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
+              Obx(() {
+                if (controller.isLoading.value) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-              if (controller.articles.isEmpty) {
-                log("Bookmarks is empty");
-                return Expanded(child: _buildEmbty(context));
-              }
-              log("Bookmarks");
+                if (controller.articles.isEmpty) {
+                  log("Bookmarks is empty");
+                  return Expanded(child: _buildEmbty(context));
+                }
+                log("Bookmarks");
 
-              return Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: controller.articles.length,
-                  itemBuilder: (_, index) {
-                    final article = controller.articles[index];
-                    return Dismissible(
-                      // Unique key is required for Dismissible
-                      key: ValueKey(article.id),
+                return Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: controller.articles.length,
+                    itemBuilder: (_, index) {
+                      final article = controller.articles[index];
+                      return Dismissible(
+                        // Unique key is required for Dismissible
+                        key: ValueKey(article.id),
 
-                      // Allow swiping from Start to End (Right side in LTR, Left in RTL)
-                      // You can change to 'horizontal' to allow both sides
-                      direction: DismissDirection.startToEnd,
+                        // Allow swiping from Start to End (Right side in LTR, Left in RTL)
+                        // You can change to 'horizontal' to allow both sides
+                        direction: DismissDirection.startToEnd,
 
-                      // The UI shown behind the item when swiping
-                      background: Container(
-                        margin: EdgeInsets.only(
-                          bottom: 16.h,
-                        ), // Match card margin
-                        decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(16.r),
-                        ),
-                        // Align icon to the swipe side
-                        alignment: AlignmentDirectional.centerStart,
-                        padding: EdgeInsets.symmetric(horizontal: 20.w),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              AppIcons.delete,
-                              colorFilter: ColorFilter.mode(
-                                AppColors.white,
-                                BlendMode.srcIn,
+                        // The UI shown behind the item when swiping
+                        background: Container(
+                          margin: EdgeInsets.only(
+                            bottom: 16.h,
+                          ), // Match card margin
+                          decoration: BoxDecoration(
+                            color: Colors.redAccent,
+                            borderRadius: BorderRadius.circular(16.r),
+                          ),
+                          // Align icon to the swipe side
+                          alignment: AlignmentDirectional.centerStart,
+                          padding: EdgeInsets.symmetric(horizontal: 20.w),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                AppIcons.delete,
+                                colorFilter: ColorFilter.mode(
+                                  AppColors.white,
+                                  BlendMode.srcIn,
+                                ),
+                                width: 24.sp,
                               ),
-                              width: 24.sp,
-                            ),
 
-                            SizedBox(width: 8.w),
-                            Text(
-                              AppStrings.delete,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                              SizedBox(width: 8.w),
+                              Text(
+                                AppStrings.delete,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
 
-                      // Actual Logic when swipe is completed
-                      onDismissed: (direction) {
-                        controller.removeBookmark(article);
-                      },
+                        // Actual Logic when swipe is completed
+                        onDismissed: (direction) {
+                          controller.removeBookmark(article);
+                        },
 
-                      // The Article Card
-                      child: RecommendedArticleCard(
-                        article: article,
-                        margin: EdgeInsets.only(bottom: 16.h),
-                        onTap: controller.onBookmarkTapped,
-                      ),
-                    );
-                  },
-                ),
-              );
-            }),
-          ],
+                        // The Article Card
+                        child: RecommendedArticleCard(
+                          article: article,
+                          margin: EdgeInsets.only(bottom: 16.h),
+                          onTap: controller.onBookmarkTapped,
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }),
+            ],
+          ),
         ),
       ),
     );

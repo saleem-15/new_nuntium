@@ -27,7 +27,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        top: 72.h,
+        top: 28.h,
         bottom: 32.h,
         right: horizentalPadding ?? 0,
         left: horizentalPadding ?? 0,
@@ -54,5 +54,3 @@ class Header extends StatelessWidget {
     );
   }
 }
-
-
