@@ -7,7 +7,7 @@ import 'package:new_nuntium/core/extensions/theme_extension.dart';
 import 'package:new_nuntium/core/widgets/app_gradient_overlay.dart';
 import 'package:new_nuntium/features/home/presentation/controller/home_controller.dart';
 import 'package:new_nuntium/features/home/data/news_model.dart';
-import '../../../../../core/constants/app_assets.dart';
+import '../../../../../core/resources/app_assets.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_fonts.dart';
 

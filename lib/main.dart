@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:new_nuntium/config/dependency_injection.dart';
 import 'package:new_nuntium/config/routes.dart';
-import 'package:new_nuntium/core/constants/app_assets.dart';
+import 'package:new_nuntium/core/resources/app_assets.dart';
 import 'package:new_nuntium/core/services/language_service.dart';
 
 import 'core/theme/app_theme.dart';

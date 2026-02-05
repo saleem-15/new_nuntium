@@ -2,6 +2,7 @@ const String _baseImagePath = 'assets/images';
 const String _baseVectorPath = 'assets/images/vectors';
 const String _baseAnimationPath = 'assets/animations';
 const String _baseIconPath = 'assets/icons';
+const String _baseCategoriesPath = 'assets/cateogories';
 const String kTranslationPath = 'assets/translation';
 
 class AppAssets {
@@ -18,6 +19,17 @@ class AppAssets {
   static const String news2 = '$_baseImagePath/news2.png';
   static const String newsPlaceholder = '$_baseImagePath/news_placeholder.jpg';
   static const String comingSoon = '$_baseAnimationPath/coming-soon.json';
+
+  // --- Categories Svgs ---
+  static const String art = '$_baseCategoriesPath/art.svg';
+  static const String food = '$_baseCategoriesPath/food.svg';
+  static const String entertainment = '$_baseCategoriesPath/gaming.svg';
+  static const String politics = '$_baseCategoriesPath/politics.svg';
+  static const String science = '$_baseCategoriesPath/science.svg';
+  static const String technology = '$_baseCategoriesPath/smarthphone.svg';
+  static const String sports = '$_baseCategoriesPath/sports.svg';
+  static const String business = '$_baseCategoriesPath/briefcase.svg';
+
 
   // --- Lottie Animations (JSON) ---
   static const String loading = '$_baseAnimationPath/loading.json';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart'; // لتشغيل أيقونات SVG
 import 'package:get/get.dart';
-import 'package:new_nuntium/core/constants/app_assets.dart'; // تأكد من وجود مسارات الأيقونات
+import 'package:new_nuntium/core/resources/app_assets.dart'; // تأكد من وجود مسارات الأيقونات
 import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/features/article_details/presentation/controller/article_controller.dart';
 
