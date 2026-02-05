@@ -127,4 +127,21 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ErrorHandler.handle(e, s));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> changePassword(
+    String currentPassword,
+    String newPassword,
+  ) async {
+    if (!await _networkInfo.isConnected) {
+      return Left(OfflineFailure());
+    }
+
+    try {
+      await _remoteDataSource.changePassword(currentPassword, newPassword);
+      return const Right(null);
+    } catch (e, s) {
+      return Left(ErrorHandler.handle(e, s));
+    }
+  }
 }

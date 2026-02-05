@@ -10,6 +10,10 @@ abstract class AuthRemoteDataSource {
   Future<User> signInWithGoogle();
   Future<void> signOut();
   Future<void> resetPassword(String email);
+  Future<void> changePassword(
+    String currentPassword,
+    String newPassword,
+  ); // أضف هذا السطر
   Stream<User?> get userStream;
 }
 
@@ -106,6 +110,42 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
     } on Exception catch (e) {
       ServerException("$e");
+    }
+  }
+
+  @override
+  Future<void> changePassword(
+    String currentPassword,
+    String newPassword,
+  ) async {
+    try {
+      final user = _firebaseAuth.currentUser;
+      if (user == null || user.email == null) {
+        throw AuthException(message: "User not found", code: "user-not-found");
+      }
+
+      // 1. إعادة المصادقة (مطلوب من Firebase قبل تغيير كلمة السر)
+      final credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: currentPassword,
+      );
+
+      await user.reauthenticateWithCredential(credential);
+
+      // 2. تحديث كلمة المرور
+      await user.updatePassword(newPassword);
+    } on FirebaseAuthException catch (e) {
+      // التعامل مع خطأ كلمة المرور القديمة الخاطئة
+      if (e.code == 'wrong-password') {
+        throw AuthException(message: "Current password is wrong", code: e.code);
+      }
+      
+      throw AuthException(
+        message: e.message ?? "Failed to update password",
+        code: e.code,
+      );
+    } on Exception catch (e) {
+      throw ServerException("$e");
     }
   }
 }

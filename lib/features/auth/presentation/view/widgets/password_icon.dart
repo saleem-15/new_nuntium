@@ -16,11 +16,13 @@ class PasswordIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
+
       duration: const Duration(milliseconds: 250),
       // Show the icon only if the text field has text
       child: isPasswordEmpty
           ? null
           : IconButton(
+            
               // مفتاح ضروري للأنيميشن
               key: const ValueKey('password_icon'),
               icon: Icon(

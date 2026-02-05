@@ -6,6 +6,8 @@ import 'package:new_nuntium/core/theme/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
+  final FocusNode? focusNode;
+
   final String hintText;
 
   /// Svg icon path
@@ -28,12 +30,15 @@ class CustomTextField extends StatelessWidget {
     this.validator,
     this.textInputAction,
     this.onFieldSubmitted,
+    this.focusNode,
+
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      focusNode: focusNode,
       obscureText: isPassword,
       keyboardType: keyboardType,
       validator: validator,
