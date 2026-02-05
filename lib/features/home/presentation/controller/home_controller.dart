@@ -8,19 +8,21 @@ import 'package:new_nuntium/config/dependency_injection.dart';
 import 'package:new_nuntium/config/routes.dart';
 import 'package:new_nuntium/core/errors/failures.dart';
 import 'package:new_nuntium/core/models/article.dart';
-import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/features/bookmarks/domain/entity/bookmark_event.dart';
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/check_if_saved_use_case.dart';
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/watch_bookmarks_changes_use_case.dart';
+import 'package:new_nuntium/features/categories/domain/use_case/get_cateogories_use_case.dart';
 import 'package:new_nuntium/features/home/domain/use_cases/fetch_news_use_case.dart';
 import 'package:new_nuntium/features/home/domain/use_cases/toggle_bookmark_use_case.dart';
 
+import '../../../categories/domain/entities/category_entity.dart';
 import '../../domain/use_cases/search_news_use_case.dart';
 
 class HomeController extends GetxController {
   // ---Dependencies---
   final _fetchNewsUseCase = getIt<FetchNewsUseCase>();
   final _searchNewsUseCase = getIt<SearchNewsUseCase>();
+  final _getCategoriesUseCase = getIt<GetCategoriesUseCase>();
 
   // Bookmark Use Cases
   final _checkIfArticleSavedUseCase = getIt<CheckIfSavedUseCase>();
@@ -31,25 +33,13 @@ class HomeController extends GetxController {
   // ---UI State---
   late FocusNode searchFocusNode;
   final isSearchFieldFocused = false.obs;
-  var selectedCategory = "Random".obs;
 
-  final List<String> categories = [
-    AppStrings.random,
-    AppStrings.sports,
-    AppStrings.gaming,
-    AppStrings.politics,
-    AppStrings.life,
-    AppStrings.animals,
-    AppStrings.nature,
-    AppStrings.food,
-    AppStrings.art,
-    AppStrings.history,
-    AppStrings.fashion,
-  ];
+  late final Rx<CategoryEntity> selectedCategory;
 
-  static const int _pageSize = 20;
+  late List<CategoryEntity> categories;
 
   late final PagingController<int, Article> pagingController;
+  static const int _pageSize = 20;
 
   late ScrollController scrollController;
   late final TextEditingController searchFieldController;
@@ -60,6 +50,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getCategoriesList(isFirstLoad: true);
 
     searchFocusNode = FocusNode();
     searchFieldController = TextEditingController();
@@ -108,6 +99,30 @@ class HomeController extends GetxController {
     });
   }
 
+  Future<void> getCategoriesList({bool isFirstLoad = false}) async {
+    // 2. استخدام await هنا لانتظار النتيجة الفعلية
+    final result = await _getCategoriesUseCase.call();
+    result.fold((failure) {}, (result) {
+      categories = result;
+
+      if (isFirstLoad) {
+        selectedCategory = categories.first.obs;
+
+        return;
+      }
+
+      // Update the selected category
+      final currentCategoryId = selectedCategory.value.id;
+
+      final updatedSelectedItem = categories.firstWhere(
+        (c) => c.id == currentCategoryId,
+        orElse: () => categories.first,
+      );
+
+      selectedCategory.value = updatedSelectedItem;
+    });
+  }
+
   ///  Listens to Bookmarks changes and updates the UI accordingly
   void _listenToBookmarksChanges() {
     _watchBookmarksUseCase.call().listen((BookmarkChangeEvent event) {
@@ -147,8 +162,7 @@ class HomeController extends GetxController {
       );
     } else {
       // 2. If search is empty, use the existing Category UseCase
-      String categoryParam = selectedCategory.value;
-      if (categoryParam == AppStrings.random) categoryParam = 'general';
+      String? categoryParam = selectedCategory.value.id;
 
       result = await _fetchNewsUseCase(
         category: categoryParam,
@@ -171,7 +185,7 @@ class HomeController extends GetxController {
   }
 
   // Update changeCategory to clear search when switching categories
-  void changeCategory(String category) {
+  void changeCategory(CategoryEntity category) {
     if (selectedCategory.value == category) return;
 
     //  Clear search when changing category
