@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:new_nuntium/core/resources/app_assets.dart';
 import 'package:new_nuntium/core/models/article.dart';
+import 'package:new_nuntium/core/resources/app_assets.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/core/theme/app_fonts.dart';
 import 'package:new_nuntium/core/theme/app_text_styles.dart';
 import 'package:new_nuntium/features/home/presentation/controller/home_controller.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ArticleCard extends StatelessWidget {
   final Article article;
@@ -24,19 +25,13 @@ class ArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // تحديد مصدر الصورة (شبكة أو عنصر نائب)
-    final ImageProvider imageProvider = (article.imageUrl.isEmpty)
-        ? const AssetImage(AppAssets.newsPlaceholder)
-        : CachedNetworkImageProvider(article.imageUrl) as ImageProvider;
-
     return Container(
-      width: 336.w, // استخدام ScreenUtil
+      width: 336.w, 
       alignment: Alignment.center,
       clipBehavior: Clip.antiAliasWithSaveLayer,
       decoration: BoxDecoration(
-        color: AppColors.white, // ضمان وجود لون خلفية
+        color: AppColors.white, 
         borderRadius: BorderRadius.circular(16.r),
-
         border: Border.all(width: 1.w, color: AppColors.greyLighter),
       ),
       child: MaterialButton(
@@ -46,17 +41,33 @@ class ArticleCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// Article Card Image
             SizedBox(
               width: double.infinity,
               height: 192.h,
-              child: Image(
-                image: imageProvider,
-                fit: BoxFit.cover,
-                // في حالة فشل تحميل صورة الشبكة، نعرض الـ Placeholder
-                errorBuilder: (_, _, _) =>
-                    Image.asset(AppAssets.newsPlaceholder, fit: BoxFit.cover),
-              ),
+              child: article.imageUrl.isEmpty
+                  ? Image.asset(AppAssets.newsPlaceholder, fit: BoxFit.cover)
+                  : CachedNetworkImage(
+                      imageUrl: article.imageUrl,
+                      fit: BoxFit.cover,
+                      //Fade In
+                      fadeInDuration: const Duration(milliseconds: 500),
+
+                      // Shimmer Effect
+                      placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          color: Colors.white,
+                        ),
+                      ),
+
+                      errorWidget: (context, url, error) => Image.asset(
+                        AppAssets.newsPlaceholder,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
             ),
 
             /// Article Card Text + Icon
