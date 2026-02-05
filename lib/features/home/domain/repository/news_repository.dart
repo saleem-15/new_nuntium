@@ -7,7 +7,7 @@ import 'package:new_nuntium/core/models/article.dart';
 abstract class NewsRepository {
   /// Fetches a list of news articles based on category and pagination params.
   Future<Either<Failure, List<Article>>> fetchNews({
-    required String category,
+    required String? category,
     required int page,
     required int pageSize,
   });

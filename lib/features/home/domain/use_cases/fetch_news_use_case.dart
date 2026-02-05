@@ -12,7 +12,7 @@ class FetchNewsUseCase {
 
   /// Callable class method to execute the use case
   Future<Either<Failure, List<Article>>> call({
-    required String category,
+    required String? category,
     required int page,
     required int pageSize,
   }) async {

@@ -40,11 +40,13 @@ import 'package:new_nuntium/features/bookmarks/domain/use_cases/get_saved_articl
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/save_bookmark_use_case.dart';
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/watch_bookmarks_changes_use_case.dart';
 import 'package:new_nuntium/features/bookmarks/presentation/controller/bookmarks_controller.dart';
-import 'package:new_nuntium/features/categories/controller/categories_controller.dart';
+import 'package:new_nuntium/features/categories/presentation/controller/categories_controller.dart';
 import 'package:new_nuntium/features/home/data/data_source/news_remote_data_source.dart';
 import 'package:new_nuntium/features/home/data/repository/news_repository_impl.dart';
+import 'package:new_nuntium/features/categories/domain/repository/cateogries_repository.dart';
 import 'package:new_nuntium/features/home/domain/repository/news_repository.dart';
 import 'package:new_nuntium/features/home/domain/use_cases/fetch_news_use_case.dart';
+import 'package:new_nuntium/features/categories/domain/use_case/get_cateogories_use_case.dart';
 import 'package:new_nuntium/features/home/domain/use_cases/toggle_bookmark_use_case.dart';
 import 'package:new_nuntium/features/home/presentation/controller/home_controller.dart';
 import 'package:new_nuntium/features/language/presentation/controller/language_controller.dart';
@@ -60,6 +62,7 @@ import 'package:new_nuntium/features/splash/controller/splash_controller.dart';
 import 'package:new_nuntium/features/terms_and_conditions/presentation/controller/terms_and_conditions_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../features/categories/data/repository/categories_repository_impl.dart';
 import '../features/home/domain/use_cases/search_news_use_case.dart';
 
 final getIt = GetIt.instance;
@@ -224,15 +227,24 @@ void disposeMainPage() {
 
 void initHome() {
   // 1. Data Layer
+  getIt.safeRegisterLazySingleton<CategoriesRepository>(
+    () => CategoriesRepositoryImpl(),
+  );
+
   getIt.safeRegisterLazySingleton<NewsRemoteDataSource>(
     () => NewsRemoteDataSource(getIt<ApiClient>()),
   );
 
   getIt.safeRegisterLazySingleton<NewsRepository>(
-    () => NewsRepositoryImpl(getIt<NewsRemoteDataSource>(),getIt<NetworkInfo>()),
+    () =>
+        NewsRepositoryImpl(getIt<NewsRemoteDataSource>(), getIt<NetworkInfo>()),
   );
 
   // 2. Domain Layer
+  getIt.safeRegisterLazySingleton<GetCategoriesUseCase>(
+    () => GetCategoriesUseCase(getIt<CategoriesRepository>()),
+  );
+
   getIt.safeRegisterLazySingleton<FetchNewsUseCase>(
     () => FetchNewsUseCase(getIt<NewsRepository>()),
   );
@@ -240,7 +252,7 @@ void initHome() {
   getIt.safeRegisterLazySingleton<ToggleBookmarkUseCase>(
     () => ToggleBookmarkUseCase(getIt<BookmarkRepository>()),
   );
- 
+
   getIt.safeRegisterLazySingleton<SearchNewsUseCase>(
     () => SearchNewsUseCase(getIt<NewsRepository>()),
   );
@@ -294,11 +306,11 @@ void initProfile() {
   getIt.safeRegisterLazySingleton(
     () => SignOutUseCase(getIt<AuthRepository>()),
   );
- 
+
   getIt.safeRegisterLazySingleton<ProfileRepository>(
     () => ProfileRepositoryImpl(FirebaseAuth.instance),
   );
-  
+
   getIt.safeRegisterLazySingleton(
     () => GetUserDataUseCase(getIt<ProfileRepository>()),
   );

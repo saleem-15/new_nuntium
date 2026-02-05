@@ -16,7 +16,7 @@ class NewsRemoteDataSource implements BaseNewsRemoteDataSource {
 
   @override
   Future<List<Article>> fetchTopHeadlines({
-    required String category,
+    required String? category,
     int page = 1,
     int pageSize = 20,
   }) async {
@@ -24,7 +24,8 @@ class NewsRemoteDataSource implements BaseNewsRemoteDataSource {
       final response = await _apiClient.get(
         ApiConstants.topHeadlines,
         queryParams: {
-          'category': category.toLowerCase(),
+          // 'q': 'history',
+          'category': category?.toLowerCase(),
           'page': page, // إرسال رقم الصفحة
           'pageSize': pageSize,
         },
@@ -33,7 +34,7 @@ class NewsRemoteDataSource implements BaseNewsRemoteDataSource {
       final List<dynamic> articlesJson = response.data['articles'];
 
       return articlesJson
-          .map((json) => Article.fromMap(json, category: category))
+          .map((json) => Article.fromMap(json, category: category!))
           .where((article) => article.title != '[Removed]')
           .toList();
     } on Exception catch (e) {

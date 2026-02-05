@@ -17,7 +17,7 @@ class NewsRepositoryImpl implements NewsRepository {
 
   @override
   Future<Either<Failure, List<Article>>> fetchNews({
-    required String category,
+    required String? category,
     required int page,
     required int pageSize,
   }) async {

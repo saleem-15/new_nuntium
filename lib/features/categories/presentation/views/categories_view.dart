@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -6,7 +7,7 @@ import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/core/theme/app_fonts.dart';
 import 'package:new_nuntium/core/widgets/header.dart';
-import 'package:new_nuntium/features/categories/controller/categories_controller.dart';
+import 'package:new_nuntium/features/categories/presentation/controller/categories_controller.dart';
 
 class CategoriesView extends GetView<CategoriesController> {
   const CategoriesView({super.key});
@@ -39,30 +40,7 @@ class CategoriesView extends GetView<CategoriesController> {
                 itemBuilder: (context, index) {
                   final topic = controller.categories[index];
 
-                  return GestureDetector(
-                    onTap: controller.onCategoryPressed,
-                    child: GetBuilder<CategoriesController>(
-                      assignId: true,
-                      id: topic,
-                      builder: (controller) {
-                        return AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          decoration: BoxDecoration(
-                            color: AppColors.greyLighter,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            topic,
-                            style: context.body1.copyWith(
-                              color: AppColors.greyDarker,
-                              fontWeight: AppFonts.semiBold,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  );
+                  return categoryItem(topic, context);
                 },
               ),
 
@@ -70,6 +48,33 @@ class CategoriesView extends GetView<CategoriesController> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  GestureDetector categoryItem(String topic, BuildContext context) {
+    return GestureDetector(
+      onTap: controller.onCategoryPressed,
+      child: GetBuilder<CategoriesController>(
+        assignId: true,
+        id: topic,
+        builder: (controller) {
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            decoration: BoxDecoration(
+              color: AppColors.greyLighter,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              tr(topic),
+              style: context.body1.copyWith(
+                color: AppColors.greyDarker,
+                fontWeight: AppFonts.semiBold,
+              ),
+            ),
+          );
+        },
       ),
     );
   }

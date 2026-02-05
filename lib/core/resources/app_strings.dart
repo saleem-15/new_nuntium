@@ -44,11 +44,11 @@ class AppStrings {
   static String get forgetPasswordSubTitle => tr('forgetParagraph');
   static String get remmeberPassword => tr('remember_password');
   static String get tryAgain => tr('try_again');
-static String get checkYourMail => tr('checkYourMail');
-static String get emailSentDescription => tr('emailSentDescription');
-static String get doneBackToLogin => tr('doneBackToLogin');
-static String get resendLink => tr('resendLink');
-static String get emailSendFailed => tr('emailSendFailed');
+  static String get checkYourMail => tr('checkYourMail');
+  static String get emailSentDescription => tr('emailSentDescription');
+  static String get doneBackToLogin => tr('doneBackToLogin');
+  static String get resendLink => tr('resendLink');
+  static String get emailSendFailed => tr('emailSendFailed');
 
   // Create New Password && Change Password Pages
   static String get createNewPasswordTitle => tr('createNewPasswordTitle');
@@ -74,16 +74,16 @@ static String get emailSendFailed => tr('emailSendFailed');
   static String get selectFavoriteTopicsSubTitle =>
       tr('selectYourFavouriteTopicsParagraph');
   // Topics (With Emoji)
-  static String get fashionWithEmoji => tr('fashionWithEmoji');
-  static String get artWithEmoji => tr('artWithEmoji');
-  static String get natureWithEmoji => tr('natureWithEmoji');
-  static String get gamingWithEmoji => tr('gamingWithEmoji');
-  static String get politicsWithEmoji => tr('politicsWithEmoji');
-  static String get historyWithEmoji => tr('historyWithEmoji');
-  static String get foodWithEmoji => tr('foodWithEmoji');
-  static String get animalsWithEmoji => tr('animalsWithEmoji');
-  static String get lifeWithEmoji => tr('lifeWithEmoji');
-  static String get sportsWithEmoji => tr('sportsWithEmoji');
+  static String get fashionWithEmoji => 'fashionWithEmoji';
+  static String get artWithEmoji => 'artWithEmoji';
+  static String get natureWithEmoji => 'natureWithEmoji';
+  static String get gamingWithEmoji => 'gamingWithEmoji';
+  static String get politicsWithEmoji => 'politicsWithEmoji';
+  static String get historyWithEmoji => 'historyWithEmoji';
+  static String get foodWithEmoji => 'foodWithEmoji';
+  static String get animalsWithEmoji => 'animalsWithEmoji';
+  static String get lifeWithEmoji => 'lifeWithEmoji';
+  static String get sportsWithEmoji => 'sportsWithEmoji';
 
   // Home Page
   static String get homePageTitle => tr('browse');
@@ -93,17 +93,21 @@ static String get emailSendFailed => tr('emailSendFailed');
   static String get seeAll => tr('seeAll');
   static String get noArticlesFound => tr('No articles found');
 
-  static String get fashion => tr('fashion');
-  static String get art => tr('art');
-  static String get nature => tr('nature');
-  static String get gaming => tr('gaming');
-  static String get politics => tr('politics');
-  static String get history => tr('history');
-  static String get food => tr('food');
-  static String get animals => tr('animals');
-  static String get life => tr('life');
-  static String get sports => tr('sports');
-  static String get random => tr('random');
+  static String get fashion => 'fashion';
+  static String get art => 'art';
+  static String get nature => 'nature';
+  static String get gaming => 'gaming';
+  static String get politics => 'politics';
+  static String get history => 'history';
+  static String get food => 'food';
+  static String get animals => 'animals';
+  static String get life => 'life';
+  static String get sports => 'sports';
+  static String get general => 'general';
+  static String get business => 'business';
+  static String get entertainment => 'entertainment';
+  static String get technology => 'technology';
+  static String get science => 'science';
 
   // Categories Page
   static String get categoriesPageTitle => tr('categories');
@@ -146,5 +150,4 @@ static String get emailSendFailed => tr('emailSendFailed');
   // Error Messages
   static String get errorLoadingNews => tr('errorLoadingNews');
   static String get error => tr("error");
-
 }
