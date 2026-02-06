@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:new_nuntium/config/dependency_injection.dart';
+import 'package:new_nuntium/config/routes.dart';
 import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/features/bookmarks/domain/entity/bookmark_event.dart';
 import 'package:new_nuntium/features/bookmarks/domain/use_cases/watch_bookmarks_changes_use_case.dart';
@@ -45,5 +46,18 @@ class ArticleController extends GetxController {
 
   void onBackPressed() {
     Get.back();
+  }
+
+  void onViewOriginalArticlePressed() {
+    if (article.url.isEmpty) {
+      Get.snackbar("Error", "No URL available for this article");
+      return;
+    }
+
+    Get.toNamed(
+      // () => ArticleWebViewPage(),
+      Routes.originalArticleView,
+      arguments: article.url, // نمرر الرابط هنا
+    );
   }
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
+import 'package:new_nuntium/features/article_details/presentation/controller/presentation/view/article_view.dart';
 import 'package:new_nuntium/features/auth/presentation/view/change_password_view.dart';
 import 'package:new_nuntium/features/auth/presentation/view/forget_password_view.dart';
 import 'package:new_nuntium/features/auth/presentation/view/login_view.dart';
 import 'package:new_nuntium/features/auth/presentation/view/sign_up_view.dart';
 import 'package:new_nuntium/features/auth/presentation/view/verification_code_view.dart';
-import 'package:new_nuntium/features/article_details/presentation/controller/presentation/view/article_view.dart';
 import 'package:new_nuntium/features/bookmarks/presentation/view/bookmarks_view.dart';
 import 'package:new_nuntium/features/home/presentation/view/home_page.dart';
 import 'package:new_nuntium/features/language/presentation/view/language_view.dart';
@@ -18,6 +18,7 @@ import 'package:new_nuntium/features/profile/view/profile_view.dart';
 import 'package:new_nuntium/features/select_favorite_topics/view/select_favorite_topics_view.dart';
 import 'package:new_nuntium/features/terms_and_conditions/presentation/view/terms_and_conditions_view.dart';
 
+import '../features/article_details/presentation/controller/presentation/view/original_article_webview.dart';
 import '../features/splash/view/splash_screen.dart';
 import 'dependency_injection.dart';
 
@@ -43,6 +44,7 @@ class Routes {
   static const String profileView = '/profile_view';
   static const String bookmarksView = '/bookmarks_view';
   static const String articleView = '/article_view';
+  static const String originalArticleView = '/original_article_view';
 
   // --- Profile related ---
   static const String languageView = '/language_view';
@@ -109,6 +111,18 @@ class RouteGenerator {
           initArticle(article);
         }
         return MaterialPageRoute(builder: (_) => const ArticleView());
+
+      case Routes.originalArticleView:
+        // 1. Pick the arguments that was sent via Get.toNamed
+        if (settings.arguments is String) {
+          final articleUrl = settings.arguments as String;
+
+          // 2. Inject the arguments in dependency injection method
+          initOriginalArticle(articleUrl);
+        }
+        return MaterialPageRoute(
+          builder: (_) => const OriginalArticleWebView(),
+        );
 
       case Routes.bookmarksView:
         initBookmarks();

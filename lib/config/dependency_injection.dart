@@ -15,7 +15,8 @@ import 'package:new_nuntium/core/network/network_info.dart';
 import 'package:new_nuntium/core/services/language_service.dart';
 import 'package:new_nuntium/core/services/shared_prefrences.dart';
 import 'package:new_nuntium/core/services/storage_service.dart';
-import 'package:new_nuntium/features/article_details/presentation/controller/article_controller.dart';
+import 'package:new_nuntium/features/article_details/presentation/controller/presentation/controller/article_controller.dart';
+import 'package:new_nuntium/features/article_details/presentation/controller/presentation/controller/article_webview_controller.dart';
 import 'package:new_nuntium/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:new_nuntium/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:new_nuntium/features/auth/domain/repositories/auth_repository.dart';
@@ -364,4 +365,18 @@ void initArticle(Article article) {
 
 void disposeArticlePage() {
   Get.delete<ArticleController>();
+}
+
+void initOriginalArticle(String articleUrl) {
+  // نحذف الكنترلر القديم (إن وجد) لضمان عدم بقاء بيانات مقال سابق
+  if (Get.isRegistered<OriginalArticleWebViewController>()) {
+    Get.delete<OriginalArticleWebViewController>();
+  }
+
+  // نحقن الكنترلر ونعطيه المقال مباشرة عبر الـ Constructor
+  Get.put(OriginalArticleWebViewController(articleUrl));
+}
+
+void disposeOriginalArticlePage() {
+  Get.delete<OriginalArticleWebViewController>();
 }

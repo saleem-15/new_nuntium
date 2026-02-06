@@ -93,6 +93,12 @@ class AppStrings {
   static String get seeAll => tr('seeAll');
   static String get noArticlesFound => tr('No articles found');
 
+  // Article Page
+  static String get viewOriginalArticle => tr('viewOriginalArticle');
+  static String get originalArticle => tr('originalArticle');
+  static String get retry => tr('retry');
+
+
   static String get fashion => 'fashion';
   static String get art => 'art';
   static String get nature => 'nature';
@@ -150,4 +156,5 @@ class AppStrings {
   // Error Messages
   static String get errorLoadingNews => tr('errorLoadingNews');
   static String get error => tr("error");
+
 }

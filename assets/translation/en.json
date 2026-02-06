@@ -89,7 +89,13 @@
   "recommended_for_you": "Recommended for you",
   "seeAll": "See All",
   "No articles found":"No articles found",
-
+  
+  
+  "// Article Page": "/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+  "viewOriginalArticle":"View Original Article",
+  "originalArticle":"Original Article",
+  "retry":"Retry",
+ 
   "// Categories Page": "/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
   "categories": "Categories",
   "categoriesParagraph": "Thousands of articles in each category",

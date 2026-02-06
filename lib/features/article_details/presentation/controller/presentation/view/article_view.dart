@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart'; // لتشغيل أيقونات SVG
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:new_nuntium/core/resources/app_assets.dart'; // تأكد من وجود مسارات الأيقونات
+import 'package:new_nuntium/core/resources/app_assets.dart';
+import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
-import 'package:new_nuntium/features/article_details/presentation/controller/article_controller.dart';
+import 'package:new_nuntium/core/widgets/primary_button.dart';
+import 'package:new_nuntium/features/article_details/presentation/controller/presentation/controller/article_controller.dart';
 
 class ArticleView extends GetView<ArticleController> {
   const ArticleView({super.key});
@@ -13,16 +15,15 @@ class ArticleView extends GetView<ArticleController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // نجعل الخلفية سوداء لتناسب الصورة
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          // 1. صورة الخلفية (تغطي الجزء العلوي)
+          // Image
           Positioned(
             top: 0,
             left: 0,
             right: 0,
-            height: 400.h, // ارتفاع الصورة
+            height: 400.h,
             child: CachedNetworkImage(
               imageUrl: controller.article.imageUrl,
               fit: BoxFit.cover,
@@ -32,7 +33,7 @@ class ArticleView extends GetView<ArticleController> {
             ),
           ),
 
-          // طبقة شفافة خفيفة فوق الصورة لتحسين رؤية الأزرار العلوية
+          // Black gradient, To enhance the vision of upper buttons
           Positioned(
             top: 0,
             left: 0,
@@ -52,25 +53,22 @@ class ArticleView extends GetView<ArticleController> {
             ),
           ),
 
-          // 2. الأزرار العلوية (Back, Bookmark, Share)
+          // Upper buttons
           Positioned(
-            top: 50.h, // لنتجاوز الـ StatusBar
+            top: 50.h,
             left: 20.w,
             right: 20.w,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildIconButton(
-                  iconPath: AppIcons.back, // استبدل بمسار أيقونة الرجوع لديك
+                  iconPath: AppIcons.back,
                   matchTextDirection: true,
-
                   onTap: controller.onBackPressed,
                 ),
-
                 Row(
                   children: [
                     GetBuilder<ArticleController>(
-                      assignId: true,
                       id: controller.article.id,
                       builder: (_) => _buildIconButton(
                         iconPath: controller.article.isSaved
@@ -78,7 +76,8 @@ class ArticleView extends GetView<ArticleController> {
                             : AppIcons.bookmark,
                         onTap: controller.onBookmarkPressed,
                         color: controller.article.isSaved
-                            ? AppColors.greyPrimary
+                            ? AppColors
+                                  .purplePrimary // لون التفعيل
                             : null,
                       ),
                     ),
@@ -93,23 +92,26 @@ class ArticleView extends GetView<ArticleController> {
             ),
           ),
 
-          // 3. محتوى المقال (الورقة البيضاء المنزلقة)
+          // Article Content (Scrollable)
           Positioned.fill(
-            top: 320.h, // يبدأ النزول من هنا ليغطي جزءاً من الصورة
+            top: 320.h,
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24.r),
-                  topRight: Radius.circular(24.r),
-                ),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
               ),
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+                // ✅ إضافة مساحة سفلية كبيرة لضمان عدم اختفاء النص خلف الزر العائم
+                padding: EdgeInsets.only(
+                  left: 20.w,
+                  right: 20.w,
+                  top: 24.h,
+                  bottom: 100.h,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // التصنيف (Category Badge)
+                    // Category Badge
                     Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: 12.w,
@@ -130,7 +132,7 @@ class ArticleView extends GetView<ArticleController> {
                     ),
                     SizedBox(height: 16.h),
 
-                    // العنوان (Title)
+                    // Title
                     Text(
                       controller.article.title,
                       style: TextStyle(
@@ -142,11 +144,9 @@ class ArticleView extends GetView<ArticleController> {
                     ),
                     SizedBox(height: 24.h),
 
-                    // المحتوى النصي (Content)
+                    // Content
                     Text(
-                      controller.article.content +
-                          controller.article.content +
-                          controller.article.content,
+                      controller.article.content,
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.normal,
@@ -154,9 +154,40 @@ class ArticleView extends GetView<ArticleController> {
                         height: 1.6,
                       ),
                     ),
-
-                    SizedBox(height: 40.h), // مسافة في الأسفل
                   ],
+                ),
+              ),
+            ),
+          ),
+
+          // View original article Button (Sticky Footer)
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                // Add upper shadow, To seperate the button from the article content
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, -5),
+                  ),
+                ],
+              ),
+              child: SafeArea(
+                top: false, 
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 16.h,
+                  ),
+                  child: PrimaryButton(
+                    text: AppStrings.viewOriginalArticle,
+                    onPressed: controller.onViewOriginalArticlePressed,
+                  ),
                 ),
               ),
             ),
@@ -166,7 +197,6 @@ class ArticleView extends GetView<ArticleController> {
     );
   }
 
-  // Widget مساعد لإنشاء الأزرار العلوية الشفافة
   Widget _buildIconButton({
     required String iconPath,
     required VoidCallback onTap,
@@ -178,14 +208,14 @@ class ArticleView extends GetView<ArticleController> {
       child: Container(
         height: 40.h,
         width: 40.w,
+
+        // Glassmorphism
         decoration: BoxDecoration(
-          color: Colors.grey.withValues(
-            alpha: 0.3,
-          ), // خلفية زجاجية (Glassmorphism)
+          color: Colors.grey.withValues(alpha: 0.3),
           borderRadius: BorderRadius.circular(12.r),
         ),
         padding: EdgeInsets.all(8.w),
-        child: SvgPicture.asset( 
+        child: SvgPicture.asset(
           iconPath,
           matchTextDirection: matchTextDirection,
           colorFilter: ColorFilter.mode(color ?? Colors.white, BlendMode.srcIn),
