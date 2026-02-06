@@ -46,6 +46,7 @@ dependencies:
   dartz: ^0.10.1
   firebase_crashlytics: ^5.0.7
   lottie: ^3.1.0
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -76,3 +77,14 @@ flutter:
           weight: 400
         - asset: assets/fonts/SF-Pro-Text-Semibold.otf
           weight: 600
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/app_icon.png"
+  
+  # (Adaptive Icons) for modern devices
+  adaptive_icon_background: "#2536A7" # (AppColors.purpleDarker)
+  adaptive_icon_foreground: "assets/images/app_icon.png" 
+  
