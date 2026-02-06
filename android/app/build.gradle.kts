@@ -47,12 +47,24 @@ android {
     }
 
     buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+        getByName("release") {
+        // في الكوتلن نستخدم = مع isMinifyEnabled وليس minifyEnabled
+        isMinifyEnabled = true
+        isShrinkResources = true
+        
+        // الأقواس ضرورية في Kotlin
+        proguardFiles(
+            getDefaultProguardFile("proguard-android-optimize.txt"),
+            "proguard-rules.pro"
+        )
+        
+        // التأكد من طريقة استدعاء التوقيع
+        signingConfig = signingConfigs.getByName("debug")
         }
+
+        
     }
+
 }
 
 flutter {
