@@ -60,7 +60,7 @@ import 'package:new_nuntium/features/profile/domain/use_cases/get_user_data_use_
 import 'package:new_nuntium/features/profile/view/controller/profile_controller.dart';
 import 'package:new_nuntium/features/select_favorite_topics/controller/select_favorite_topics_controller.dart';
 import 'package:new_nuntium/features/splash/controller/splash_controller.dart';
-import 'package:new_nuntium/features/terms_and_conditions/presentation/controller/terms_and_conditions_controller.dart';
+import 'package:new_nuntium/features/terms_and_conditions/presentation/controller/app_content_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../features/auth/domain/use_cases/change_password_use_case.dart';
@@ -344,12 +344,12 @@ void disposeChangePasswordPage() {
   Get.delete<ChangePasswordController>();
 }
 
-void initTermsAndConditions() {
-  Get.put(TermsAndConditionsController());
+void initContentController() {
+  Get.put(AppContentController());
 }
 
-void disposeTermsAndConditionsPage() {
-  Get.delete<TermsAndConditionsController>();
+void disposeContentControllerPage() {
+  Get.delete<AppContentController>();
 }
 
 // عدل الدالة لتستقبل Article

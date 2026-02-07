@@ -13,10 +13,9 @@ import 'package:new_nuntium/features/language/presentation/view/language_view.da
 import 'package:new_nuntium/features/main/main_view.dart';
 import 'package:new_nuntium/features/onboarding/view/onboarding_screen.dart';
 import 'package:new_nuntium/features/onboarding/view/welcome_screen.dart';
-import 'package:new_nuntium/features/profile/view/app_content_view.dart';
 import 'package:new_nuntium/features/profile/view/profile_view.dart';
 import 'package:new_nuntium/features/select_favorite_topics/view/select_favorite_topics_view.dart';
-import 'package:new_nuntium/features/terms_and_conditions/presentation/view/terms_and_conditions_view.dart';
+import 'package:new_nuntium/features/terms_and_conditions/presentation/view/app_content_view.dart';
 
 import '../features/article_details/presentation/controller/presentation/view/original_article_webview.dart';
 import '../features/splash/view/splash_screen.dart';
@@ -142,7 +141,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ChangePasswordView());
 
       case Routes.privacyAndPolicyView:
-        initChangePassword();
+        initContentController();
         return MaterialPageRoute(
           builder: (_) => AppContentView(
             title: AppStrings.privacyPolicyTitle,
@@ -151,9 +150,12 @@ class RouteGenerator {
         );
 
       case Routes.termsAndConditionsView:
-        initTermsAndConditions();
+        initContentController();
         return MaterialPageRoute(
-          builder: (_) => const TermsAndConditionsView(),
+          builder: (_) => AppContentView(
+            title: AppStrings.termsAndConditions,
+            content: AppStrings.termsAndConditionsBody,
+          ),
         );
 
       default:

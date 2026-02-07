@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class TermsAndConditionsController extends GetxController {
+class AppContentController extends GetxController {
   void onBackButtonPressed() {
     Get.back();
   }
