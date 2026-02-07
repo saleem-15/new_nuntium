@@ -16,6 +16,12 @@ import 'core/utils/app_logger.dart';
 Future<void> main() async {
   await initApp();
 
+  // Limit app usage to Portrait mode 
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   // تمرير جميع أخطاء فلاتر (الأخطاء البرمجية) إلى Crashlytics
   FlutterError.onError = (errorDetails) {
     crashlytics.recordFlutterFatalError(errorDetails);
