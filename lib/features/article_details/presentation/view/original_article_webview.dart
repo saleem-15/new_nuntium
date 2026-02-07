@@ -7,9 +7,9 @@ import 'package:new_nuntium/core/widgets/app_back_button.dart';
 import 'package:new_nuntium/core/widgets/primary_button.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../controller/article_webview_controller.dart';
+import '../controller/original_article_controller.dart';
 
-class OriginalArticleWebView extends GetView<OriginalArticleWebViewController> {
+class OriginalArticleWebView extends GetView<OriginalArticleController> {
   const OriginalArticleWebView({super.key});
 
   @override

@@ -15,8 +15,8 @@ import 'package:new_nuntium/core/network/network_info.dart';
 import 'package:new_nuntium/core/services/language_service.dart';
 import 'package:new_nuntium/core/services/shared_prefrences.dart';
 import 'package:new_nuntium/core/services/storage_service.dart';
-import 'package:new_nuntium/features/article_details/presentation/controller/presentation/controller/article_controller.dart';
-import 'package:new_nuntium/features/article_details/presentation/controller/presentation/controller/article_webview_controller.dart';
+import 'package:new_nuntium/features/article_details/presentation/controller/article_controller.dart';
+import 'package:new_nuntium/features/article_details/presentation/controller/original_article_controller.dart';
 import 'package:new_nuntium/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:new_nuntium/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:new_nuntium/features/auth/domain/repositories/auth_repository.dart';
@@ -57,7 +57,7 @@ import 'package:new_nuntium/features/onboarding/controller/welcome_controller.da
 import 'package:new_nuntium/features/profile/data/repository/profile_repository_impl.dart';
 import 'package:new_nuntium/features/profile/domain/repository/profile_repository.dart';
 import 'package:new_nuntium/features/profile/domain/use_cases/get_user_data_use_case.dart';
-import 'package:new_nuntium/features/profile/view/controller/profile_controller.dart';
+import 'package:new_nuntium/features/profile/presentation/controller/profile_controller.dart';
 import 'package:new_nuntium/features/select_favorite_topics/controller/select_favorite_topics_controller.dart';
 import 'package:new_nuntium/features/splash/controller/splash_controller.dart';
 import 'package:new_nuntium/features/terms_and_conditions/presentation/controller/app_content_controller.dart';
@@ -369,14 +369,14 @@ void disposeArticlePage() {
 
 void initOriginalArticle(String articleUrl) {
   // نحذف الكنترلر القديم (إن وجد) لضمان عدم بقاء بيانات مقال سابق
-  if (Get.isRegistered<OriginalArticleWebViewController>()) {
-    Get.delete<OriginalArticleWebViewController>();
+  if (Get.isRegistered<OriginalArticleController>()) {
+    Get.delete<OriginalArticleController>();
   }
 
   // نحقن الكنترلر ونعطيه المقال مباشرة عبر الـ Constructor
-  Get.put(OriginalArticleWebViewController(articleUrl));
+  Get.put(OriginalArticleController(articleUrl));
 }
 
 void disposeOriginalArticlePage() {
-  Get.delete<OriginalArticleWebViewController>();
+  Get.delete<OriginalArticleController>();
 }

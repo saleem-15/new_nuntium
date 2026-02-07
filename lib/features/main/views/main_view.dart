@@ -8,7 +8,7 @@ import 'package:new_nuntium/features/bookmarks/presentation/view/bookmarks_view.
 import 'package:new_nuntium/features/categories/presentation/views/categories_view.dart';
 import 'package:new_nuntium/features/home/presentation/view/home_page.dart';
 import 'package:new_nuntium/features/main/controller/main_controller.dart';
-import 'package:new_nuntium/features/profile/view/profile_view.dart';
+import 'package:new_nuntium/features/profile/presentation/view/profile_view.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 class MainView extends GetView<MainController> {

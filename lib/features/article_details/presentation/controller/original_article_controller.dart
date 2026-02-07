@@ -4,10 +4,10 @@ import 'package:new_nuntium/config/dependency_injection.dart';
 import 'package:new_nuntium/core/network/network_info.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class OriginalArticleWebViewController extends GetxController {
+class OriginalArticleController extends GetxController {
   final String url;
 
-  OriginalArticleWebViewController(this.url);
+  OriginalArticleController(this.url);
 
   final _networkInfo = getIt<NetworkInfo>();
   late final WebViewController webViewController;

@@ -7,7 +7,7 @@ import 'package:new_nuntium/core/resources/app_assets.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
 import 'package:new_nuntium/core/widgets/primary_button.dart';
-import 'package:new_nuntium/features/article_details/presentation/controller/presentation/controller/article_controller.dart';
+import 'package:new_nuntium/features/article_details/presentation/controller/article_controller.dart';
 
 class ArticleView extends GetView<ArticleController> {
   const ArticleView({super.key});

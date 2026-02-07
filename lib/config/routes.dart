@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_nuntium/core/models/article.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
-import 'package:new_nuntium/features/article_details/presentation/controller/presentation/view/article_view.dart';
+import 'package:new_nuntium/features/article_details/presentation/view/article_view.dart';
 import 'package:new_nuntium/features/auth/presentation/view/change_password_view.dart';
 import 'package:new_nuntium/features/auth/presentation/view/forget_password_view.dart';
 import 'package:new_nuntium/features/auth/presentation/view/login_view.dart';
@@ -10,14 +10,14 @@ import 'package:new_nuntium/features/auth/presentation/view/verification_code_vi
 import 'package:new_nuntium/features/bookmarks/presentation/view/bookmarks_view.dart';
 import 'package:new_nuntium/features/home/presentation/view/home_page.dart';
 import 'package:new_nuntium/features/language/presentation/view/language_view.dart';
-import 'package:new_nuntium/features/main/main_view.dart';
+import 'package:new_nuntium/features/main/views/main_view.dart';
 import 'package:new_nuntium/features/onboarding/view/onboarding_screen.dart';
 import 'package:new_nuntium/features/onboarding/view/welcome_screen.dart';
-import 'package:new_nuntium/features/profile/view/profile_view.dart';
+import 'package:new_nuntium/features/profile/presentation/view/profile_view.dart';
 import 'package:new_nuntium/features/select_favorite_topics/view/select_favorite_topics_view.dart';
 import 'package:new_nuntium/features/terms_and_conditions/presentation/view/app_content_view.dart';
 
-import '../features/article_details/presentation/controller/presentation/view/original_article_webview.dart';
+import '../features/article_details/presentation/view/original_article_webview.dart';
 import '../features/splash/view/splash_screen.dart';
 import 'dependency_injection.dart';
 

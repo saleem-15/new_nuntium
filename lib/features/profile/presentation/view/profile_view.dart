@@ -5,8 +5,8 @@ import 'package:new_nuntium/core/constants/get_builders_ids.dart';
 import 'package:new_nuntium/core/extensions/theme_extension.dart';
 import 'package:new_nuntium/core/resources/app_strings.dart';
 import 'package:new_nuntium/core/theme/app_colors.dart';
-import 'package:new_nuntium/features/profile/view/controller/profile_controller.dart';
-import 'package:new_nuntium/features/profile/view/widgets/settings_list_tile.dart';
+import 'package:new_nuntium/features/profile/presentation/controller/profile_controller.dart';
+import 'package:new_nuntium/features/profile/presentation/view/widgets/settings_list_tile.dart';
 
 class ProfileView extends GetView<ProfileController> {
   const ProfileView({super.key});

@@ -6,7 +6,7 @@ import 'package:new_nuntium/core/constants/get_builders_ids.dart';
 import 'package:new_nuntium/core/widgets/snack_bars/error_snack_bar.dart';
 import 'package:new_nuntium/features/auth/domain/use_cases/sign_out_use_case.dart';
 import 'package:new_nuntium/features/profile/domain/use_cases/get_user_data_use_case.dart';
-import 'package:new_nuntium/features/profile/view/widgets/sign_out_dialog.dart';
+import 'package:new_nuntium/features/profile/presentation/view/widgets/sign_out_dialog.dart';
 
 import '../../domain/entities/user_entity.dart';
 
