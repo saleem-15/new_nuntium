@@ -1,74 +1,93 @@
-# The name of the workflow
-name: "Build & Release"
+# Workflow name: Comprehensive Build and Release for Flutter
+name: "Build & Release (Unsigned)"
 
-
-# These are the cases we want to trigger this action on
-# This means whenever a push to 'main' branch the action will be triggered
 on:
-    push:
-        branches:
-            - main
-  
-            
-#  What we want to do 
-    
-jobs:  # Telling what jobs we need to happen
-  build:      # Specify the building name and machine
-    name: Build & Release  # you can name the build whatever you want
-    runs-on: macos-latest # here we selected macos-latest to be able to get ios build
+  push:
+    branches:
+      - main
+      - dev
 
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build & Release
+    # Using ubuntu-latest is 10x cheaper in minutes than macos-latest
+    runs-on: ubuntu-latest 
 
     steps:
-       - name: "Checkout Repository"
-         uses: actions/checkout@v3
+      # Step 1: Check out the source code from the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-        #  sets up the required Java environment (This is necessary for building Android apps)
-       - name: Set Up Java
-         uses: actions/setup-java@v3.12.0 
-         with:
-            distribution: 'oracle'
-            java-version: '17'
+      # Step 2: Set up Java environment required for Android builds
+      - name: Set Up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'oracle'
+          java-version: '17'
 
-        # set up the Flutter environment with the specified version and channel.
-       - name: Set Up Flutter
-         uses: subosito/flutter-action@v2
-         with:
-            flutter-version: '3.38.7'
-            channel: 'stable'
+      # Step 3: Install Flutter with the specific version used in the project
+      - name: Set Up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.7'
+          channel: 'stable'
 
-        #  install the necessary dependencies for the Flutter project
-       - name: Install dependencies
-         run: flutter pub get
-        
-       - name: Create .env file
-         run: |
-          echo "${{ secrets.ENV_FILE }}" > .env
+      # Step 4: Fetch project dependencies
+      - name: Install Dependencies
+        run: flutter pub get
 
-       - name: Decode Google Services JSON
-         run: |
-          echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 --decode > android/app/google-services.json
-        
-          # Build Apk 
-       - name: Build apk
-         run: flutter build apk 
+      # Step 5: Security - Recreate the .env file from GitHub Secrets
+      - name: Create .env file
+        run: echo "${{ secrets.ENV_FILE }}" > .env
 
-       - name: Build IPA
-         run: flutter build ipa --no-codesign
+      # Step 6: Security - Decode and place Firebase configuration
+      - name: Decode Google Services JSON
+        run: echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 --decode > android/app/google-services.json
 
-    #  upload the build artifacts (APK, AAB, and compressed iOS build) for later download.
-    #  This makes the build outputs accessible from the GitHub Actions run page.
-       - name: Upload Artifacts
-         uses: actions/upload-artifact@v4
-         with:
-            name: Releases
-            path: |
-                build/app/outputs/flutter-apk/app-release.apk
-                build/app/outputs/bundle/release/app-release.aab
-                build/ios_build.tar.g
+      # Step 7: Build the application (APK only as it is unsigned)
+      - name: Build APK
+        run: flutter build apk --release
 
+      # Step 8: Versioning - Extract version string from pubspec.yaml
+      - name: Extract version from pubspec.yaml
+        id: extract_version
+        run: |
+          version=$(grep '^version: ' pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
+          echo "VERSION=$version" >> $GITHUB_ENV
+          echo "RAW_VERSION=$version" >> $GITHUB_OUTPUT
 
+      # Step 9: Versioning - Verify if the current version tag already exists on GitHub
+      - name: Check if Tag Exists
+        id: check_tag
+        run: |
+          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
+            echo "TAG_EXISTS=true" >> $GITHUB_ENV
+          else
+            echo "TAG_EXISTS=false" >> $GITHUB_ENV
+          fi
 
+      # Step 10: Versioning - If version exists, append the build number to prevent conflicts
+      - name: Modify Tag if Duplicate
+        if: env.TAG_EXISTS == 'true'
+        run: |
+          new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
+          echo "VERSION=$new_version" >> $GITHUB_ENV
 
-
-            
-
+      # Step 11: Deployment - Create a GitHub Release and attach the APK
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/flutter-apk/app-release.apk"
+          tag: v${{ env.VERSION }}
+          name: "Release ${{ env.VERSION }}"
+          body: |
+            Automated build for project Nuntium.
+            Build Number: ${{ github.run_number }}
+            Latest Commit: ${{ github.event.head_commit.message }}
+            Note: This is an unsigned APK for testing purposes.
+          token: ${{ secrets.GITHUB_TOKEN }}
