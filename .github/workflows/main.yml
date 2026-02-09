@@ -1,0 +1,66 @@
+# The name of the workflow
+name: "Build & Release"
+
+
+# These are the cases we want to trigger this action on
+# This means whenever a push to 'main' branch the action will be triggered
+on:
+    push:
+        branches:
+            - main
+  
+            
+#  What we want to do 
+    
+jobs:  # Telling what jobs we need to happen
+  build:      # Specify the building name and machine
+    name: Build & Release  # you can name the build whatever you want
+    runs-on: macos-latest # here we selected macos-latest to be able to get ios build
+
+
+    steps:
+       - name: "Checkout Repository"
+         uses: actions/checkout@v3
+
+        #  sets up the required Java environment (This is necessary for building Android apps)
+       - name: Set Up Java
+         uses: actions/setup-java@v3.12.0 
+         with:
+            distribution: 'oracle'
+            java-version: '17'
+
+        # set up the Flutter environment with the specified version and channel.
+       - name: Set Up Flutter
+         uses: subosito/flutter-action@v2
+         with:
+            flutter-version: '3.38.7'
+            channel: 'stable'
+
+        #  install the necessary dependencies for the Flutter project
+       - name: Install dependencies
+         run: flutter pub get
+
+        # Build Apk 
+       - name: Build apk
+         run: flutter build apk 
+
+       - name: Build IPA
+         run: flutter build ipa --no-codesign
+
+    #  upload the build artifacts (APK, AAB, and compressed iOS build) for later download.
+    #  This makes the build outputs accessible from the GitHub Actions run page.
+       - name: Upload Artifacts
+         uses: actions/upload-artifact@v2
+         with:
+            name: Releases
+            path: |
+                build/app/outputs/flutter-apk/app-release.apk
+                build/app/outputs/bundle/release/app-release.aab
+                build/ios_build.tar.g
+
+
+
+
+
+            
+
