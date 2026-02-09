@@ -43,6 +43,10 @@ jobs:  # Telling what jobs we need to happen
        - name: Create .env file
          run: |
           echo "${{ secrets.ENV_FILE }}" > .env
+
+       - name: Decode Google Services JSON
+         run: |
+          echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 --decode > android/app/google-services.json
         
           # Build Apk 
        - name: Build apk
