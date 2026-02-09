@@ -50,7 +50,7 @@ jobs:  # Telling what jobs we need to happen
     #  upload the build artifacts (APK, AAB, and compressed iOS build) for later download.
     #  This makes the build outputs accessible from the GitHub Actions run page.
        - name: Upload Artifacts
-         uses: actions/upload-artifact@v2
+         uses: actions/upload-artifact@v4
          with:
             name: Releases
             path: |
