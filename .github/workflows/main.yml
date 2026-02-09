@@ -39,8 +39,12 @@ jobs:  # Telling what jobs we need to happen
         #  install the necessary dependencies for the Flutter project
        - name: Install dependencies
          run: flutter pub get
-
-        # Build Apk 
+        
+       - name: Create .env file
+         run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+        
+          # Build Apk 
        - name: Build apk
          run: flutter build apk 
 

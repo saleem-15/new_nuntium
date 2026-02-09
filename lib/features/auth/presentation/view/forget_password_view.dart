@@ -15,38 +15,41 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(bottom: 20.h, right: 20.w, left: 20.w),
-        child: Column(
-          children: [
-            Header(
-              title: AppStrings.forgetPasswordTitle,
-              subTtitle: AppStrings.forgetPasswordSubTitle,
-            ),
-            //Email Field
-            CustomTextField(
-              controller: controller.emailController,
-              hintText: AppStrings.emailAdress,
-              prefixIcon: AppIcons.email,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-            ),
+      body: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 20.h, right: 20.w, left: 20.w),
+          child: Column(
+            children: [
+              Header(
+                title: AppStrings.forgetPasswordTitle,
+                subTtitle: AppStrings.forgetPasswordSubTitle,
+              ),
+              //Email Field
+              CustomTextField(
+                controller: controller.emailController,
+                hintText: AppStrings.emailAdress,
+                prefixIcon: AppIcons.email,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+              ),
 
-            SizedBox(height: 16.h),
+              SizedBox(height: 16.h),
 
-            PrimaryButton(
-              text: AppStrings.next,
-              onPressed: controller.onNextPressed,
-            ),
+              PrimaryButton(
+                text: AppStrings.next,
+                onPressed: controller.onNextPressed,
+              ),
 
-            Spacer(),
+              Spacer(),
 
-            CustomRichText(
-              firstText: AppStrings.remmeberPassword,
-              secondText: AppStrings.tryAgain,
-              onTap: controller.onTryAgainPressed,
-            ),
-          ],
+              CustomRichText(
+                firstText: AppStrings.remmeberPassword,
+                secondText: AppStrings.tryAgain,
+                onTap: controller.onTryAgainPressed,
+              ),
+            ],
+          ),
         ),
       ),
     );
