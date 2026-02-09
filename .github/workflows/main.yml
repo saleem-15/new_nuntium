@@ -1,11 +1,12 @@
-# Workflow name: Comprehensive Build and Release for Flutter
-name: "Build & Release (Unsigned)"
+# Workflow for building and releasing Nuntium Flutter App
+name: "Build & Release (High Performance)"
 
 on:
   push:
     branches:
       - main
       - dev
+      - test
 
 permissions:
   contents: write
@@ -13,72 +14,75 @@ permissions:
 jobs:
   build:
     name: Build & Release
-    # Using ubuntu-latest is 10x cheaper in minutes than macos-latest
+    # Ubuntu is 10x more cost-effective than macOS for Android builds
     runs-on: ubuntu-latest 
 
     steps:
-      # Step 1: Check out the source code from the repository
+      # Step 1: Checkout the code
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # Step 2: Set up Java environment required for Android builds
+      # Step 2: Java Setup
       - name: Set Up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'oracle'
           java-version: '17'
 
-      # Step 3: Install Flutter with the specific version used in the project
+      # Step 3: Flutter Setup with Internal Caching
       - name: Set Up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.38.7'
           channel: 'stable'
+          cache: true 
 
-      # Step 4: Fetch project dependencies
+      # Step 4: Manual Gradle Caching with "Emergency Switch" (v1)
+      # Change 'v1' to 'v2' to manually clear the cache
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: v1-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            v1-${{ runner.os }}-gradle-
+
+      # Step 5: Install Project Dependencies
       - name: Install Dependencies
         run: flutter pub get
 
-      # Step 5: Security - Recreate the .env file from GitHub Secrets
-      - name: Create .env file
-        run: echo "${{ secrets.ENV_FILE }}" > .env
+      # Step 6: Inject Secrets (.env and Firebase)
+      - name: Inject Secrets
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+          echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 --decode > android/app/google-services.json
 
-      # Step 6: Security - Decode and place Firebase configuration
-      - name: Decode Google Services JSON
-        run: echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 --decode > android/app/google-services.json
-
-      # Step 7: Build the application (APK only as it is unsigned)
+      # Step 7: Build APK for Modern Devices (64-bit arm64-v8a)
+      # Faster build, smaller size, targeted for modern hardware
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --release --target-platform android-arm64
 
-      # Step 8: Versioning - Extract version string from pubspec.yaml
-      - name: Extract version from pubspec.yaml
+      # Step 8: Version Extraction Logic
+      - name: Extract Version
         id: extract_version
         run: |
           version=$(grep '^version: ' pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
           echo "VERSION=$version" >> $GITHUB_ENV
-          echo "RAW_VERSION=$version" >> $GITHUB_OUTPUT
 
-      # Step 9: Versioning - Verify if the current version tag already exists on GitHub
-      - name: Check if Tag Exists
-        id: check_tag
+      # Step 9: Intelligent Tagging System
+      - name: Check/Modify Tag
+        id: tag_logic
         run: |
-          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
-            echo "TAG_EXISTS=true" >> $GITHUB_ENV
-          else
-            echo "TAG_EXISTS=false" >> $GITHUB_ENV
+          if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+            # If tag exists, append build number to keep it unique
+            echo "VERSION=$VERSION-build-${{ github.run_number }}" >> $GITHUB_ENV
           fi
 
-      # Step 10: Versioning - If version exists, append the build number to prevent conflicts
-      - name: Modify Tag if Duplicate
-        if: env.TAG_EXISTS == 'true'
-        run: |
-          new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
-          echo "VERSION=$new_version" >> $GITHUB_ENV
-
-      # Step 11: Deployment - Create a GitHub Release and attach the APK
+      # Step 10: Automatic GitHub Release
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
@@ -86,8 +90,9 @@ jobs:
           tag: v${{ env.VERSION }}
           name: "Release ${{ env.VERSION }}"
           body: |
-            Automated build for project Nuntium.
-            Build Number: ${{ github.run_number }}
-            Latest Commit: ${{ github.event.head_commit.message }}
-            Note: This is an unsigned APK for testing purposes.
+            ## Nuntium Automated Build 🚀
+            - **Target:** Modern 64-bit devices (arm64-v8a)
+            - **Build Number:** ${{ github.run_number }}
+            - **Commit Message:** ${{ github.event.head_commit.message }}
+            - **Status:** Unsigned (For testing purposes)
           token: ${{ secrets.GITHUB_TOKEN }}
