@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,7 @@ import 'core/utils/app_logger.dart';
 
 Future<void> main() async {
   await initApp();
+  EquatableConfig.stringify = true;
 
   // Limit app usage to Portrait mode
   await SystemChrome.setPreferredOrientations([
