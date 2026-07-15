@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nuntium/config/dependency_injection.dart';
 import 'package:nuntium/config/routes.dart';
+import 'package:nuntium/core/errors/crash_reporter.dart';
 import 'package:nuntium/core/resources/app_assets.dart';
 import 'package:nuntium/core/localization/language_config.dart';
 

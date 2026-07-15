@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:nuntium/core/errors/crash_reporter.dart';
 import 'package:nuntium/core/network/api_client.dart';
 import 'package:nuntium/core/network/network_info.dart';
 import 'package:nuntium/core/services/shared_prefrences.dart';
@@ -51,7 +52,6 @@ import 'package:nuntium/features/select_favorite_topics/cubit/select_favorite_to
 import 'package:nuntium/features/splash/cubit/splash_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../core/utils/app_logger.dart';
 import '../features/auth/domain/use_cases/change_password_use_case.dart';
 import '../features/auth/domain/use_cases/send_email_verification_use_case.dart';
 import '../features/auth/domain/use_cases/check_email_verified_use_case.dart';

@@ -1,4 +1,5 @@
 import 'package:nuntium/config/dependency_injection.dart';
+import 'package:nuntium/core/errors/crash_reporter.dart';
 import 'package:nuntium/core/errors/exceptions.dart';
 import 'package:nuntium/core/errors/failures.dart';
 import 'package:nuntium/core/utils/app_logger.dart';
