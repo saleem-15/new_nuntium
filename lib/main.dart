@@ -25,12 +25,20 @@ Future<void> main() async {
 
   // تمرير جميع أخطاء فلاتر (الأخطاء البرمجية) إلى Crashlytics
   FlutterError.onError = (errorDetails) {
-    crashlytics.recordFlutterFatalError(errorDetails);
+    getIt<CrashReporter>().reportError(
+      exception: errorDetails.exception,
+      stackTrace: errorDetails.stack,
+      reason: CrashlyticsErrors.unexpectedError,
+    );
   };
 
   // تمرير الأخطاء التي تحدث خارج إطار فلاتر (مثل الأخطاء غير المتزامنة)
   PlatformDispatcher.instance.onError = (error, stack) {
-    crashlytics.recordError(error, stack, fatal: true);
+    getIt<CrashReporter>().reportError(
+      exception: error,
+      stackTrace: stack,
+      reason: CrashlyticsErrors.unexpectedError,
+    );
     return true;
   };
 

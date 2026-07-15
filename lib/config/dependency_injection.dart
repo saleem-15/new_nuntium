@@ -51,6 +51,7 @@ import 'package:nuntium/features/select_favorite_topics/cubit/select_favorite_to
 import 'package:nuntium/features/splash/cubit/splash_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../core/utils/app_logger.dart';
 import '../features/auth/domain/use_cases/change_password_use_case.dart';
 import '../features/auth/domain/use_cases/send_email_verification_use_case.dart';
 import '../features/auth/domain/use_cases/check_email_verified_use_case.dart';
@@ -87,9 +88,10 @@ Future<void> initApp() async {
   await Firebase.initializeApp();
 
   // Send Crashlytics reports only in release/production mode
-  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(kReleaseMode);
-
-  // Load '.env' file which holds the Api Key
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
+    kReleaseMode,
+  );
+  getIt.registerLazySingleton<CrashReporter>(() => FirebaseCrashReporter());
 
   await EasyLocalization.ensureInitialized();
 
@@ -119,7 +121,8 @@ void _initAuth() {
   );
 
   getIt.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(getIt<AuthRemoteDataSource>(), getIt<NetworkInfo>()),
+    () =>
+        AuthRepositoryImpl(getIt<AuthRemoteDataSource>(), getIt<NetworkInfo>()),
   );
 
   // Auth use cases — stateless, depend only on AuthRepository.
@@ -139,9 +142,7 @@ void _initAuth() {
   getIt.registerLazySingleton(
     () => ChangePasswordUseCase(getIt<AuthRepository>()),
   );
-  getIt.registerLazySingleton(
-    () => SignOutUseCase(getIt<AuthRepository>()),
-  );
+  getIt.registerLazySingleton(() => SignOutUseCase(getIt<AuthRepository>()));
   getIt.registerLazySingleton(
     () => SendEmailVerificationUseCase(getIt<AuthRepository>()),
   );
@@ -159,7 +160,9 @@ void _initAuth() {
     ),
   );
 
-  getIt.registerFactory<SelectFavoriteTopicsCubit>(() => SelectFavoriteTopicsCubit());
+  getIt.registerFactory<SelectFavoriteTopicsCubit>(
+    () => SelectFavoriteTopicsCubit(),
+  );
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -259,7 +262,8 @@ void _initHomeDeps() {
     () => NewsRemoteDataSource(getIt<ApiClient>()),
   );
   getIt.registerLazySingleton<NewsRepository>(
-    () => NewsRepositoryImpl(getIt<NewsRemoteDataSource>(), getIt<NetworkInfo>()),
+    () =>
+        NewsRepositoryImpl(getIt<NewsRemoteDataSource>(), getIt<NetworkInfo>()),
   );
 
   // Domain layer
@@ -290,9 +294,7 @@ void _initHomeDeps() {
 }
 
 void _initProfileDeps() {
-  getIt.registerLazySingleton(
-    () => SignOutUseCase(getIt<AuthRepository>()),
-  );
+  getIt.registerLazySingleton(() => SignOutUseCase(getIt<AuthRepository>()));
   getIt.registerLazySingleton<ProfileRepository>(
     () => ProfileRepositoryImpl(FirebaseAuth.instance),
   );
@@ -309,9 +311,7 @@ void _initProfileDeps() {
 
 void _initCategoriesDeps() {
   getIt.registerLazySingleton<CategoriesCubit>(
-    () => CategoriesCubit(
-      getCategoriesUseCase: getIt<GetCategoriesUseCase>(),
-    ),
+    () => CategoriesCubit(getCategoriesUseCase: getIt<GetCategoriesUseCase>()),
     dispose: (cubit) => cubit.close(),
   );
 }
@@ -330,7 +330,8 @@ void initSplash() {
 }
 
 void initOnboarding() {
-  if (getIt.isRegistered<OnboardingCubit>()) getIt.unregister<OnboardingCubit>();
+  if (getIt.isRegistered<OnboardingCubit>())
+    getIt.unregister<OnboardingCubit>();
   getIt.registerFactory(() => OnboardingCubit());
 }
 
@@ -352,9 +353,7 @@ void initLogin() {
 void initSignUp() {
   if (getIt.isRegistered<SignUpCubit>()) getIt.unregister<SignUpCubit>();
   getIt.registerFactory(
-    () => SignUpCubit(
-      signUpUseCase: getIt<SignupUseCase>(),
-    ),
+    () => SignUpCubit(signUpUseCase: getIt<SignupUseCase>()),
   );
 }
 
@@ -362,12 +361,13 @@ void disposeSignUp() {
   // SignUpCubit is a factory and disposed by BlocProvider, nothing to unregister here.
 }
 
-
-
 void initForgetPassword() {
   // ResetPasswordUseCase is registered in _initAuth() — no action needed.
-  if (getIt.isRegistered<ForgetPasswordCubit>()) getIt.unregister<ForgetPasswordCubit>();
-  getIt.registerFactory(() => ForgetPasswordCubit(resetPasswordUseCase: getIt()));
+  if (getIt.isRegistered<ForgetPasswordCubit>())
+    getIt.unregister<ForgetPasswordCubit>();
+  getIt.registerFactory(
+    () => ForgetPasswordCubit(resetPasswordUseCase: getIt()),
+  );
 }
 
 void disposeForgetPassword() {
@@ -378,8 +378,11 @@ void disposeForgetPassword() {
 
 void initChangePassword() {
   // ChangePasswordUseCase is registered in _initAuth() — no action needed.
-  if (getIt.isRegistered<ChangePasswordCubit>()) getIt.unregister<ChangePasswordCubit>();
-  getIt.registerFactory(() => ChangePasswordCubit(changePasswordUseCase: getIt()));
+  if (getIt.isRegistered<ChangePasswordCubit>())
+    getIt.unregister<ChangePasswordCubit>();
+  getIt.registerFactory(
+    () => ChangePasswordCubit(changePasswordUseCase: getIt()),
+  );
 }
 
 void disposeChangePasswordPage() {
