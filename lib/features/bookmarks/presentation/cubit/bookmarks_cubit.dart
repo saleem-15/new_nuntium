@@ -20,7 +20,9 @@ class BookmarksCubit extends Cubit<BookmarksState> {
        _deleteBookmarkUseCase = deleteBookmarkUseCase,
        _watchBookmarksChangesUseCase = watchBookmarksChangesUseCase,
        super(const BookmarksInitial()) {
-    _init();
+    // Defer initialization to the next microtask queue.
+    // This allows UI/test listeners to subscribe before initial state transitions are emitted.
+    scheduleMicrotask(_init);
   }
 
   void _init() {

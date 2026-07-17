@@ -330,8 +330,9 @@ void initSplash() {
 }
 
 void initOnboarding() {
-  if (getIt.isRegistered<OnboardingCubit>())
+  if (getIt.isRegistered<OnboardingCubit>()) {
     getIt.unregister<OnboardingCubit>();
+  }
   getIt.registerFactory(() => OnboardingCubit());
 }
 
@@ -363,8 +364,9 @@ void disposeSignUp() {
 
 void initForgetPassword() {
   // ResetPasswordUseCase is registered in _initAuth() — no action needed.
-  if (getIt.isRegistered<ForgetPasswordCubit>())
+  if (getIt.isRegistered<ForgetPasswordCubit>()) {
     getIt.unregister<ForgetPasswordCubit>();
+  }
   getIt.registerFactory(
     () => ForgetPasswordCubit(resetPasswordUseCase: getIt()),
   );
@@ -378,8 +380,9 @@ void disposeForgetPassword() {
 
 void initChangePassword() {
   // ChangePasswordUseCase is registered in _initAuth() — no action needed.
-  if (getIt.isRegistered<ChangePasswordCubit>())
+  if (getIt.isRegistered<ChangePasswordCubit>()) {
     getIt.unregister<ChangePasswordCubit>();
+  }
   getIt.registerFactory(
     () => ChangePasswordCubit(changePasswordUseCase: getIt()),
   );
