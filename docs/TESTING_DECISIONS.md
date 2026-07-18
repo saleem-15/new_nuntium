@@ -148,3 +148,11 @@ hides the bug from future runs.
 **Options considered:** Mock `ApiClient` via Mockito vs. intercept real Dio requests using `http_mock_adapter`.
 **Decision:** Chose `http_mock_adapter`. Expose `Dio` inside `ApiClient` using `@visibleForTesting`.
 **Trade-off accepted:** Slightly more setup, but vastly better ROI. It validates Dio config, interceptors, error bubbling, and JSON parsing—things Mockito would completely bypass.
+
+---
+
+## 2026-07-18 — Unhandled Null Data in `handleDioError`
+
+**Root cause:** `handleDioError` directly indexed `error.response?.data['message']`. When `response.data` was `null` or not a `Map`, it threw `NoSuchMethodError` instead of returning the fallback `"Server Error"`.
+**Decision:** Safely type-check `data is Map` before accessing `['message']` in `handleDioError`.
+**Standing rule:** Never assume `error.response?.data` is non-null or a `Map`. Always guard type checks on incoming error payloads.

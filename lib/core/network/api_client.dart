@@ -9,6 +9,9 @@ import 'api_interceptor.dart';
 class ApiClient {
   late final Dio _dio;
 
+  /// Exposes the inner Dio instance for testing purposes (e.g., attaching Mock Adapters).
+  @visibleForTesting
+  Dio get dio => _dio;
   ApiClient() {
     _dio = Dio(
       BaseOptions(

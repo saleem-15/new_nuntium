@@ -59,6 +59,7 @@ dev_dependencies:
   envied_generator: ^1.1.1
   mockito: ^5.4.4
   build_runner: ^2.4.13
+  http_mock_adapter: ^0.6.1
 
 flutter:
   uses-material-design: true
