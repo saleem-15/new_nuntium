@@ -29,9 +29,12 @@ class SignUpCubit extends Cubit<SignUpState> {
 
     result.fold(
       (failure) => emit(SignUpError(failure.message)),
-      (right) async {
-        await _sendEmailVerificationUseCase.call();
-        emit(const SignUpSuccess());
+      (_) async {
+        final emailResult = await _sendEmailVerificationUseCase.call();
+        emailResult.fold(
+          (failure) => emit(SignUpError(failure.message)),
+          (_) => emit(const SignUpSuccess()),
+        );
       },
     );
   }

@@ -83,5 +83,30 @@ void main() {
         verifyNever(mockSendEmailVerificationUseCase.call());
       },
     );
+
+    blocTest<SignUpCubit, SignUpState>(
+      'Emits [SignUpLoading, SignUpError] when sendEmailVerification fails',
+      setUp: () {
+        when(mockSignupUseCase.call(tEmail, tPassword, tName))
+            .thenAnswer((_) async => const Right(tUserEntity));
+        when(mockSendEmailVerificationUseCase.call()).thenAnswer(
+          (_) async => const Left(ServerFailure('Failed to send verification email')),
+        );
+      },
+      build: buildCubit,
+      act: (cubit) => cubit.signUp(
+        email: tEmail,
+        password: tPassword,
+        name: tName,
+      ),
+      expect: () => [
+        const SignUpLoading(),
+        const SignUpError('Failed to send verification email'),
+      ],
+      verify: (_) {
+        verify(mockSignupUseCase.call(tEmail, tPassword, tName)).called(1);
+        verify(mockSendEmailVerificationUseCase.call()).called(1);
+      },
+    );
   });
 }
