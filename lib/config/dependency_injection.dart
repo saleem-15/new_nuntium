@@ -354,7 +354,10 @@ void initLogin() {
 void initSignUp() {
   if (getIt.isRegistered<SignUpCubit>()) getIt.unregister<SignUpCubit>();
   getIt.registerFactory(
-    () => SignUpCubit(signUpUseCase: getIt<SignupUseCase>()),
+    () => SignUpCubit(
+      signUpUseCase: getIt<SignupUseCase>(),
+      sendEmailVerificationUseCase: getIt<SendEmailVerificationUseCase>(),
+    ),
   );
 }
 

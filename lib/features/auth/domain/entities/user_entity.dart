@@ -1,4 +1,6 @@
-class UserEntity {
+import 'package:equatable/equatable.dart';
+
+class UserEntity extends Equatable {
   final String uid;
   final String email;
   final String? displayName;
@@ -8,4 +10,7 @@ class UserEntity {
     required this.email,
     this.displayName,
   });
+
+  @override
+  List<Object?> get props => [uid, email, displayName];
 }
