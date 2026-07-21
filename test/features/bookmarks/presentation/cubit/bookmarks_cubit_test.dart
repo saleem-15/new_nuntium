@@ -93,10 +93,7 @@ void main() {
       watchBookmarksChangesUseCase: mockWatchBookmarksChangesUseCase,
     ),
 
-    // 1. Force the starting state
-    seed: () => BookmarksLoaded(savedArticles),
-
-    // 2. Ignore the 2 states emitted by scheduleMicrotask(_init)
+    // Ignore the 2 states emitted by scheduleMicrotask(_init)
     skip: 2,
     act: (cubit) async {
       // Let the constructor's scheduleMicrotask(_init) finish first!
@@ -104,7 +101,7 @@ void main() {
       return cubit.removeBookmark(tArticle);
     },
     expect: () {
-      final updatedArticles = savedArticles
+      final updatedArticles = savedArticles.reversed
           .where((e) => e.id != tArticle.id)
           .toList();
       return [BookmarksLoaded(updatedArticles)];
@@ -129,10 +126,7 @@ void main() {
       watchBookmarksChangesUseCase: mockWatchBookmarksChangesUseCase,
     ),
 
-    // 1. Force the starting state
-    seed: () => BookmarksLoaded(savedArticles),
-
-    // 2. Ignore the 2 states emitted by scheduleMicrotask(_init)
+    // Ignore the 2 states emitted by scheduleMicrotask(_init)
     skip: 2,
     act: (cubit) async {
       // Let the constructor's scheduleMicrotask(_init) finish first!
@@ -140,7 +134,7 @@ void main() {
       return cubit.removeBookmark(tArticle);
     },
     expect: () {
-      final optimisticUpdatedArticles = savedArticles
+      final optimisticUpdatedArticles = savedArticles.reversed
           .where((e) => e.id != tArticle.id)
           .toList();
       return [

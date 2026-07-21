@@ -68,7 +68,7 @@ void main() {
 
   group('deleteBookmark', () {
     test(
-      'should convert article to articleHiveModel before deleting',
+      'should delete bookmark by article ID',
       () async {
         // Arrange
         final article = tArticlesList.first;
