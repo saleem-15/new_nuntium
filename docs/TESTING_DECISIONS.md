@@ -183,3 +183,14 @@ hides the bug from future runs.
 
 **Decision:** In `act`, flush the microtask queue first via `await Future.microtask(() {});` before executing the target action, combined with `seed` and `skip: 2` to ignore constructor initialization emissions.
 
+---
+
+## 2026-07-21 — Synchronous Stream Subscriptions in BLoC Constructors
+
+**Problem:** `HomeBloc`'s constructor registers `_watchBookmarksChangesUseCase.call().listen(...)` synchronously during instantiation. When `blocTest` builds `HomeBloc`, if `mockWatchBookmarksChangesUseCase.call()` is left unstubbed in `setUp()`, the constructor throws a `NullThrownError` before `act:` runs.
+
+**Decision:** Always provide default stubbing for constructor-consumed streams (e.g. `when(mockWatchBookmarksChangesUseCase.call()).thenAnswer((_) => Stream.empty());`) inside top-level `setUp()`.
+
+**Standing rule established:** Any dependency invoked inside a BLoC/Cubit constructor (whether synchronous methods, initial getters, or stream listeners) MUST have default stubbing in top-level `setUp()`, avoiding redundant or missing stubbing across individual `blocTest` instances.
+
+
