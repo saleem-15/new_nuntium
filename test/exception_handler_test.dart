@@ -39,6 +39,38 @@ void main() {
       );
     });
 
-    
+    test("throw ServerException with 'Server Error' fallback when response.data is null", () {
+      expect(
+        () => handleDioError(
+          DioException(
+            requestOptions: RequestOptions(),
+            response: Response(
+              data: null,
+              statusCode: 500,
+              requestOptions: RequestOptions(),
+            ),
+            type: DioExceptionType.badResponse,
+          ),
+        ),
+        throwsA(ServerException("Server Error", statusCode: 500)),
+      );
+    });
+
+    test("throw ServerException with 'Server Error' fallback when response.data is not a Map", () {
+      expect(
+        () => handleDioError(
+          DioException(
+            requestOptions: RequestOptions(),
+            response: Response(
+              data: "Internal Error HTML",
+              statusCode: 500,
+              requestOptions: RequestOptions(),
+            ),
+            type: DioExceptionType.badResponse,
+          ),
+        ),
+        throwsA(ServerException("Server Error", statusCode: 500)),
+      );
+    });
   });
 }

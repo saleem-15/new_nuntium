@@ -13,16 +13,7 @@ import 'package:nuntium/features/auth/data/repositories/auth_repository_impl.dar
 import 'package:nuntium/features/auth/domain/entities/user_entity.dart';
 
 import 'auth_repository_impl_test.mocks.dart';
-
-class FakeCrashReporter implements CrashReporter {
-  @override
-  Future<void> reportError({
-    required dynamic exception,
-    required StackTrace? stackTrace,
-    dynamic reason,
-    bool fatal = false,
-  }) async {}
-}
+import '../../../../helpers/fake_crash_reporter.dart';
 
 @GenerateMocks(
   [AuthRemoteDataSource, NetworkInfo],
