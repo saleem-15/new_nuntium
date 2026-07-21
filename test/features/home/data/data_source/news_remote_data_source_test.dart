@@ -69,6 +69,30 @@ void main() {
           expect(result, []);
         },
       );
+
+      test(
+        'should return Empty list of articles when response articles field is null',
+        () async {
+          // Arrange
+          dioAdapter.onGet(
+            ApiConstants.topHeadlines,
+            queryParameters: queryParams,
+            (server) => server.reply(200, {
+              "status": "ok",
+              "totalResults": 0,
+              'articles': null,
+            }),
+          );
+
+          final result = await newsRemoteDataSource.fetchTopHeadlines(
+            category: 'general',
+            page: 1,
+            pageSize: 20,
+          );
+
+          expect(result, []);
+        },
+      );
       test(
         'should throw OfflineException when Dio throws connectionTimeout',
         () async {
