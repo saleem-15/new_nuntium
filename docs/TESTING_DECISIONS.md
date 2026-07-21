@@ -156,3 +156,30 @@ hides the bug from future runs.
 **Root cause:** `handleDioError` directly indexed `error.response?.data['message']`. When `response.data` was `null` or not a `Map`, it threw `NoSuchMethodError` instead of returning the fallback `"Server Error"`.
 **Decision:** Safely type-check `data is Map` before accessing `['message']` in `handleDioError`.
 **Standing rule:** Never assume `error.response?.data` is non-null or a `Map`. Always guard type checks on incoming error payloads.
+
+---
+
+## 2026-07-19 — Value Equality for Storage Models & Event Classes (`Equatable`)
+
+**Problem:** `ArticleHiveModel` and `BookmarkChangeEvent` were failing Mockito `verify` and `emits()` assertions because they lacked `==` / `hashCode` overrides, causing Dart to compare instance identity instead of value equality.
+
+**Decision:** Mix in or extend `Equatable` on storage models (`ArticleHiveModel`) and stream event wrappers (`BookmarkChangeEvent`).
+
+**Reasoning:** `HiveObject` handles serialization via `@HiveField` annotations and `TypeAdapter`, so adding `Equatable` / `EquatableMixin` does not interfere with Hive disk operations, while providing seamless value-equality matching in unit tests.
+
+---
+
+## 2026-07-19 — Stream Timing in Unit Tests (`expectLater`)
+
+**Problem:** Registering `.listen()` *after* an async method (`saveBookmark`) finishes results in missed broadcast stream events or silent unasserted callbacks.
+
+**Decision:** Always register stream expectations using `expectLater(stream, emits(expectedEvent))` *before* executing the action that triggers the emission.
+
+---
+
+## 2026-07-20 — Microtask Race Conditions in `blocTest` for Auto-Initializing Cubits
+
+**Problem:** `BookmarksCubit` schedules `_init()` via `scheduleMicrotask(_init)` in its constructor. When `blocTest` runs `act: (cubit) => cubit.removeBookmark()`, `act` runs synchronously *before* the queued microtask finishes, causing `removeBookmark` to run against the initial uninitialized state.
+
+**Decision:** In `act`, flush the microtask queue first via `await Future.microtask(() {});` before executing the target action, combined with `seed` and `skip: 2` to ignore constructor initialization emissions.
+
