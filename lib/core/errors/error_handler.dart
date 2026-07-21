@@ -27,7 +27,7 @@ class ErrorHandler {
     AuthException error,
     StackTrace stackTrace,
   ) {
-    getIt<CrashReporter>().reportError(
+    _safeReportError(
       exception: error,
       stackTrace: stackTrace,
       reason: '${CrashlyticsErrors.authError}: ${error.code}',
@@ -40,7 +40,7 @@ class ErrorHandler {
     ServerException e,
     StackTrace stackTrace,
   ) {
-    getIt<CrashReporter>().reportError(
+    _safeReportError(
       exception: e,
       stackTrace: stackTrace,
       reason: CrashlyticsErrors.serverError,
@@ -49,13 +49,29 @@ class ErrorHandler {
   }
 
   static Failure _handleUnknownError(dynamic e, StackTrace stackTrace) {
-    getIt<CrashReporter>().reportError(
+    _safeReportError(
       exception: e,
       stackTrace: stackTrace,
       reason: CrashlyticsErrors.unexpectedError,
     );
 
     return UnkonwnFailure("Unknown error occurred $e");
+  }
+
+  static void _safeReportError({
+    required dynamic exception,
+    required StackTrace stackTrace,
+    required dynamic reason,
+  }) {
+    try {
+      getIt<CrashReporter>()
+          .reportError(
+            exception: exception,
+            stackTrace: stackTrace,
+            reason: reason,
+          )
+          .catchError((_) {});
+    } catch (_) {}
   }
 }
 

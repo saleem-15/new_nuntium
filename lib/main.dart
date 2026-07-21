@@ -30,6 +30,7 @@ Future<void> main() async {
       exception: errorDetails.exception,
       stackTrace: errorDetails.stack,
       reason: CrashlyticsErrors.unexpectedError,
+      fatal: true,
     );
   };
 
@@ -39,6 +40,7 @@ Future<void> main() async {
       exception: error,
       stackTrace: stack,
       reason: CrashlyticsErrors.unexpectedError,
+      fatal: true,
     );
     return true;
   };
