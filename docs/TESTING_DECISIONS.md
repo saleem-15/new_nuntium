@@ -16,11 +16,9 @@ where a real choice was made or a real bug was caught.
 - Set `stringify => true` per class
 - Set `EquatableConfig.stringify = true` globally in test setup
 
-**Decision:** `stringify => true`, set explicitly per class.
+**Decision:** `EquatableConfig.stringify = true` configured globally in `main.dart` and test `setUpAll` blocks.
 
-**Trade-off accepted:** A few extra lines per exception/failure class, in exchange for
-readable failure diffs (`ServerException(500, Internal Error)` instead of
-`Instance of 'ServerException'`) whenever a test assertion fails.
+**Trade-off accepted:** Global configuration applies to all `Equatable` instances across the app and tests without needing boilerplate per class, ensuring consistent and readable failure diffs (`ServerException(500, Internal Error)` instead of `Instance of 'ServerException'`).
 
 ---
 

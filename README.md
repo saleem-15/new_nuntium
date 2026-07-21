@@ -16,9 +16,9 @@
 
 | Articles Infinite Scrolling | Bookmark Article |
 | :---: | :---: |
-| <img src="docs/media/articles_infinite_scrolling_demo.gif" width="250"> | <img src="docs/media/bookmark_article_demo.gif" width="250"> |
+| <img src="docs/media/articles_infinite_scrolling_demo.gif" width="250" alt="Articles Infinite Scrolling Demo"> | <img src="docs/media/bookmark_article_demo.gif" width="250" alt="Bookmark Article Demo"> |
 | **Change Language** | **Google Sign In** |
-| <img src="docs/media/change_language_demo.gif" width="250"> | <img src="docs/media/google_sign_in_demo.gif" width="250"> |
+| <img src="docs/media/change_language_demo.gif" width="250" alt="Change Language Demo"> | <img src="docs/media/google_sign_in_demo.gif" width="250" alt="Google Sign In Demo"> |
 
 ## ✨ Key Features
 
