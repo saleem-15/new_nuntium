@@ -1,11 +1,13 @@
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nuntium/config/dependency_injection.dart';
 import 'package:nuntium/config/routes.dart';
+import 'package:nuntium/core/errors/crash_reporter.dart';
 import 'package:nuntium/core/resources/app_assets.dart';
 import 'package:nuntium/core/localization/language_config.dart';
 
@@ -14,6 +16,7 @@ import 'core/utils/app_logger.dart';
 
 Future<void> main() async {
   await initApp();
+  EquatableConfig.stringify = true;
 
   // Limit app usage to Portrait mode
   await SystemChrome.setPreferredOrientations([
@@ -23,12 +26,22 @@ Future<void> main() async {
 
   // تمرير جميع أخطاء فلاتر (الأخطاء البرمجية) إلى Crashlytics
   FlutterError.onError = (errorDetails) {
-    crashlytics.recordFlutterFatalError(errorDetails);
+    getIt<CrashReporter>().reportError(
+      exception: errorDetails.exception,
+      stackTrace: errorDetails.stack,
+      reason: CrashlyticsErrors.unexpectedError,
+      fatal: true,
+    );
   };
 
   // تمرير الأخطاء التي تحدث خارج إطار فلاتر (مثل الأخطاء غير المتزامنة)
   PlatformDispatcher.instance.onError = (error, stack) {
-    crashlytics.recordError(error, stack, fatal: true);
+    getIt<CrashReporter>().reportError(
+      exception: error,
+      stackTrace: stack,
+      reason: CrashlyticsErrors.unexpectedError,
+      fatal: true,
+    );
     return true;
   };
 

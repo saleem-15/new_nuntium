@@ -52,17 +52,16 @@ jobs:
           fi
         shell: bash
 
-      - name: Cache Build Runner
-        uses: actions/cache@v5
-        with:
-          path: .dart_tool/build
-          key: build-runner-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}-${{ github.sha }}
-          restore-keys: |
-            build-runner-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}-
-            build-runner-${{ runner.os }}-
+      - name: Generate Env Secrets Code (build_runner)
+        run: |
+          # Backup pre-committed generated files that build_runner deletes
+          # on a clean run (no .dart_tool/build cache) — even with --build-filter.
+          find . -name '*.g.dart' -not -name 'env.g.dart' -o -name '*.mocks.dart' | while read f; do cp "$f" "$f.bak"; done
 
-      - name: Generate Code (build_runner)
-        run: dart run build_runner build -d
+          flutter pub run build_runner build --force-jit --build-filter="lib/core/env/env.g.dart"
+
+          # Restore backed-up files that build_runner deleted
+          find . -name '*.bak' | while read f; do mv "$f" "${f%.bak}"; done
 
       - name: Flutter Analyze
         run: flutter analyze

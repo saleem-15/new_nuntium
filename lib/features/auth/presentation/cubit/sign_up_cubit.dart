@@ -1,15 +1,18 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nuntium/features/auth/domain/use_cases/send_email_verification_use_case.dart';
 import 'package:nuntium/features/auth/domain/use_cases/signup_use_case.dart';
 import 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
   final SignupUseCase _signUpUseCase;
+  final SendEmailVerificationUseCase _sendEmailVerificationUseCase;
 
   SignUpCubit({
     required SignupUseCase signUpUseCase,
-  }) : _signUpUseCase = signUpUseCase,
-       super(const SignUpInitial());
+    required SendEmailVerificationUseCase sendEmailVerificationUseCase,
+  })  : _signUpUseCase = signUpUseCase,
+        _sendEmailVerificationUseCase = sendEmailVerificationUseCase,
+        super(const SignUpInitial());
 
   Future<void> signUp({
     required String email,
@@ -26,13 +29,12 @@ class SignUpCubit extends Cubit<SignUpState> {
 
     result.fold(
       (failure) => emit(SignUpError(failure.message)),
-      (right) async {
-        try {
-          await FirebaseAuth.instance.currentUser?.sendEmailVerification();
-        } catch (_) {
-          // Ignore verification email sending errors so we still proceed to signup success
-        }
-        emit(const SignUpSuccess());
+      (_) async {
+        final emailResult = await _sendEmailVerificationUseCase.call();
+        emailResult.fold(
+          (failure) => emit(SignUpError(failure.message)),
+          (_) => emit(const SignUpSuccess()),
+        );
       },
     );
   }
