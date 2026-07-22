@@ -52,8 +52,8 @@ jobs:
           fi
         shell: bash
 
-      - name: Generate Code (build_runner)
-        run: flutter pub run build_runner build -d --force-jit
+      - name: Generate Env Secrets Code (build_runner)
+        run: flutter pub run build_runner build --build-filter="lib/core/env/env.g.dart"
 
       - name: Flutter Analyze
         run: flutter analyze
