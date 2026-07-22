@@ -53,7 +53,15 @@ jobs:
         shell: bash
 
       - name: Generate Env Secrets Code (build_runner)
-        run: flutter pub run build_runner build --force-jit --build-filter="lib/core/env/env.g.dart"
+        run: |
+          # Backup pre-committed generated files that build_runner deletes
+          # on a clean run (no .dart_tool/build cache) — even with --build-filter.
+          find . -name '*.g.dart' -not -name 'env.g.dart' -o -name '*.mocks.dart' | while read f; do cp "$f" "$f.bak"; done
+
+          flutter pub run build_runner build --force-jit --build-filter="lib/core/env/env.g.dart"
+
+          # Restore backed-up files that build_runner deleted
+          find . -name '*.bak' | while read f; do mv "$f" "${f%.bak}"; done
 
       - name: Flutter Analyze
         run: flutter analyze
