@@ -16,8 +16,10 @@ AppException handleDioError(Exception error) {
 
     case DioExceptionType.badResponse:
     default:
-      // Extract the error message from the server if it Exists
-      final message = error.response?.data['message'] ?? "Server Error";
+      final data = error.response?.data;
+      final message = (data is Map && data['message'] != null)
+          ? data['message'].toString()
+          : "Server Error";
       throw ServerException(message, statusCode: error.response?.statusCode);
   }
 }

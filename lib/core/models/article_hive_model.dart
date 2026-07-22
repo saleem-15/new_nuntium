@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 import '../entities/article.dart';
@@ -5,7 +6,7 @@ import '../entities/article.dart';
 part 'article_hive_model.g.dart';
 
 @HiveType(typeId: 0)
-class ArticleHiveModel extends HiveObject {
+class ArticleHiveModel extends Equatable {
   @HiveField(0)
   final String id;
 
@@ -27,7 +28,7 @@ class ArticleHiveModel extends HiveObject {
   @HiveField(7)
   final String url;
 
-  ArticleHiveModel({
+  const ArticleHiveModel({
     required this.id,
     required this.title,
     required this.category,
@@ -36,7 +37,6 @@ class ArticleHiveModel extends HiveObject {
     required this.content,
     required this.url,
   });
-
 
   factory ArticleHiveModel.fromEntity(Article article) {
     return ArticleHiveModel(
@@ -63,4 +63,15 @@ class ArticleHiveModel extends HiveObject {
       isSaved: true,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    id,
+    title,
+    category,
+    sourceName,
+    imageUrl,
+    content,
+    url,
+  ];
 }

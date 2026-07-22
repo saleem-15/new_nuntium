@@ -1,3 +1,5 @@
+import 'package:nuntium/config/dependency_injection.dart';
+import 'package:nuntium/core/errors/crash_reporter.dart';
 import 'package:nuntium/core/errors/exceptions.dart';
 import 'package:nuntium/core/errors/failures.dart';
 import 'package:nuntium/core/utils/app_logger.dart';
@@ -25,9 +27,9 @@ class ErrorHandler {
     AuthException error,
     StackTrace stackTrace,
   ) {
-    crashlytics.recordError(
-      error,
-      stackTrace,
+    _safeReportError(
+      exception: error,
+      stackTrace: stackTrace,
       reason: '${CrashlyticsErrors.authError}: ${error.code}',
     );
 
@@ -38,22 +40,38 @@ class ErrorHandler {
     ServerException e,
     StackTrace stackTrace,
   ) {
-    crashlytics.recordError(
-      e,
-      stackTrace,
-      reason: "${CrashlyticsErrors.serverError}: ${e.message}",
+    _safeReportError(
+      exception: e,
+      stackTrace: stackTrace,
+      reason: CrashlyticsErrors.serverError,
     );
     return ServerFailure('Server Error: $e');
   }
 
   static Failure _handleUnknownError(dynamic e, StackTrace stackTrace) {
-    crashlytics.recordError(
-      e,
-      stackTrace,
+    _safeReportError(
+      exception: e,
+      stackTrace: stackTrace,
       reason: CrashlyticsErrors.unexpectedError,
     );
 
     return UnkonwnFailure("Unknown error occurred $e");
+  }
+
+  static void _safeReportError({
+    required dynamic exception,
+    required StackTrace stackTrace,
+    required dynamic reason,
+  }) {
+    try {
+      getIt<CrashReporter>()
+          .reportError(
+            exception: exception,
+            stackTrace: stackTrace,
+            reason: reason,
+          )
+          .catchError((_) {});
+    } catch (_) {}
   }
 }
 

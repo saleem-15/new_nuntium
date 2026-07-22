@@ -31,12 +31,15 @@ class NewsRemoteDataSource implements BaseNewsRemoteDataSource {
         },
       );
 
-      final List<dynamic> articlesJson = response.data['articles'];
-
-      return articlesJson
-          .map((json) => _articleFromMap(json, category: category ?? 'General'))
-          .where((article) => article.title != '[Removed]')
-          .toList();
+      if (response.data != null && response.data['articles'] != null) {
+        final List<dynamic> articlesJson = response.data['articles'];
+        return articlesJson
+            .map((json) => _articleFromMap(json, category: category ?? 'General'))
+            .where((article) => article.title != '[Removed]')
+            .toList();
+      } else {
+        return [];
+      }
     } on Exception catch (e) {
       throw handleDioError(e);
     }

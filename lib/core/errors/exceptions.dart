@@ -1,23 +1,41 @@
-abstract class AppException implements Exception {}
+import 'package:equatable/equatable.dart';
 
-class OfflineException implements AppException {}
+abstract class AppException extends Equatable implements Exception {
+  const AppException();
+}
 
-class ServerException implements AppException {
+class OfflineException extends AppException {
+  const OfflineException();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class ServerException extends AppException {
   final int? statusCode;
   final String message;
 
-  ServerException(this.message, {this.statusCode});
+  const ServerException(this.message, {this.statusCode});
+
+  @override
+  List<Object?> get props => [statusCode, message];
 }
 
-class AuthException implements AppException {
+class AuthException extends AppException {
   final String message;
   final String? code;
 
-  AuthException({required this.message, this.code});
+  const AuthException({required this.message, this.code});
+
+  @override
+  List<Object?> get props => [message, code];
 }
 
-class UnknownException implements AppException {
+class UnknownException extends AppException {
   final String message;
 
-  UnknownException(this.message);
+  const UnknownException(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }
