@@ -65,7 +65,14 @@ jobs:
             build-runner-${{ runner.os }}-
 
       - name: Generate Code (build_runner)
-        run: dart run build_runner build -d
+        run: |
+          # Backup pre-committed generated files (see docs/CI_DECISIONS.md)
+          find . -name '*.g.dart' -not -name 'env.g.dart' -o -name '*.mocks.dart' | while read f; do cp "$f" "$f.bak"; done
+
+          dart run build_runner build --force-jit -d
+
+          # Restore backed-up files that build_runner deleted
+          find . -name '*.bak' | while read f; do mv "$f" "${f%.bak}"; done
 
       - name: Build Dev APK
         env:
