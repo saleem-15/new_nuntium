@@ -52,7 +52,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeStarted>(_onStarted);
     on<HomeNextPageRequested>(_onNextPageRequested, transformer: droppable());
     on<HomeCategoryChanged>(_onCategoryChanged);
-    on<HomeSearchSubmitted>(_onSearchChanged);
+    on<HomeSearchSubmitted>(
+      _onSearchChanged,
+      transformer: _debounceRestartable(const Duration(milliseconds: 300)),
+    );
     on<HomeBookmarkToggled>(_onBookmarkToggled);
     on<HomeRefreshRequested>(_onRefreshRequested);
     on<HomeBookmarkSyncRequested>(_onBookmarksSyncRequested);
@@ -156,10 +159,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeSearchSubmitted event,
     Emitter<HomeState> emit,
   ) async {
+    final trimmedQuery = event.query.trim();
+
+    if (trimmedQuery == state.searchQuery && state.status == HomeStatus.loaded) {
+      return;
+    }
+
     // CRITICAL: Update the state with the NEW query before calling _fetchPage
     emit(
       state.copyWith(
-        searchQuery: event.query,
+        searchQuery: trimmedQuery,
         status: HomeStatus.loading,
         currentPage: 1,
         hasNextPage: true,
@@ -167,6 +176,34 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ),
     );
     await _fetchPage(emit, page: 1, replace: true);
+  }
+
+  /// Debounces events by [duration] and uses [restartable] to cancel in-flight
+  /// search requests when a new debounced query arrives.
+  EventTransformer<E> _debounceRestartable<E>(Duration duration) {
+    return (events, mapper) {
+      final debouncedEvents = events.transform(
+        StreamTransformer<E, E>.fromBind((stream) {
+          final controller = StreamController<E>(sync: true);
+          Timer? timer;
+          stream.listen(
+            (event) {
+              timer?.cancel();
+              timer = Timer(duration, () {
+                controller.add(event);
+              });
+            },
+            onError: controller.addError,
+            onDone: () {
+              timer?.cancel();
+              controller.close();
+            },
+          );
+          return controller.stream;
+        }),
+      );
+      return restartable<E>()(debouncedEvents, mapper);
+    };
   }
 
   Future<void> _onBookmarkToggled(

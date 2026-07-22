@@ -241,6 +241,7 @@ void main() {
       },
       build: buildBloc,
       act: (bloc) => bloc.add(HomeSearchSubmitted(query: 'Flutter')),
+      wait: const Duration(milliseconds: 350),
       expect: () => [
         const HomeState(
           status: HomeStatus.loading,
@@ -268,6 +269,67 @@ void main() {
         verifyNever(
           mockFetchNewsUseCase.call(
             category: anyNamed('category'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        );
+      },
+    );
+
+    blocTest<HomeBloc, HomeState>(
+      'Debounces rapid search events and executes search for only the final query',
+      setUp: () {
+        when(
+          mockSearchNewsUseCase.call(
+            query: 'Flutter',
+            page: 1,
+            pageSize: 40,
+          ),
+        ).thenAnswer((_) async => Right(tSearchResults));
+      },
+      build: buildBloc,
+      act: (bloc) async {
+        bloc.add(HomeSearchSubmitted(query: 'F'));
+        await Future.delayed(const Duration(milliseconds: 50));
+        bloc.add(HomeSearchSubmitted(query: 'Flu'));
+        await Future.delayed(const Duration(milliseconds: 50));
+        bloc.add(HomeSearchSubmitted(query: 'Flutter'));
+      },
+      wait: const Duration(milliseconds: 350),
+      expect: () => [
+        const HomeState(
+          status: HomeStatus.loading,
+          searchQuery: 'Flutter',
+          currentPage: 1,
+          hasNextPage: true,
+          articles: [],
+        ),
+        HomeState(
+          status: HomeStatus.loaded,
+          searchQuery: 'Flutter',
+          currentPage: 1,
+          hasNextPage: false,
+          articles: tSearchResults,
+        ),
+      ],
+      verify: (_) {
+        verify(
+          mockSearchNewsUseCase.call(
+            query: 'Flutter',
+            page: 1,
+            pageSize: 40,
+          ),
+        ).called(1);
+        verifyNever(
+          mockSearchNewsUseCase.call(
+            query: 'F',
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        );
+        verifyNever(
+          mockSearchNewsUseCase.call(
+            query: 'Flu',
             page: anyNamed('page'),
             pageSize: anyNamed('pageSize'),
           ),

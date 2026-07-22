@@ -118,6 +118,9 @@ class _HomeViewState extends State<HomeView> {
             SliverToBoxAdapter(
               child: HomeSearchBar(
                 searchFieldController: _searchFieldController,
+                onChanged: (query) => context.read<HomeBloc>().add(
+                  HomeSearchSubmitted(query: query),
+                ),
                 onSearchPressed: () => context.read<HomeBloc>().add(
                   HomeSearchSubmitted(query: _searchFieldController.text),
                 ),
